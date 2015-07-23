@@ -1,0 +1,11 @@
+{
+  "name": "multi-twitch-chat2",
+  "version": "0.0.1",
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "react": "~0.13.3",
+    "jquery": "~2.1.4"
+  },
+  "license": "MIT",
+  "private": true
+}
