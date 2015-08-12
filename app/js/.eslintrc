@@ -1,0 +1,10 @@
+{
+    "ecmaFeatures": {
+        "jsx": true
+    },
+    "rules": {
+        "strict": 0,
+        "semi": [2, "always"],
+        "quotes": [2, "single"]
+    }
+}

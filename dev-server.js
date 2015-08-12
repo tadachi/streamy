@@ -14,6 +14,7 @@ var home = require('express.io')();
 home.use('/js', express.static(__dirname + '/app/js'));
 home.use('/css', express.static(__dirname + '/app/css'));
 home.use('/img', express.static(__dirname + '/app/img'));
+home.use('/bower_components', express.static(__dirname + '/app/bower_components'));
 
 home.set('jsonp callback', true);
 /* Testing headers */

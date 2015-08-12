@@ -1,0 +1,4 @@
+/* Remove annoying borders around iframes */
+iframe {
+    border:0 none;
+}
