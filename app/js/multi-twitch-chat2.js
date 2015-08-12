@@ -39,20 +39,37 @@ var chatsrc = 'http://twitch.tv/chat/embed?channel={ch}&amp;popout_chat=true'.fo
 
 
 var ChatScreen = React.createClass({
+    propTypes: {
+        id : React.PropTypes.string.isRequired,
+        streamer : React.PropTypes.string.isRequired,
+        height : React.PropTypes.number.isRequired,
+        width : React.PropTypes.number.isRequired,
+    },
     render: function() {
         return (
             <iframe
-            scrolling='no'
-            src='http://twitch.tv/chat/embed?channel=theclaude&amp;popout_chat=true'
-            height='500'
-            width='350'>
+            id={this.props.id}
+            scrolling='yes'
+            src={this.props.streamer}
+            height={this.props.height}
+            width={this.props.width}
+            >
             </iframe>
         );
-    }
+    },
 
 });
 
 React.render(
-        <ChatScreen />,
-        document.getElementById('example')
+        <ChatScreen
+            id='x'
+            streamer={'http://twitch.tv/chat/embed?channel={ch}&amp;popout_chat=true'.format({ch: 'theclaude'})}
+            height='500'
+            width='350'
+        />,
+        document.getElementById('chat_1')
 );
+
+$('#x').load(function(){
+    alert('loaded!');
+});
