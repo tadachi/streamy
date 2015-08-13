@@ -38,7 +38,7 @@ var chatsrc = 'http://twitch.tv/chat/embed?channel={ch}&amp;popout_chat=true'.fo
 //     '</iframe>'].join('');
 
 
-var ChatScreen = React.createClass({
+var TwitchChat = React.createClass({
     propTypes: {
         id : React.PropTypes.string.isRequired,
         streamer : React.PropTypes.string.isRequired,
@@ -60,15 +60,53 @@ var ChatScreen = React.createClass({
 
 });
 
+var TwitchSearchBox = React.createClass({
+    doSearch: function() {
+        var query = this.refs.searchInput.getDOMNode().value; // this is the search text
+        TwitchSearch(query, function(response) {
+            console.log(response);
+        });
+    },
+    render: function() {
+        return (
+            <input type="text"
+            ref="searchInput"
+            placeholder="Search Twitch User Name"
+            value={this.props.query}
+            onChange={this.doSearch}
+            />
+        );
+    }
+});
+
+function TwitchSearch(channel, callback) {
+    $.ajax({
+        url: 'https://api.twitch.tv/kraken/search/channels?q={channel}'.format({ channel: channel}),
+        // The name of the callback parameter, as specified by the YQL service.
+        jsonp: "callback",
+        // Tell jQuery we're expecting JSONP.
+        dataType: "jsonp",
+
+        success: function( response ) {
+            callback(response); // Server response.
+        }
+    });
+}
+
 React.render(
-        <ChatScreen
-            id='x'
-            streamer={'http://twitch.tv/chat/embed?channel={ch}&amp;popout_chat=true'.format({ch: 'theclaude'})}
-            height='500'
-            width='350'
-        />,
-        document.getElementById('chat_1')
+        <TwitchSearchBox />,
+        document.getElementById('search')
 );
+
+// React.render(
+//         <TwitchChat
+//             id='x'
+//             streamer={'http://twitch.tv/chat/embed?channel={ch}&amp;popout_chat=true'.format({ch: 'theclaude'})}
+//             height='500'
+//             width='350'
+//         />,
+//         document.getElementById('chat_1')
+// );
 
 $('#x').load(function(){
     alert('loaded!');
