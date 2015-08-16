@@ -19,24 +19,35 @@ if (!String.prototype.format) {
     };
 }
 
-// React.render(
-//     <h1>Hello, world!!!</h1>,
-//     document.getElementById('example')
-// );
+
+// var json_urls = {
+//     speedruns: "https://api.takbytes.com/speedruns",
+//     starcraft: "https://api.takbytes.com/starcraft",
+//     hearthstone: "https://api.takbytes.com/hearthstone",
+//     dota: "https://api.takbytes.com/dota",
+//     counterstrike: "https://api.takbytes.com/counterstrike",
+//     hitbox: "https://api.takbytes.com/hitbox",
+//     league: "https://api.takbytes.com/league",
+//     heroes: "https://api.takbytes.com/heroes",
+//     diablo: "https://api.takbytes.com/diablo"
+//     // followed: "https://api.twitch.tv/kraken/streams/followed?oauth_token={oauth_token}".format({ oauth_token: twitchAccessToken})
+// };
+
+var json_urls = new Map();
+json_urls.set('speedruns', "https://api.takbytes.com/speedruns")
+json_urls.set('starcraft', "https://api.takbytes.com/starcraft")
+json_urls.set('hearthstone', "https://api.takbytes.com/hearthstone")
+json_urls.set('dota',  "https://api.takbytes.com/dota")
+json_urls.set('counterstrike', "https://api.takbytes.com/counterstrike")
+json_urls.set('hitbox', "https://api.takbytes.com/hitbox")
+json_urls.set('league', "https://api.takbytes.com/league")
+json_urls.set('heroes', "https://api.takbytes.com/heroes")
+json_urls.set('diablo', "https://api.takbytes.com/diablo")
+
+var categories = ["Speedruns", "Starcraft", "Hitbox", "Hearthstone", "Dota", "Counterstrike", "LeagueOfLegends", "Heroes", "Diablo", "Followed"];
 
 var streamername = 'bowiethehero';
 var chatsrc = 'http://twitch.tv/chat/embed?channel={ch}&amp;popout_chat=true'.format({ch: streamername});
-
-// var chat =    [ '<iframe ',
-//         'id=\'_{name}\' '.format({ name: stream.streamname}),
-//         'frameborder=\'0\' ',
-//         'scrolling=\'yes\' ',
-//         'src=\'{url}\' '.format({url: chatsrc}),
-//         'width=\'{w}\' '.format({w: width-40}),
-//         'height=\'{h}\' '.format({h: height-40}),
-//         '> ',
-//     '</iframe>'].join('');
-
 
 var TwitchChat = React.createClass({
     propTypes: {
@@ -60,10 +71,10 @@ var TwitchChat = React.createClass({
 
 });
 
-var TwitchSearchBox = React.createClass({
+var searchTwitchBox = React.createClass({
     doSearch: function() {
         var query = this.refs.searchInput.getDOMNode().value; // this is the search text
-        TwitchSearch(query, function(response) {
+        searchTwitch(query, function(response) {
             console.log(response);
         });
     },
@@ -79,7 +90,7 @@ var TwitchSearchBox = React.createClass({
     }
 });
 
-function TwitchSearch(channel, callback) {
+function searchTwitch(channel, callback) {
     $.ajax({
         url: 'https://api.twitch.tv/kraken/search/channels?q={channel}'.format({ channel: channel}),
         // The name of the callback parameter, as specified by the YQL service.
@@ -87,14 +98,31 @@ function TwitchSearch(channel, callback) {
         // Tell jQuery we're expecting JSONP.
         dataType: "jsonp",
 
-        success: function( response ) {
+        success: function(response) {
             callback(response); // Server response.
         }
     });
 }
 
+function getStreams(url, callback) {
+    $.ajax({
+        url: url,
+        dataType: "json", // tell jQuery we're expecting JSON.
+
+        success: function(data) {
+            callback(data);
+        }
+    });
+}
+
+for (var value of json_urls.values()) {
+    getStreams(value, function(data) {
+        console.log(data);
+    });
+}
+
 React.render(
-        <TwitchSearchBox />,
+        <searchTwitchBox />,
         document.getElementById('search')
 );
 
