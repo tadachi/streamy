@@ -63,8 +63,6 @@ var SearchTwitchBox = React.createClass({
     }
 });
 
-var options =
-
 React.render(
     <SearchTwitchBox />,
     document.getElementById('search'),
@@ -76,7 +74,7 @@ React.render(
                 wait: 750,
                 highlight: true,
                 captureLength: 2
-            };
+            }
         );
 });
 

@@ -63,18 +63,16 @@ var SearchTwitchBox = React.createClass({
     }
 });
 
-var options = {
-    callback: function callback(value) {
-        alert('TypeWatch callback: (' + this.type + ') ' + value);
-    },
-    wait: 750,
-    highlight: true,
-    captureLength: 2
-};
-
 React.render(React.createElement(SearchTwitchBox, null), document.getElementById('search'), function () {
     console.log('test');
-    $('#search').typeWatch(options);
+    $('#search').typeWatch({
+        callback: function callback(value) {
+            alert('TypeWatch callback: (' + this.type + ') ' + value);
+        },
+        wait: 750,
+        highlight: true,
+        captureLength: 2
+    });
 });
 
 // React.render(
