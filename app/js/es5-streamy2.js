@@ -46,14 +46,25 @@ var TwitchChat = React.createClass({
 var SearchTwitchBox = React.createClass({
     displayName: 'SearchTwitchBox',
 
+    twitch: new TwitchAPI(),
+    typingDelay: new TypingDelay(5000, 1),
     doSearch: function doSearch() {
         var query = this.refs.searchInput.getDOMNode().value; // this is the search text
-        var twitch = new TwitchAPI();
-        twitch.searchTwitch(query, function (response) {
-            console.log(response);
+
+        // var test = setTimeout(function(){
+        //     console.log('Timeout created.');
+        // }, 2000);
+
+        this.typingDelay.delayedRun(function () {
+            console.log('Timeout created.');
         });
+        // this.twitch.searchTwitch(query, function(response) {
+        //    console.log(response);
+        // });
     },
+
     render: function render() {
+
         return React.createElement('input', { type: 'text',
             ref: 'searchInput',
             placeholder: 'Search Twitch User Name',
@@ -63,17 +74,7 @@ var SearchTwitchBox = React.createClass({
     }
 });
 
-React.render(React.createElement(SearchTwitchBox, null), document.getElementById('search'), function () {
-    console.log('test');
-    $('#search').typeWatch({
-        callback: function callback(value) {
-            alert('TypeWatch callback: (' + this.type + ') ' + value);
-        },
-        wait: 750,
-        highlight: true,
-        captureLength: 2
-    });
-});
+React.render(React.createElement(SearchTwitchBox, null), document.getElementById('search'));
 
 // React.render(
 //         <TwitchChat

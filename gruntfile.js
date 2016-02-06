@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         eslint: {
-            target: ['app/js/streamy.js', 'app/js/twitch-api.js']
+            target: ['app/js/streamy2.js', 'app/js/twitch-api.js']
         },
         copy: {
             main: {
@@ -19,7 +19,7 @@ module.exports = function(grunt) {
             },
             build: {
                 files: {
-                    'app/js/es5-streamy2.js': 'app/js/streamy.js',
+                    'app/js/es5-streamy2.js': 'app/js/streamy2.js',
                     'app/js/es5-twitch-api.js': 'app/js/twitch-api.js',
                 }
             }
