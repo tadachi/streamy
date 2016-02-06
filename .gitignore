@@ -1,5 +1,5 @@
 node_modules/
 .idea/
 app/bower_components/
-app/es5-streamy2.js
-app/es5-twitch-api.js
+app/js/es5-streamy2.js
+app/js/es5-twitch-api.js

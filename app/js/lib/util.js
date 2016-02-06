@@ -18,3 +18,7 @@ if (!String.prototype.format) {
         return str;
     };
 }
+
+function log(message){ return function(x){
+    return console.log(message, x);
+};};

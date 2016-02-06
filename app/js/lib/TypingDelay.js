@@ -1,8 +1,7 @@
 class TypingDelay {
-    constructor(delay = 200, captureLength = 1, actionFunc = null) {
+    constructor(delay = 3000) {
         this.delay = delay;
-        this.captureLength = captureLength;
-        this.actionFunc = actionFunc;
+        this.actionFunc = null;
         this.timeout = null;
     };
 
@@ -14,16 +13,15 @@ class TypingDelay {
         return actionFunc;
     }
 
+    // Re-run this function to clear the timeout and start it again
     delayedRun(actionFunc = this.actionFunc) {
-        if (this.timeout != null) {
-            clearTimeout(this.timeout);
-            this.timeout = null;
+        // Clear timeoutHandle aka timeoutID.
+        if (this.timeoutHandle != null) {
+            clearTimeout(this.timeoutHandle);
         }
 
-        this.timeout = setTimeout(function(){
-            console.log('Timeout created.');
-            this.actionFunc;
+        this.timeoutHandle = setTimeout(function() {
+            actionFunc();
         }, this.delay);
-
     };
 };

@@ -41,26 +41,27 @@ var TwitchChat = React.createClass({
 });
 
 /*
- * Component for twitch search.
+ * Component for twitch channel search.
  */
-var SearchTwitchBox = React.createClass({
+var SearchForTwitchChannelBox = React.createClass({
 
+    typingDelay: new TypingDelay(),
     twitch: new TwitchAPI(),
-    typingDelay: new TypingDelay(5000,1),
+    // timeoutHandle: null,
+
     doSearch: function() {
+        
         var query = this.refs.searchInput.getDOMNode().value; // this is the search text
 
-        // var test = setTimeout(function(){
-        //     console.log('Timeout created.');
-        // }, 2000);
+        var actionFunc = function() {
+            this.twitch.searchForTwitchChannel(query, function(response) {
+                console.log(response);
+            });
+        }.bind(this);
 
-        this.typingDelay.delayedRun(function () { console.log('Timeout created.'); });
-        // this.twitch.searchTwitch(query, function(response) {
-        //    console.log(response);
-        // });
+        this.typingDelay.delayedRun(actionFunc);
+
     },
-
-
 
     render: function() {
 
@@ -75,9 +76,8 @@ var SearchTwitchBox = React.createClass({
     }
 });
 
-
 React.render(
-    <SearchTwitchBox />,
+    <SearchForTwitchChannelBox />,
     document.getElementById('search')
 );
 
