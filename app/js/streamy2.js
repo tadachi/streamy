@@ -43,11 +43,10 @@ var TwitchChat = React.createClass({
 /*
  * Component for twitch channel search.
  */
-var SearchForTwitchChannelBox = React.createClass({
+var SearchBoxForTwitchChannel = React.createClass({
 
     typingDelay: new TypingDelay(),
     twitch: new TwitchAPI(),
-    // timeoutHandle: null,
 
     doSearch: function() {
 
@@ -60,11 +59,9 @@ var SearchForTwitchChannelBox = React.createClass({
         }.bind(this);
 
         this.typingDelay.delayedRun(search);
-
     },
 
     render: function() {
-
         return (
             <input type="text"
             ref="searchInput"
@@ -76,7 +73,42 @@ var SearchForTwitchChannelBox = React.createClass({
     }
 });
 
+var SearchBoxForTwitchGame = React.createClass({
+
+    typingDelay: new TypingDelay(),
+    twitch: new TwitchAPI(),
+
+    doSearch: function() {
+
+        var query = this.refs.searchInput.getDOMNode().value; // this is the search text
+
+        var search = function() {
+            this.twitch.searchForGame(query, function(response) {
+                console.log(response);
+            });
+        }.bind(this);
+
+        this.typingDelay.delayedRun(search);
+    },
+
+    render: function() {
+        return (
+            <input type="text"
+            ref="searchInput"
+            placeholder="Search for game on Twitch"
+            value={this.props.query}
+            onChange={this.doSearch}
+            />
+        );
+    }
+});
+
 React.render(
-    <SearchForTwitchChannelBox />,
-    document.getElementById('search')
+    <SearchBoxForTwitchChannel />,
+    document.getElementById('search_channel')
+);
+
+React.render(
+    <SearchBoxForTwitchGame />,
+    document.getElementById('search_game')
 );
