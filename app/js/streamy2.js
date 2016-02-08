@@ -50,16 +50,16 @@ var SearchForTwitchChannelBox = React.createClass({
     // timeoutHandle: null,
 
     doSearch: function() {
-        
+
         var query = this.refs.searchInput.getDOMNode().value; // this is the search text
 
-        var actionFunc = function() {
+        var search = function() {
             this.twitch.searchForTwitchChannel(query, function(response) {
                 console.log(response);
             });
         }.bind(this);
 
-        this.typingDelay.delayedRun(actionFunc);
+        this.typingDelay.delayedRun(search);
 
     },
 
@@ -80,18 +80,3 @@ React.render(
     <SearchForTwitchChannelBox />,
     document.getElementById('search')
 );
-
-
-// React.render(
-//         <TwitchChat
-//             id='x'
-//             streamer={'http://twitch.tv/chat/embed?channel={ch}&amp;popout_chat=true'.format({ch: 'theclaude'})}
-//             height='500'
-//             width='350'
-//         />,
-//         document.getElementById('chat_1')
-// );
-
-// $('#x').load(function(){
-//     alert('loaded!');
-// });

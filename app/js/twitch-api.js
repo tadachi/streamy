@@ -1,4 +1,4 @@
-// var json_urls = {
+// var takbytes_JSON_URLs = {
 //     speedruns: 'https://api.takbytes.com/speedruns',
 //     starcraft: 'https://api.takbytes.com/starcraft',
 //     hearthstone: 'https://api.takbytes.com/hearthstone',
@@ -14,7 +14,7 @@
 class TwitchAPI {
 
     constructor() {
-        var json_urls = {
+        var takbytes_JSON_URLs = {
             speedruns: 'https://api.takbytes.com/speedruns',
             starcraft: 'https://api.takbytes.com/starcraft',
             hearthstone: 'https://api.takbytes.com/hearthstone',
@@ -53,13 +53,27 @@ class TwitchAPI {
             dataType: 'jsonp',
 
             success: function(response) {
-                callback(response); // Server response.
+                callback(response); // Server response. Returns 503 if error.
+            }
+        });
+    }
+
+    searchForGame(game, callback) {
+        $.ajax({
+            url: 'https://api.twitch.tv/kraken/search/games?q={game}&type=suggest&live=true'.format({ game: game}),
+            // The name of the callback parameter, as specified by the YQL service.
+            jsonp: 'callback',
+            // Tell jQuery we're expecting JSONP.
+            dataType: 'jsonp',
+
+            success: function(response) {
+                callback(response); // Server response. Returns 503 if error.
             }
         });
     }
 
     toString() {
-        for (json_url of json_urls.values()) {
+        for (json_url of takbytes_JSON_URLs.values()) {
             getJSON(json_url, function(data) {
                 console.log(data);
             });
