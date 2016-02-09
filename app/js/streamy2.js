@@ -73,7 +73,7 @@ var SearchBoxForTwitchChannel = React.createClass({
     }
 });
 
-var SearchBoxForTwitchGame = React.createClass({
+var SearchBoxForTwitchGames = React.createClass({
 
     typingDelay: new TypingDelay(),
     twitch: new TwitchAPI(),
@@ -103,12 +103,76 @@ var SearchBoxForTwitchGame = React.createClass({
     }
 });
 
+var Test = React.createClass({
+    getInitialState: function() {
+        return {
+            listItems: null
+        };
+    },
+
+    twitch: new TwitchAPI(),
+
+    componentDidMount: function() {
+        // this.twitch.searchForGame(this.props.search_term, function(response) {
+        //     // this.state.listItems = repeat(response.channels);
+        //     // this.props.listItems = response.channels;
+        //     console.log(response);
+        //     this.setState({
+        //         listItems: response.games
+        //     });
+        //     console.log(this.state.listItems);
+        // }.bind(this));
+
+        this.twitch.searchForTwitchChannel(this.props.search_term, function(response) {
+            // this.state.listItems = repeat(response.channels);
+            // this.props.listItems = response.channels;
+            this.setState({
+                listItems: response.channels
+            });
+            console.log(this.state.listItems);
+        }.bind(this));
+    },
+
+    render: function() {
+        var data = null;
+        if (this.state.listItems != null) {
+            data = this.state.listItems.map(function(item) {
+                return (
+                    <li>
+                        {item.name}
+                    </li>
+                );
+            });
+        }
+
+
+        return (
+            <div>
+                <ul>
+                    {data}
+                </ul>
+            </div>
+        );
+
+    }
+
+});
+
+// var DropdownForTwitchGames = React.createClass({
+//
+// });
+
 React.render(
     <SearchBoxForTwitchChannel />,
     document.getElementById('search_channel')
 );
 
 React.render(
-    <SearchBoxForTwitchGame />,
+    <SearchBoxForTwitchGames />,
     document.getElementById('search_game')
+);
+
+React.render(
+    <Test search_term="starcraft"/>,
+    document.getElementById('example')
 );
