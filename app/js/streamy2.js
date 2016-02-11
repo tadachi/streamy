@@ -1,3 +1,12 @@
+Promise.config({
+    // Enable warnings.
+    warnings: false,
+    // Enable long stack traces.
+    longStackTraces: false,
+    // Enable cancellation.
+    cancellation: true
+});
+
 var TwitchStream = React.createClass({
     propTypes: {
         id : React.PropTypes.string.isRequired,
@@ -45,30 +54,44 @@ var TwitchChat = React.createClass({
  */
 var SearchBoxForTwitchChannel = React.createClass({
 
-    typingDelay: new TypingDelay(),
     twitch: new TwitchAPI(),
+    typingDelay: new TypingDelay(),
 
-    doSearch: function() {
+    getInitialState: function() {
+      // naming it initialX clearly indicates that the only purpose
+      // of the passed down prop is to initialize something internally
+      return {text: '...'};
+    },
 
+    search: function() {
         var query = this.refs.searchInput.getDOMNode().value; // this is the search text
 
-        var search = function() {
-            this.twitch.searchForTwitchChannel(query, function(response) {
-                console.log(response);
-            });
-        }.bind(this);
+        this.twitch.searchForTwitchChannel(query, function(response) {
+            this.setState(
+                { text: response }
+            );
+        }.bind(this));
+    },
 
-        this.typingDelay.delayedRun(search);
+    doSearch: function() {
+        this.setState({text: 'searching...'});
+        this.typingDelay.delayedRun(this.search);
+    },
+
+    componentDidMount: function() {
     },
 
     render: function() {
         return (
-            <input type="text"
-            ref="searchInput"
-            placeholder="Search Twitch User Name"
-            value={this.props.query}
-            onChange={this.doSearch}
-            />
+                <div>
+                <input type="text"
+                ref="searchInput"
+                placeholder="Search Twitch User Name"
+                value={this.props.query}
+                onChange={this.doSearch}
+                />
+                {this.state.text}
+                </div>
         );
     }
 });
@@ -78,27 +101,38 @@ var SearchBoxForTwitchGames = React.createClass({
     typingDelay: new TypingDelay(),
     twitch: new TwitchAPI(),
 
-    doSearch: function() {
+    getInitialState: function() {
+      // naming it initialX clearly indicates that the only purpose
+      // of the passed down prop is to initialize something internally
+      return {text: '...'};
+    },
 
+    search: function() {
         var query = this.refs.searchInput.getDOMNode().value; // this is the search text
 
-        var search = function() {
-            this.twitch.searchForGame(query, function(response) {
-                console.log(response);
-            });
-        }.bind(this);
+        this.twitch.searchForGame(query, function(response) {
+            this.setState(
+                { text: response }
+            );
+        }.bind(this));
+    },
 
-        this.typingDelay.delayedRun(search);
+    doSearch: function() {
+        this.setState({text: 'searching...'});
+        this.typingDelay.delayedRun(this.search);
     },
 
     render: function() {
         return (
+            <div>
             <input type="text"
             ref="searchInput"
             placeholder="Search for game on Twitch"
             value={this.props.query}
             onChange={this.doSearch}
             />
+            {this.state.text}
+            </div>
         );
     }
 });
@@ -144,8 +178,6 @@ var Test = React.createClass({
                 );
             });
         }
-
-
         return (
             <div>
                 <ul>
@@ -157,10 +189,6 @@ var Test = React.createClass({
     }
 
 });
-
-// var DropdownForTwitchGames = React.createClass({
-//
-// });
 
 React.render(
     <SearchBoxForTwitchChannel />,

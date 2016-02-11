@@ -15,12 +15,13 @@ class TypingDelay {
 
     // Re-run this function to clear the timeout and start it again
     delayedRun(actionFunc = this.actionFunc) {
+
         // Clear timeoutHandle aka timeoutID.
         if (this.timeoutHandle != null) {
             clearTimeout(this.timeoutHandle);
         }
 
-        this.timeoutHandle = setTimeout(function() {
+        this.timeoutHandle = setTimeout(function(callback) {
             actionFunc();
         }, this.delay);
     };

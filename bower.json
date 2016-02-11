@@ -5,7 +5,8 @@
     "bootstrap": "~3.3.5",
     "react": "~0.13.3",
     "jquery": "~2.1.4",
-    "requirejs": "~2.1.20"
+    "requirejs": "~2.1.20",
+    "bluebird": "~3.2.2"
   },
   "license": "MIT",
   "private": true

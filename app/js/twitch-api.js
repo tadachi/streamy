@@ -42,7 +42,7 @@ class TwitchAPI {
     }
 
     /*
-     * Callback for searching for twitch channels
+     * Returns a xhr object for a request.
      */
     searchForTwitchChannel(channel, callback) {
         $.ajax({
@@ -56,6 +56,7 @@ class TwitchAPI {
                 callback(response); // Server response. Returns 503 if error.
             }
         });
+
     }
 
     searchForGame(game, callback) {
