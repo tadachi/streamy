@@ -1,4 +1,6 @@
+
 class TypingDelay {
+    
     constructor(delay = 3000) {
         this.delay = delay;
         this.actionFunc = null;

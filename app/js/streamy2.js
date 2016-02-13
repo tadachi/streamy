@@ -82,9 +82,16 @@ var SearchBoxForTwitchChannel = React.createClass({
     },
 
     render: function() {
+        // Inline CSS
+        var table_row = {
+            width: '200px',
+        };
+
         return (
                 <div>
-                <input type="text"
+                <input
+                style={table_row}
+                type="text"
                 ref="searchInput"
                 placeholder="Search Twitch User Name"
                 value={this.props.query}
@@ -124,7 +131,7 @@ var SearchBoxForTwitchGames = React.createClass({
 
     render: function() {
         return (
-            <div>
+            <div class="input">
             <input type="text"
             ref="searchInput"
             placeholder="Search for game on Twitch"

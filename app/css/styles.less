@@ -1,14 +1,42 @@
-@base: #f938ab;
+@color: grey;
+@color2: blue;
+@sidebar_width: 70px;
 
-.box-shadow(@style, @c) when (iscolor(@c)) {
-  -webkit-box-shadow: @style @c;
-  box-shadow:         @style @c;
+@height: 40px;
+
+body {
+    display: inline-block;
+    position:relative;
+    background:rgb(255,100,0);
+    margin:0px;
 }
-.box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
-  .box-shadow(@style, rgba(0, 0, 0, @alpha));
+
+.inline {
+    display: inline-block;
 }
-.box {
-  color: saturate(@base, 5%);
-  border-color: lighten(@base, 30%);
-  div { .box-shadow(0 0 5px, 30%) }
+
+.tr {
+    color: @color;
+    width: @sidebar_width;
+    // height: @height;
+    overflow: hidden;
+    word-wrap: break-word;
+    background-color: @color2
+}
+
+.td {
+    width: @sidebar_width;
+    overflow: hidden;
+    white-space: nowrap;
+    // overflow: hidden;
+}
+
+.table {
+    width: @sidebar_width;
+    // overflow: hidden;
+    // border: 0px;
+}
+
+.input {
+    width: @sidebar_width;
 }

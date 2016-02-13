@@ -28,7 +28,7 @@ home.use(function (req, res, next) {
     next();
 });
 
-var hostname = 'localhost'; // Change this to your host name.
+var hostname = 'beastmachine'; // Change this to your host name.
 app.use(vhost(hostname, home));
 
 home.get('/', function(req, res) {

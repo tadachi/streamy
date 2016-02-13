@@ -1,8 +1,27 @@
-.box {
-  color: #fe33ac;
-  border-color: #fdcdea;
+body {
+  display: inline-block;
+  position: relative;
+  background: #ff6400;
+  margin: 0px;
 }
-.box div {
-  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+.inline {
+  display: inline-block;
+}
+.tr {
+  color: #808080;
+  width: 70px;
+  overflow: hidden;
+  word-wrap: break-word;
+  background-color: #0000ff;
+}
+.td {
+  width: 70px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.table {
+  width: 70px;
+}
+.input {
+  width: 70px;
 }
