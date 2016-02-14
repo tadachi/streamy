@@ -58,19 +58,18 @@ var SearchBoxForTwitchChannels = React.createClass({
     typingDelay: new TypingDelay(),
 
     getInitialState: function() {
-      // naming it initialX clearly indicates that the only purpose
-      // of the passed down prop is to initialize something internally
-      return {
-          state: '...',
-          text: '...'
-      };
+        return {
+            state: '...',
+            data: '...'
+        };
     },
 
     search: function() {
-        var query = this.refs.searchInput.getDOMNode().value; // this is the search text
+        var query = this.refs.searchInput.getDOMNode().value; // this is the search data
 
         this.twitch.searchForChannel(query, function(response) {
-            this.setState({ text: response });
+            this.setState({ state: '...'});
+            this.setState({ data: response });
         }.bind(this));
     },
 
@@ -99,23 +98,30 @@ var SearchBoxForTwitchChannels = React.createClass({
                     onChange={this.doSearch}
                     />
                 {this.state.state}
-                <ListViewTwitchChannels data={this.state.text} />
+                <ListViewTwitchChannels data={this.state.data} />
                 </div>
         );
     }
 });
 
 var ListViewTwitchChannels = React.createClass({
-    getInitialState: function() {
-      // naming it initialX clearly indicates that the only purpose
-      // of the passed down prop is to initialize something internally
-      return {data: ''};
-    },
     render: function() {
+        var listView;
+        console.log(this.props.data);
+        if (this.props.data.channels) {
+            listView = this.props.data.channels.map(function(item) {
+                return (
+                    <li>
+                        {item.name}
+                    </li>
+                );
+            });
+        }
+
         return (
-            <div>
-                {this.props.data}
-            </div>
+            <ul>
+                {listView}
+            </ul>
         );
 
     }
@@ -233,3 +239,13 @@ React.render(
 //     <ListViewTwitchGames />,
 //     document.getElementById('twitch_games')
 // );
+
+// var array_of_funcs = [
+//     function() { console.log('1'); },
+//     function() { console.log('2'); },
+//     function() { console.log('3'); }
+// ];
+//
+// for (var func of array_of_funcs) {
+//     func;
+// }
