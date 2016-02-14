@@ -44,7 +44,7 @@ class TwitchAPI {
     /*
      * Returns a xhr object for a request.
      */
-    searchForTwitchChannel(channel, callback) {
+    searchForChannel(channel, callback) {
         $.ajax({
             url: 'https://api.twitch.tv/kraken/search/channels?q={channel}'.format({ channel: channel}),
             // The name of the callback parameter, as specified by the YQL service.

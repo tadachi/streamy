@@ -52,7 +52,7 @@ var TwitchChat = React.createClass({
 /*
  * Component for twitch channel search.
  */
-var SearchBoxForTwitchChannel = React.createClass({
+var SearchBoxForTwitchChannels = React.createClass({
 
     twitch: new TwitchAPI(),
     typingDelay: new TypingDelay(),
@@ -60,21 +60,22 @@ var SearchBoxForTwitchChannel = React.createClass({
     getInitialState: function() {
       // naming it initialX clearly indicates that the only purpose
       // of the passed down prop is to initialize something internally
-      return {text: '...'};
+      return {
+          state: '...',
+          text: '...'
+      };
     },
 
     search: function() {
         var query = this.refs.searchInput.getDOMNode().value; // this is the search text
 
-        this.twitch.searchForTwitchChannel(query, function(response) {
-            this.setState(
-                { text: response }
-            );
+        this.twitch.searchForChannel(query, function(response) {
+            this.setState({ text: response });
         }.bind(this));
     },
 
     doSearch: function() {
-        this.setState({text: 'searching...'});
+        this.setState({state: 'searching...'});
         this.typingDelay.delayedRun(this.search);
     },
 
@@ -89,18 +90,36 @@ var SearchBoxForTwitchChannel = React.createClass({
 
         return (
                 <div>
-                <input
-                style={table_row}
-                type="text"
-                ref="searchInput"
-                placeholder="Search Twitch User Name"
-                value={this.props.query}
-                onChange={this.doSearch}
-                />
-                {this.state.text}
+                    <input
+                    style={table_row}
+                    type="text"
+                    ref="searchInput"
+                    placeholder="Search Twitch User Name"
+                    value={this.props.query}
+                    onChange={this.doSearch}
+                    />
+                {this.state.state}
+                <ListViewTwitchChannels data={this.state.text} />
                 </div>
         );
     }
+});
+
+var ListViewTwitchChannels = React.createClass({
+    getInitialState: function() {
+      // naming it initialX clearly indicates that the only purpose
+      // of the passed down prop is to initialize something internally
+      return {data: ''};
+    },
+    render: function() {
+        return (
+            <div>
+                {this.props.data}
+            </div>
+        );
+
+    }
+
 });
 
 var SearchBoxForTwitchGames = React.createClass({
@@ -129,6 +148,9 @@ var SearchBoxForTwitchGames = React.createClass({
         this.typingDelay.delayedRun(this.search);
     },
 
+    componentDidMount: function() {
+    },
+
     render: function() {
         return (
             <div class="input">
@@ -144,61 +166,55 @@ var SearchBoxForTwitchGames = React.createClass({
     }
 });
 
-var Test = React.createClass({
-    getInitialState: function() {
-        return {
-            listItems: null
-        };
-    },
 
-    twitch: new TwitchAPI(),
+//
+// var ListViewTwitchGames = React.createClass({
+//     getInitialState: function() {
+//         return {
+//             listItems: null
+//         };
+//     },
+//
+//     twitch: new TwitchAPI(),
+//
+//     componentDidMount: function() {
+//
+//         if (this.props.search_term) {
+//             this.twitch.searchForGame(this.props.search_term, function(response) {
+//                 this.setState({
+//                     listItems: response.channels
+//                 });
+//             }.bind(this));
+//         }
+//     },
+//
+//     render: function() {
+//         var data = null;
+//         if (this.state.listItems != null) {
+//             data = this.state.listItems.map(function(item) {
+//                 return (
+//                     <li>
+//                         {item.name}
+//                     </li>
+//                 );
+//             });
+//         }
+//         return (
+//             <div>
+//                 <ul>
+//                     {data}
+//                 </ul>
+//             </div>
+//         );
+//
+//     }
+//
+// });
 
-    componentDidMount: function() {
-        // this.twitch.searchForGame(this.props.search_term, function(response) {
-        //     // this.state.listItems = repeat(response.channels);
-        //     // this.props.listItems = response.channels;
-        //     console.log(response);
-        //     this.setState({
-        //         listItems: response.games
-        //     });
-        //     console.log(this.state.listItems);
-        // }.bind(this));
 
-        this.twitch.searchForTwitchChannel(this.props.search_term, function(response) {
-            // this.state.listItems = repeat(response.channels);
-            // this.props.listItems = response.channels;
-            this.setState({
-                listItems: response.channels
-            });
-            console.log(this.state.listItems);
-        }.bind(this));
-    },
-
-    render: function() {
-        var data = null;
-        if (this.state.listItems != null) {
-            data = this.state.listItems.map(function(item) {
-                return (
-                    <li>
-                        {item.name}
-                    </li>
-                );
-            });
-        }
-        return (
-            <div>
-                <ul>
-                    {data}
-                </ul>
-            </div>
-        );
-
-    }
-
-});
 
 React.render(
-    <SearchBoxForTwitchChannel />,
+    <SearchBoxForTwitchChannels />,
     document.getElementById('search_channel')
 );
 
@@ -207,7 +223,13 @@ React.render(
     document.getElementById('search_game')
 );
 
-React.render(
-    <Test search_term="starcraft"/>,
-    document.getElementById('example')
-);
+// React.render(
+//     <ListViewTwitchChannels search_term={'warcraft'}/>,
+//     document.getElementById('twitch_channels')
+// );
+
+
+// React.render(
+//     <ListViewTwitchGames />,
+//     document.getElementById('twitch_games')
+// );
