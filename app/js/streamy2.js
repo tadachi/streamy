@@ -65,7 +65,8 @@ var SearchBoxForTwitchChannels = React.createClass({
     },
 
     search: function() {
-        var query = this.refs.searchInput.getDOMNode().value; // this is the search data
+        // var query = this.refs.searchInput.getDOMNode().value; // this is the search data
+        var query = 'pykn';
 
         this.twitch.searchForChannel(query, function(response) {
             this.setState({ state: '...'});
@@ -79,12 +80,13 @@ var SearchBoxForTwitchChannels = React.createClass({
     },
 
     componentDidMount: function() {
+        this.search();
     },
 
     render: function() {
         // Inline CSS
         var table_row = {
-            width: '200px',
+            width: '200px'
         };
 
         return (
@@ -105,25 +107,66 @@ var SearchBoxForTwitchChannels = React.createClass({
 });
 
 var ListViewTwitchChannels = React.createClass({
+
+    getInitialState: function () {
+        return { user_default_icon: '' };
+    },
+
     render: function() {
         var listView;
-        console.log(this.props.data);
+
+        // CSS inline styles
+        var icon_logo = {
+        	width: '75px',
+        	height: '75px'
+        };
+
+        // <li>
+        //     {item.name} {item.logo} {item.game} {item.updated_at} {item.status}
+        // </li>
         if (this.props.data.channels) {
             listView = this.props.data.channels.map(function(item) {
                 return (
-                    <li>
-                        {item.name}
-                    </li>
+                    <tr>
+                        <td rowspan="2">
+                            <TwitchUserLogo src={item.logo}/>
+                            {/*<img style={icon_logo} src={user_default_icon} />*/}
+                        </td>
+                        <td class="description">{item.status}</td>
+                    </tr>
+
                 );
             });
         }
 
         return (
-            <ul>
-                {listView}
-            </ul>
+            <table>
+                <tbody>
+                    {listView}
+                </tbody>
+            </table>
         );
 
+    }
+
+});
+
+var TwitchUserLogo = React.createClass({
+
+    default_src: 'https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png'
+
+    render: function () {
+        // CSS inline styles
+        var icon_logo = {
+            width: '75px',
+            height: '75px'
+        };
+
+        if (this.props.src) {
+            return <img style={icon_logo} src={this.props.src} />;
+        }
+
+        return <img style={icon_logo} src={this.props.default_src} onError={this.handleError} />;
     }
 
 });
@@ -228,12 +271,6 @@ React.render(
     <SearchBoxForTwitchGames />,
     document.getElementById('search_game')
 );
-
-// React.render(
-//     <ListViewTwitchChannels search_term={'warcraft'}/>,
-//     document.getElementById('twitch_channels')
-// );
-
 
 // React.render(
 //     <ListViewTwitchGames />,
