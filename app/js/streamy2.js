@@ -64,9 +64,13 @@ var SearchBoxForTwitchChannels = React.createClass({
         };
     },
 
-    search: function() {
-        // var query = this.refs.searchInput.getDOMNode().value; // this is the search data
-        var query = 'pykn';
+    search: function(query = null) {
+        console.log(query);
+        if (!query) {
+            query = this.refs.searchInput.getDOMNode().value; // this is the search data
+        }
+
+        // var query = 'pykn';
 
         this.twitch.searchForChannel(query, function(response) {
             this.setState({ state: '...'});
@@ -80,7 +84,7 @@ var SearchBoxForTwitchChannels = React.createClass({
     },
 
     componentDidMount: function() {
-        this.search();
+        this.search('pykn');
     },
 
     render: function() {
@@ -116,9 +120,8 @@ var ListViewTwitchChannels = React.createClass({
         var listView;
 
         // CSS inline styles
-        var icon_logo = {
-        	width: '75px',
-        	height: '75px'
+        var td = {
+            
         };
 
         // <li>
@@ -132,7 +135,7 @@ var ListViewTwitchChannels = React.createClass({
                             <TwitchUserLogo src={item.logo}/>
                             {/*<img style={icon_logo} src={user_default_icon} />*/}
                         </td>
-                        <td class="description">{item.status}</td>
+                        <td style={td}>{item.game}</td>
                     </tr>
 
                 );
@@ -153,7 +156,7 @@ var ListViewTwitchChannels = React.createClass({
 
 var TwitchUserLogo = React.createClass({
 
-    default_src: 'https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png'
+    default_src: 'https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png',
 
     render: function () {
         // CSS inline styles
@@ -166,7 +169,7 @@ var TwitchUserLogo = React.createClass({
             return <img style={icon_logo} src={this.props.src} />;
         }
 
-        return <img style={icon_logo} src={this.props.default_src} onError={this.handleError} />;
+        return <img style={icon_logo} src={this.default_src} />;
     }
 
 });

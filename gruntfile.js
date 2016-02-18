@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         eslint: {
-            target: ['app/js/lib/TypingDelay.js', 'app/js/streamy2.js', 'app/js/lib/twitch-api.js']
+            target: ['app/js/lib/TypingDelay.js', 'app/js/streamy2.js', 'app/js/api_wrappers/twitch-api.js']
         },
         copy: {
             main: {
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
                 separator: ';'
             },
             js_build: {
-                src: ['app/js/lib/*.js', 'app/js/vendor/*.js', 'app/js/es5-twitch-api.js', 'app/js/**/es5-streamy2.js'],
+                src: ['app/js/lib/*.js', 'app/js/vendor/*.js'],
                 dest: 'build/app/js/<%= pkg.name %>.js'
             },
             css_build: {
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
         watch: {
             js: {
                 files: ['<%= eslint.target %>'],
-                tasks: ['eslint', 'babel']
+                tasks: ['eslint']
             },
             css: {
                 files: ['<%= less.target %>'],
