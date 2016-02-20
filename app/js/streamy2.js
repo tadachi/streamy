@@ -52,7 +52,7 @@ var TwitchChat = React.createClass({
 /*
  * Component for twitch channel search.
  */
-var SearchBoxForTwitchChannels = React.createClass({
+var SearchBoxForTwitchStreams = React.createClass({
 
     twitch: new TwitchAPI(),
     typingDelay: new TypingDelay(),
@@ -65,14 +65,11 @@ var SearchBoxForTwitchChannels = React.createClass({
     },
 
     search: function(query = null) {
-        console.log(query);
         if (!query) {
             query = this.refs.searchInput.getDOMNode().value; // this is the search data
         }
 
-        // var query = 'pykn';
-
-        this.twitch.searchForChannel(query, function(response) {
+        this.twitch.searchForStream(query, function(response) {
             this.setState({ state: '...'});
             this.setState({ data: response });
         }.bind(this));
@@ -84,7 +81,7 @@ var SearchBoxForTwitchChannels = React.createClass({
     },
 
     componentDidMount: function() {
-        this.search('pykn');
+        this.search('thelcc');
     },
 
     render: function() {
@@ -104,16 +101,23 @@ var SearchBoxForTwitchChannels = React.createClass({
                     onChange={this.doSearch}
                     />
                 {this.state.state}
-                <ListViewTwitchChannels data={this.state.data} />
+                <ListViewTwitchStreams data={this.state.data} />
                 </div>
         );
     }
 });
 
-var ListViewTwitchChannels = React.createClass({
+var ListViewTwitchStreams = React.createClass({
 
     getInitialState: function () {
         return { user_default_icon: '' };
+    },
+
+    getXY: function(e) {
+        var x = e.clientX;     // Get the horizontal coordinate
+        var y = e.clientY;     // Get the vertical coordinate
+        var coor = "X coords: " + x + ", Y coords: " + y;
+        console.log(coor);
     },
 
     render: function() {
@@ -121,38 +125,45 @@ var ListViewTwitchChannels = React.createClass({
 
         // CSS inline styles
         var td = {
-            
+            padding: '10px',
+            border: '1px solid black'
         };
 
-        // <li>
-        //     {item.name} {item.logo} {item.game} {item.updated_at} {item.status}
-        // </li>
-        if (this.props.data.channels) {
-            listView = this.props.data.channels.map(function(item) {
+        //{item.channel.name} {item.channel.logo} {item.game} {item.viewers} {item.preview.small}
+        if (this.props.data.streams) {
+            listView = this.props.data.streams.map(function(item) {
                 return (
-                    <tr>
-                        <td rowspan="2">
-                            <TwitchUserLogo src={item.logo}/>
+                    <tr onMouseMove={this.getXY}>
+                        <td>
+                            {/*<TwitchUserLogo src={item.channel.logo}/>*/}
                             {/*<img style={icon_logo} src={user_default_icon} />*/}
                         </td>
-                        <td style={td}>{item.game}</td>
+                        <td style={td}>{item.channel.name}</td>
+                        <td style={td}>{item.channel.game}</td>
+                        <td style={td}>{item.viewers}</td>
                     </tr>
-
                 );
-            });
+            }.bind(this));
         }
 
         return (
-            <table>
-                <tbody>
-                    {listView}
-                </tbody>
-            </table>
+            <div>
+                <table>
+                    <tbody>
+                        {listView}
+                    </tbody>
+                </table>
+            </div>
+
         );
 
     }
 
 });
+
+// var HoverStreamPreview = React.createClass({
+//
+// });
 
 var TwitchUserLogo = React.createClass({
 
@@ -218,7 +229,6 @@ var SearchBoxForTwitchGames = React.createClass({
     }
 });
 
-
 //
 // var ListViewTwitchGames = React.createClass({
 //     getInitialState: function() {
@@ -266,7 +276,7 @@ var SearchBoxForTwitchGames = React.createClass({
 
 
 React.render(
-    <SearchBoxForTwitchChannels />,
+    <SearchBoxForTwitchStreams />,
     document.getElementById('search_channel')
 );
 

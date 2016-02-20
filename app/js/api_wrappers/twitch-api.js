@@ -41,12 +41,24 @@ class TwitchAPI {
         });
     }
 
-    /*
-     * Returns a xhr object for a request.
-     */
+    searchForStream(stream, callback) {
+        $.ajax({
+            url: 'https://api.twitch.tv/kraken/search/streams?limit=100&q={stream}'.format({ stream: stream}),
+            // The name of the callback parameter, as specified by the YQL service.
+            jsonp: 'callback',
+            // Tell jQuery we're expecting JSONP.
+            dataType: 'jsonp',
+
+            success: function(response) {
+                callback(response); // Server response. Returns 503 if error.
+            }
+        });
+
+    }
+
     searchForChannel(channel, callback) {
         $.ajax({
-            url: 'https://api.twitch.tv/kraken/search/channels?q={channel}'.format({ channel: channel}),
+            url: 'https://api.twitch.tv/kraken/search/channels?limit=50&q={channel}'.format({ channel: channel}),
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -61,7 +73,7 @@ class TwitchAPI {
 
     searchForGame(game, callback) {
         $.ajax({
-            url: 'https://api.twitch.tv/kraken/search/games?q={game}&type=suggest&live=true'.format({ game: game}),
+            url: 'https://api.twitch.tv/kraken/search/games?limit=50&q={game}&type=suggest&live=true'.format({ game: game}),
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
