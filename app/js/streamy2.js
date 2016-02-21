@@ -60,7 +60,7 @@ var SearchBoxForTwitchStreams = React.createClass({
     getInitialState: function() {
         return {
             state: '...',
-            data: '...'
+            data: ''
         };
     },
 
@@ -81,7 +81,7 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
     componentDidMount: function() {
-        this.search('thelcc');
+        this.search('starcraft');
     },
 
     render: function() {
@@ -110,60 +110,115 @@ var SearchBoxForTwitchStreams = React.createClass({
 var ListViewTwitchStreams = React.createClass({
 
     getInitialState: function () {
-        return { user_default_icon: '' };
+        return { user_default_icon: '', display: 'none' };
     },
 
-    getXY: function(e) {
-        var x = e.clientX;     // Get the horizontal coordinate
-        var y = e.clientY;     // Get the vertical coordinate
-        var coor = "X coords: " + x + ", Y coords: " + y;
-        console.log(coor);
+    handleMouseOver: function(index) {
+        this.refs[index].showPreview();
+    },
+
+    handleMouseOut: function(index) {
+        this.refs[index].hidePreview();
     },
 
     render: function() {
         var listView;
 
         // CSS inline styles
-        var td = {
+        var list = {
+            width: '300px',
+            display: 'block',
             padding: '10px',
-            border: '1px solid black'
+            border: '1px solid black',
+            fontWeight: 'bold'
         };
 
         //{item.channel.name} {item.channel.logo} {item.game} {item.viewers} {item.preview.small}
+        // <td>
+        //     {/*<TwitchUserLogo src={item.channel.logo}/>*/}
+        //     {/*<img style={icon_logo} src={user_default_icon} />*/}
+        // </td>
+        // <td style={td}>{item.channel.name}</td>
+        // <td style={td}>{item.channel.game}</td>
+        // <td style={td}>{item.viewers}</td>
+        // onMouseMove={this.showPreview} onMouseOut={this.hidePreview}
         if (this.props.data.streams) {
-            listView = this.props.data.streams.map(function(item) {
+            listView = this.props.data.streams.map(function(stream, i) {
                 return (
-                    <tr onMouseMove={this.getXY}>
-                        <td>
-                            {/*<TwitchUserLogo src={item.channel.logo}/>*/}
-                            {/*<img style={icon_logo} src={user_default_icon} />*/}
-                        </td>
-                        <td style={td}>{item.channel.name}</td>
-                        <td style={td}>{item.channel.game}</td>
-                        <td style={td}>{item.viewers}</td>
-                    </tr>
+                    <div style={list} key={i} onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)}>
+                        {stream.channel.name} {stream.channel.game} {stream.viewers}
+                        <HoverStreamPreview key={i} ref={i} stream={stream} />
+                    </div>
                 );
             }.bind(this));
         }
 
         return (
             <div>
-                <table>
-                    <tbody>
-                        {listView}
-                    </tbody>
-                </table>
+                {listView}
             </div>
-
         );
 
     }
 
 });
 
-// var HoverStreamPreview = React.createClass({
-//
-// });
+var HoverStreamPreview = React.createClass({
+
+    default_src: 'https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png',
+
+    getInitialState: function () {
+        return {display: 'none'};
+    },
+
+    showPreview: function(e) {
+        if (this.props.stream) {
+            this.setState({display: 'inline-block'});
+        }
+    },
+
+    hidePreview: function(e) {
+        if (this.props.stream) {
+            this.setState({display: 'none'});
+        }
+    },
+
+    render: function() {
+        var div = {
+            border: '5px solid black',
+            zIndex: '2',
+            display: this.state.display,
+        };
+        var icon_logo = {
+            display: 'inline-block',
+            width: '75px',
+            height: '75px',
+            padding: '5px'
+        };
+        var preview = {
+            display: 'inline-block',
+            width: '115px',
+            height: '75px',
+            padding: '5px'
+        };
+        if (this.props.stream) {
+            if (this.props.stream.channel.logo) {
+                return (
+                    <div style={div}>
+                        <img style={icon_logo} src={this.props.stream.channel.logo} />
+                        <img style={preview} src={this.props.stream.preview.medium} />
+                    </div>
+                );
+            }
+            return (
+                <div style={div}>
+                    <img style={icon_logo} src={this.default_src} />
+                    <img style={preview} src={this.props.stream.preview.medium} />
+                </div>
+            );
+        }
+    }
+});
 
 var TwitchUserLogo = React.createClass({
 
