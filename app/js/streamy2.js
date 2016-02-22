@@ -340,17 +340,7 @@ React.render(
     document.getElementById('search_game')
 );
 
-// React.render(
-//     <ListViewTwitchGames />,
-//     document.getElementById('twitch_games')
-// );
+twitch_api = new TwitchAPI();
+twitch_api.authenticate();
 
-// var array_of_funcs = [
-//     function() { console.log('1'); },
-//     function() { console.log('2'); },
-//     function() { console.log('3'); }
-// ];
-//
-// for (var func of array_of_funcs) {
-//     func;
-// }
+console.log(document.location.hash);

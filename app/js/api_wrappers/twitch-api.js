@@ -85,6 +85,31 @@ class TwitchAPI {
         });
     }
 
+    authenticate() {
+        // console.log('https://api.twitch.tv/kraken/oauth2/authorize' +
+        //     '?response_type=token' +
+        //     '&client_id=f55txr3qf7w1bxsjqszl1u2fqmlbk4l' +
+        //     '&redirect_uri=http://beastmachine:4000' +
+        //     '&scope=channel_read');
+        // https://api.twitch.tv/kraken/oauth2/authorize
+        // ?response_type=token
+        // &client_id=[your client ID]
+        // &redirect_uri=[your registered redirect URI]
+        // &scope=[space separated list of scopes]
+        $.ajax({
+            type: 'GET',
+            url: 'https://api.twitch.tv/kraken/oauth2/authorize' +
+                '?response_type=token' +
+                '&client_id=f55txr3qf7w1bxsjqszl1u2fqmlbk4l' +
+                '&redirect_uri=http://beastmachine:4000' +
+                '&scope=channel_read',
+
+            success: function(response) {
+                callback(response); // Server response. Returns 503 if error.
+            }
+        });
+    }
+
     toString() {
         for (json_url of takbytes_JSON_URLs.values()) {
             getJSON(json_url, function(data) {
