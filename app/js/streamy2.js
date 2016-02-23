@@ -8,6 +8,11 @@ Promise.config({
 });
 
 React.render(
+    <TwitchLoginButton />,
+    document.getElementById('twitch_login_button')
+);
+
+React.render(
     <SearchBoxForTwitchStreams />,
     document.getElementById('search_channel')
 );
@@ -17,11 +22,11 @@ React.render(
     document.getElementById('search_game')
 );
 
-// twitch_api = new TwitchAPI();
+twitch_api = new TwitchAPI();
 // twitch_api.authenticate();
 
-if (document.location.hash) {
-    console.log(document.location.hash);
-} else {
-    console.log('Not authenticated to Twitch.');
-}
+// if (twitch_api.getAuthToken()) {
+//     console.log(twitch_api.getAuthToken());
+// } else {
+//     console.log(twitch_api.getAuthToken());
+// }
