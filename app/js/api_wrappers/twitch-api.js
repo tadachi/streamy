@@ -28,6 +28,7 @@ class TwitchAPI {
 
 
         this.categories = ['Speedruns', 'Starcraft', 'Hitbox', 'Hearthstone', 'Dota', 'Counterstrike', 'LeagueOfLegends', 'Heroes', 'Diablo', 'Followed'];
+        this.client_id = 'f55txr3qf7w1bxsjqszl1u2fqmlbk4l';
     }
 
     getJSON(url, callback) {
@@ -100,7 +101,7 @@ class TwitchAPI {
             type: 'GET',
             url: 'https://api.twitch.tv/kraken/oauth2/authorize' +
                 '?response_type=token' +
-                '&client_id=f55txr3qf7w1bxsjqszl1u2fqmlbk4l' +
+                '{client_id}'.format({client_id: this.client_id}) +
                 '&redirect_uri=http://beastmachine:4000' +
                 '&scope=channel_read',
 
