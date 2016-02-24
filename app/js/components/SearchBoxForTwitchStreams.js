@@ -82,7 +82,7 @@ var ListViewTwitchStreams = React.createClass({
             fontWeight: 'bold'
         };
 
-        //{item.channel.name} {item.channel.logo} {item.game} {item.viewers} {item.preview.small}
+        //{stream.channel.name} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}
         // <td>
         //     {/*<TwitchUserLogo src={item.channel.logo}/>*/}
         //     {/*<img style={icon_logo} src={user_default_icon} />*/}
@@ -91,20 +91,50 @@ var ListViewTwitchStreams = React.createClass({
         // <td style={td}>{item.channel.game}</td>
         // <td style={td}>{item.viewers}</td>
         // onMouseMove={this.showPreview} onMouseOut={this.hidePreview}
+        // <tbody>
+        // <tr>
+        //     <td rowspan="2"><img class="icon-logo" src="{{channel.image.size70}}"
+        //         onerror="this.src='https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png'"/></td>
+        //     <td class="stream-name">{{channel.display_name}}</td>
+        //     <td class="viewer-count">{{channel.current_viewers}}</td>
+        // </tr>
+        // <tr>
+        //     <td class="description">{{channel.title}}</td>
+        //     <td></td>
+        // </tr>
+        // </tbody>
         if (this.props.data.streams) {
             listView = this.props.data.streams.map(function(stream, i) {
                 return (
-                    <div style={list} key={i} onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)}>
-                        {stream.channel.name} {stream.channel.game} {stream.viewers}
-                        <HoverStreamPreview key={i} ref={i} stream={stream} />
-                    </div>
+                    // <div style={list} key={i} onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)}>
+                    //     {stream.channel.name} {stream.channel.game} {stream.viewers}
+                    //     <HoverStreamPreview key={i} ref={i} stream={stream} />
+                    // </div>
+                    <tbody key={i} onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)}>
+                        <tr>
+                            <td rowspan="2">
+                                <TwitchUserLogo src={stream.channel.logo}/>
+                            </td>
+                            <td>{stream.channel.name}</td>
+                            <td>{stream.viewers}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <HoverStreamPreview key={i} ref={i} stream={stream} />
+                            </td>
+                        </tr>
+                    </tbody>
                 );
             }.bind(this));
         }
 
         return (
             <div>
-                {listView}
+                {/*{listView}*/}
+                <table>
+                    {listView}
+                </table>
+
             </div>
         );
 
@@ -138,34 +168,24 @@ var HoverStreamPreview = React.createClass({
             zIndex: '2',
             display: this.state.display,
         };
-        var icon_logo = {
-            display: 'inline-block',
-            width: '75px',
-            height: '75px',
-            padding: '5px'
-        };
-        var preview = {
-            display: 'inline-block',
-            width: '115px',
-            height: '75px',
-            padding: '5px'
-        };
+
         if (this.props.stream) {
             if (this.props.stream.channel.logo) {
                 return (
                     <div style={div}>
-                        <img style={icon_logo} src={this.props.stream.channel.logo} />
-                        <img style={preview} src={this.props.stream.preview.medium} />
+                        <TwitchUserLogo src={this.props.stream.channel.logo}/>
+                        <TwitchStreamPreviewImg src={this.props.stream.preview.medium}/>
                     </div>
                 );
             }
             return (
                 <div style={div}>
-                    <img style={icon_logo} src={this.default_src} />
-                    <img style={preview} src={this.props.stream.preview.medium} />
+                    <TwitchUserLogo />
+                    <TwitchStreamPreviewImg />
                 </div>
             );
         }
+
     }
 });
 
@@ -185,6 +205,28 @@ var TwitchUserLogo = React.createClass({
         }
 
         return <img style={icon_logo} src={this.default_src} />;
+    }
+
+});
+
+var TwitchStreamPreviewImg = React.createClass({
+
+    default_src: 'https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png',
+
+    render: function () {
+        // CSS inline styles
+        var preview = {
+            display: 'inline-block',
+            width: '115px',
+            height: '75px',
+            padding: '5px'
+        };
+
+        if (this.props.src) {
+            return <img style={preview} src={this.props.src} />;
+        }
+
+        return <img style={preview} src={this.default_src} />;
     }
 
 });
