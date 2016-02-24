@@ -82,47 +82,69 @@ var ListViewTwitchStreams = React.createClass({
             fontWeight: 'bold'
         };
 
-        //{stream.channel.name} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}
-        // <td>
-        //     {/*<TwitchUserLogo src={item.channel.logo}/>*/}
-        //     {/*<img style={icon_logo} src={user_default_icon} />*/}
-        // </td>
-        // <td style={td}>{item.channel.name}</td>
-        // <td style={td}>{item.channel.game}</td>
-        // <td style={td}>{item.viewers}</td>
-        // onMouseMove={this.showPreview} onMouseOut={this.hidePreview}
-        // <tbody>
-        // <tr>
-        //     <td rowspan="2"><img class="icon-logo" src="{{channel.image.size70}}"
-        //         onerror="this.src='https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png'"/></td>
-        //     <td class="stream-name">{{channel.display_name}}</td>
-        //     <td class="viewer-count">{{channel.current_viewers}}</td>
-        // </tr>
-        // <tr>
-        //     <td class="description">{{channel.title}}</td>
-        //     <td></td>
-        // </tr>
-        // </tbody>
+        var table = {
+            width: '100px',
+            margin: '0px',
+            border: '0px',
+            padding: '0px'
+        }
+
+        var logo = {
+            padding: '5px'
+        };
+
+        var name = {
+            padding: '5px',
+        	fontSize: '18px',
+            fontWeight: 'bold',
+            color: '#000066' /*~ darkgreen */
+        };
+
+        var viewers = {
+            padding: '5px',
+            fontSize: '14px',
+            color: 'red',
+            textAlign: 'right'
+        };
+
+        var status = {
+            paddingLeft: '5px',
+            maxWidth: '50px', /* To clip text with an ellipsis when it overflows a table cell */
+        	fontSize: '14px',
+        	color: 'white',
+
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+        }
+
+
+        //{stream.channel.name} {stream.channel.status} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}
         if (this.props.data.streams) {
+            console.log(this.props.data.streams);
             listView = this.props.data.streams.map(function(stream, i) {
                 return (
                     // <div style={list} key={i} onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)}>
                     //     {stream.channel.name} {stream.channel.game} {stream.viewers}
                     //     <HoverStreamPreview key={i} ref={i} stream={stream} />
                     // </div>
-                    <tbody key={i} onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)}>
+                    // onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)}
+                    <tbody style={table} key={i} >
                         <tr>
-                            <td rowspan="2">
+                            <td style={logo} rowSpan="2">
                                 <TwitchUserLogo src={stream.channel.logo}/>
                             </td>
-                            <td>{stream.channel.name}</td>
-                            <td>{stream.viewers}</td>
+                            <td style={name}>{stream.channel.name}</td>
+                            <td style={viewers}>{stream.viewers}</td>
                         </tr>
                         <tr>
+                            <td style={status}>{stream.channel.status}</td>
+                            <td></td>
+                        </tr>
+                        {/*<tr>
                             <td>
                                 <HoverStreamPreview key={i} ref={i} stream={stream} />
                             </td>
-                        </tr>
+                        </tr>*/}
                     </tbody>
                 );
             }.bind(this));
