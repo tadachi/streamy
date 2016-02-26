@@ -4,9 +4,8 @@ var SearchBoxForTwitchGames = React.createClass({
     twitch: new TwitchAPI(),
 
     getInitialState: function() {
-      // naming it initialX clearly indicates that the only purpose
-      // of the passed down prop is to initialize something internally
-      return {text: '...'};
+
+        return {text: '...'};
     },
 
     search: function() {

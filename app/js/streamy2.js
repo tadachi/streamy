@@ -8,19 +8,24 @@ Promise.config({
 });
 
 React.render(
-    <TwitchLoginButton />,
-    document.getElementById('twitch_login_button')
+    <CustomVideoPlayer />,
+    document.getElementById('twitch_video_player')
 );
 
-React.render(
-    <SearchBoxForTwitchStreams />,
-    document.getElementById('search_channel')
-);
-
-React.render(
-    <SearchBoxForTwitchGames />,
-    document.getElementById('search_game')
-);
+// React.render(
+//     <TwitchLoginButton />,
+//     document.getElementById('twitch_login_button')
+// );
+//
+// React.render(
+//     <SearchBoxForTwitchStreams />,
+//     document.getElementById('search_channel')
+// );
+//
+// React.render(
+//     <SearchBoxForTwitchGames />,
+//     document.getElementById('search_game')
+// );
 
 twitch_api = new TwitchAPI();
 // twitch_api.authenticate();

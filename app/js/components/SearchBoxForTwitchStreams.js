@@ -18,9 +18,9 @@ var SearchBoxForTwitchStreams = React.createClass({
             query = this.refs.searchInput.getDOMNode().value; // this is the search data
         }
 
-        this.twitch.searchForStream(query, function(response) {
+        this.twitch.searchForStream(query, function(data) {
             this.setState({ state: '...'});
-            this.setState({ data: response });
+            this.setState({ data: data });
         }.bind(this));
     },
 
@@ -30,14 +30,16 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
     componentDidMount: function() {
-        this.search('starcraft');
+        // this.search('starcraft');
     },
 
     render: function() {
-        // Inline CSS
+        // Inline CSS.
         var table_row = {
             width: '200px'
         };
+
+        console.log(this.state.data);
 
         return (
                 <div>
@@ -119,8 +121,8 @@ var ListViewTwitchStreams = React.createClass({
 
 
         //{stream.channel.name} {stream.channel.status} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}
-        if (this.props.data.streams) {
-            console.log(this.props.data.streams);
+        if (this.props.data) {
+            console.log(this.props.data);
             listView = this.props.data.streams.map(function(stream, i) {
                 return (
                     // <div style={list} key={i} onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)}>
