@@ -9,15 +9,16 @@ var TwitchLoginButton = React.createClass({
     },
 
     login: function() {
-        // this.twitch.authenticate();
+        this.twitch.authenticate();
         this.twitch.getFollowedStreams( function(data) {
             this.setState({ data: data });
         }.bind(this));
     },
 
     componentDidMount: function() {
+        console.log(this.twitch.getAuthToken());
         this.twitch.getFollowedStreams( function(data) {
-            this.setState({ data: data });
+            this.setState({ data: '' });
         }.bind(this));
     },
 

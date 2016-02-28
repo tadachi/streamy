@@ -16,17 +16,6 @@ class TwitchAPI {
     constructor() {
     }
 
-    getJSON(url, callback) {
-        $.ajax({
-            url: url,
-            dataType: 'json', // tell jQuery we're expecting JSON.
-
-            success: function(data) {
-                callback(data);
-            }
-        });
-    }
-
     searchForStream(stream, callback) {
         $.ajax({
             url: 'https://api.twitch.tv/kraken/search/streams?limit=100&q={stream}'.format({ stream: stream}),
@@ -36,7 +25,14 @@ class TwitchAPI {
             dataType: 'jsonp',
 
             success: function(response) {
-                callback(response); // Server response. Returns 503 if error.
+
+                if (response.error) {
+                    console.log(response);
+                    callback(null);
+                } else {
+                    callback(response); // Server response. Returns 503 if error.
+                }
+
             }
         });
 
@@ -51,7 +47,14 @@ class TwitchAPI {
             dataType: 'jsonp',
 
             success: function(response) {
-                callback(response); // Server response. Returns 503 if error.
+
+                if (response.error) {
+                    console.log(response);
+                    callback(null);
+                } else {
+                    callback(response); // Server response. Returns 503 if error.
+                }
+
             }
         });
 
@@ -66,7 +69,14 @@ class TwitchAPI {
             dataType: 'jsonp',
 
             success: function(response) {
-                callback(response); // Server response. Returns 503 if error.
+
+                if (response.error) {
+                    console.log(response);
+                    callback(null);
+                } else {
+                    callback(response); // Server response. Returns 503 if error.
+                }
+
             }
         });
     }
@@ -82,22 +92,38 @@ class TwitchAPI {
             dataType: 'jsonp',
 
             success: function(response) {
-                callback(response); // Server response. Returns 503 if error.
+
+                if (response.error) {
+                    console.log(response);
+                    callback(null);
+                } else {
+                    callback(response); // Server response. Returns 503 if error.
+                }
+
             }
         });
-        
+
     }
-
-
 
     authenticate() {
         var url = 'https://api.twitch.tv/kraken/oauth2/authorize' +
             '?response_type=token' +
             '&client_id={client_id}'.format({client_id: 'f55txr3qf7w1bxsjqszl1u2fqmlbk4l'}) +
-            '&redirect_uri=http://beastmachine:4000' +
-            '&scope=channel_read';
+            '&redirect_uri=_blank' +
+            '&scope=channel_read' +
+            '&force_verify=true';
         // console.log(url);
-        window.location.href = url;
+        // window.location.href = url;
+        popUp(url);
+
+        function popUp(url) {
+        	var new_window = window.open(url,'name','height=423,width=370'); // Nice height and width.
+        	if (window.focus) {
+                new_window.focus();
+            }
+        	return false;
+        }
+
     }
 
     parseParms(str) {

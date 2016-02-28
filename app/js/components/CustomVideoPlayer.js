@@ -1,20 +1,24 @@
-var CustomVideoPlayer = React.createClass({
+class CustomTwitchVideoPlayer {
 
-    getInitialState: function() {
-
-        return {value: '90'};
-    },
-
-    handleChange: function(event) {
-        this.setState({value: event.target.value});
-    },
-
-    render: function() {
-        return (
-            <div>
-            <input onChange={this.handleChange} type="range" value={this.state.value} />
-            <b>{this.state.value}</b>
-            </div>
-        );
+    constructor(div_id) {
+        this.options = {
+            width: 854,
+            height: 480,
+            channel: "",
+            //video: "{VIDEO_ID}"
+        };
+        this.div_id = div_id;
+        // this.player = new Twitch.Player(this.div_id, this.options);
     }
-});
+
+    pause() {
+        this.player.pause();
+        console.log('player paused');
+    }
+
+    setChannel(channel) {
+        this.player.setChannel(channel);
+        console.log('watching ' + channel);
+    }
+
+}

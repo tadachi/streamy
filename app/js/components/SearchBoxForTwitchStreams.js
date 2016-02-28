@@ -34,17 +34,16 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
     render: function() {
+
         // Inline CSS.
-        var table_row = {
+        var input = {
             width: '200px'
         };
-
-        console.log(this.state.data);
 
         return (
                 <div>
                     <input
-                    style={table_row}
+                    style={input}
                     type="text"
                     ref="searchInput"
                     placeholder="Search Twitch User Name"
@@ -89,7 +88,7 @@ var ListViewTwitchStreams = React.createClass({
             margin: '0px',
             border: '0px',
             padding: '0px'
-        }
+        };
 
         var logo = {
             padding: '5px'
@@ -117,12 +116,11 @@ var ListViewTwitchStreams = React.createClass({
 
             overflow: 'hidden',
             whiteSpace: 'nowrap',
-        }
-
+        };
 
         //{stream.channel.name} {stream.channel.status} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}
+        // console.log(this.props.data);
         if (this.props.data) {
-            console.log(this.props.data);
             listView = this.props.data.streams.map(function(stream, i) {
                 return (
                     // <div style={list} key={i} onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)}>

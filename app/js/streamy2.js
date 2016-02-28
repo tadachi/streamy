@@ -7,27 +7,28 @@ Promise.config({
     cancellation: true
 });
 
+// var player = new CustomTwitchVideoPlayer('twitch_player');
+
+// setTimeout(function(){
+//     player.setChannel('webster141');
+// }, 10000);
+
 React.render(
-    <CustomVideoPlayer />,
-    document.getElementById('twitch_video_player')
+    <TwitchLoginButton />,
+    document.getElementById('twitch_login_button')
 );
 
-// React.render(
-//     <TwitchLoginButton />,
-//     document.getElementById('twitch_login_button')
-// );
-//
-// React.render(
-//     <SearchBoxForTwitchStreams />,
-//     document.getElementById('search_channel')
-// );
-//
-// React.render(
-//     <SearchBoxForTwitchGames />,
-//     document.getElementById('search_game')
-// );
+React.render(
+    <SearchBoxForTwitchStreams />,
+    document.getElementById('twitch_search_channel')
+);
 
-twitch_api = new TwitchAPI();
+React.render(
+    <SearchBoxForTwitchGames />,
+    document.getElementById('twitch_search_game')
+);
+
+// twitch_api = new TwitchAPI();
 // twitch_api.authenticate();
 
 // if (twitch_api.getAuthToken()) {

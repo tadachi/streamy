@@ -27,15 +27,22 @@ var SearchBoxForTwitchGames = React.createClass({
     },
 
     render: function() {
+
+        // Inline CSS.
+        var input = {
+            width: '200px'
+        };
+
         return (
             <div class="input">
-            <input type="text"
-            ref="searchInput"
-            placeholder="Search for game on Twitch"
-            value={this.props.query}
-            onChange={this.doSearch}
-            />
-            {this.state.text}
+                <input type="text"
+                style={input}
+                ref="searchInput"
+                placeholder="Search for game on Twitch"
+                value={this.props.query}
+                onChange={this.doSearch}
+                />
+                {this.state.text}
             </div>
         );
     }
