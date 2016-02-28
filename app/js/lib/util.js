@@ -19,19 +19,59 @@ if (!String.prototype.format) {
     };
 }
 
-function parseParms(str) {
-    var pieces = str.split("&"), data = {}, i, parts;
-    // process each query pair
-    for (i = 0; i < pieces.length; i++) {
-        parts = pieces[i].split("=");
-        if (parts.length < 2) {
-            parts.push("");
-        }
-        data[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
-    }
-    return data;
+function Util() {}
+
+/**
+ * Parses the URL for querystring params.
+ * Example usage:
+ * url = "http://dummy.com/?technology=jquery&blog=jquerybyexample".
+ * var tech = Util.getQueryStringParams("technology"); //outputs: "jquery"
+ * var blog = Util.getQueryStringParams("blog");       //outputs: "jquerybyexample"
+ *
+ * @param sParam
+ * @returns {*}
+ */
+Util.getQueryStringParams = function(sParam) {
+	var sPageURL      = window.location.href;
+	var sURLVariables = sPageURL.split("/");
+	var querystring = '';
+	var key;
+	var value;
+
+    // ["http:", "", "beastmachine:4000", "?closewindow=true#access_token=v38uujys1qdhcbtnv77myy8dpnd7f3&scope=channel_read"]
+    // console.log(sURLVariables);
+
+	for (i = 0; i < sURLVariables.length; i++) {
+		if (sURLVariables[i].substring(0, 1) == "?") { // Found query string.
+            //?closewindow=true#access_token=v38uujys1qdhcbtnv77myy8dpnd7f3&scope=channel_read
+            // console.log(sURLVariables[i]);
+            //?closewindow=true&access_token=v38uujys1qdhcbtnv77myy8dpnd7f3&scope=channel_read #->&
+            sURLVariables[i] = sURLVariables[i].replace('#', '&');
+            //closewindow=true&access_token=v38uujys1qdhcbtnv77myy8dpnd7f3&scope=channel_read ?->''
+            // console.log(sURLVariables[i].substring(1));
+            //["closewindow=true#access_token=v38uujys1qdhcbtnv77myy8dpnd7f3", "scope=channel_read"]
+			querystring = sURLVariables[i].substring(1).split("&");
+		}
+	}
+
+    //"closewindow=true#access_token=v38uujys1qdhcbtnv77myy8dpnd7f3", "scope=channel_read"
+    // console.log(querystring);
+
+	if (querystring) {
+		for (i = 0; i < querystring.length; i++) {
+			arr = querystring[i].split("=");
+			key = arr[0];
+			value = arr[1];
+            
+			if (key == sParam) { // key mataches param.
+				return value;    // Return match.
+			}
+		}
+	}
+
+	return null;
 }
 
-function log(message){ return function(x){
+Util.log = function(message){ return function(x){
     return console.log(message, x);
 };};

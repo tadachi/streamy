@@ -16,9 +16,8 @@ var TwitchLoginButton = React.createClass({
     },
 
     componentDidMount: function() {
-        console.log(this.twitch.getAuthToken());
         this.twitch.getFollowedStreams( function(data) {
-            this.setState({ data: '' });
+            this.setState({ data: data });
         }.bind(this));
     },
 

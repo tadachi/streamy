@@ -109,11 +109,10 @@ class TwitchAPI {
         var url = 'https://api.twitch.tv/kraken/oauth2/authorize' +
             '?response_type=token' +
             '&client_id={client_id}'.format({client_id: 'f55txr3qf7w1bxsjqszl1u2fqmlbk4l'}) +
-            '&redirect_uri=_blank' +
+            '&redirect_uri=http://beastmachine:4000/?closewindow=true' +
             '&scope=channel_read' +
             '&force_verify=true';
-        // console.log(url);
-        // window.location.href = url;
+
         popUp(url);
 
         function popUp(url) {
@@ -126,30 +125,12 @@ class TwitchAPI {
 
     }
 
-    parseParms(str) {
-        var pieces = str.substring(1).split("&");
-        var data = {};
-        var i;
-        var parts;
-
-        // process each query pair
-        for (i = 0; i < pieces.length; i++) {
-            parts = pieces[i].split("=");
-            if (parts.length < 2) {
-                parts.push("");
-            }
-            data[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
-        }
-        return data;
-    }
-
     getAuthToken() {
-        if (document.location.hash) {
-            // {access_token: "g495a9lmgjsp3evojrdsa5ia19qcmq", scope: "channel_read"}
-            var hash = this.parseParms(document.location.hash);
+        var access_token = sessionStorage.getItem('twitch_access_token');
+        var scope = sessionStorage.getItem('twich_scope');
 
-            return '{access_token}&scope={scope}'.format({access_token: hash.access_token, scope: hash.scope});
-        }
+        if (access_token)
+            return '{access_token}&scope={scope}'.format({access_token: access_token, scope: scope});
 
         return null;
     }
