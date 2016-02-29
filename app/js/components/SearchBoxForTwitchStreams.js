@@ -9,19 +9,39 @@ var SearchBoxForTwitchStreams = React.createClass({
     getInitialState: function() {
         return {
             state: '...',
-            data: ''
+            searchType: 'stream',
+            data: '',
+            twitch_connected: '',
+            login: 'red'
         };
     },
 
     search: function(query = null) {
-        if (!query) {
-            query = this.refs.searchInput.getDOMNode().value; // this is the search data
+        query = this.refs.searchInput.getDOMNode().value; // this is the search data
+
+        switch(this.state.searchType) {
+            case 'stream':
+                this.twitch.searchForStream(query, function(data) {
+                    if (data) {
+                        this.setState({ state: 'found!'});
+                        this.setState({ data: data });
+                    } else {
+                        this.setState({ state: 'error!'});
+                    }
+                }.bind(this));
+                break;
+            case 'game':
+                this.twitch.searchForGame(query, function(data) {
+                    if (data) {
+                        this.setState({ state: 'found!'});
+                        this.setState({ data: data });
+                    } else {
+                        this.setState({ state: 'error!'});
+                    }
+                }.bind(this));
+                break;
         }
 
-        this.twitch.searchForStream(query, function(data) {
-            this.setState({ state: '...'});
-            this.setState({ data: data });
-        }.bind(this));
     },
 
     doSearch: function() {
@@ -29,8 +49,43 @@ var SearchBoxForTwitchStreams = React.createClass({
         this.typingDelay.delayedRun(this.search);
     },
 
+    selectHandle: function(e) {
+        // console.log(e.target.value);
+        this.setState({ searchType: e.target.value });
+        if (e.target.value == 'followed') {
+            this.twitch.getFollowedStreams(function(data) {
+                if (data) {
+                    this.setState({ state: 'found!'});
+                    this.setState({ data: data });
+                } else {
+                    this.setState({ state: 'error!'});
+                }
+            }.bind(this));
+        }
+
+
+    },
+
+    buttonHandle: function(e) {
+        sessionStorage.clear();
+        console.log('session cleared');
+    },
+
+    debugHandle2: function(e) {
+        console.log(this.twitch.getAuthToken());
+    },
+
     componentDidMount: function() {
-        // this.search('starcraft');
+        // Periodically check if user is auth'ed
+        setInterval(function(){
+            if (this.twitch.getAuthToken()) {
+                this.setState({ login: 'green' });
+                this.setState({ twitch_connected: 'C'});
+            } else {
+                this.setState({ login: 'green' });
+                this.setState({ twitch_connected: ''});
+            }
+        }.bind(this), 2000);
     },
 
     render: function() {
@@ -46,13 +101,23 @@ var SearchBoxForTwitchStreams = React.createClass({
                     style={input}
                     type="text"
                     ref="searchInput"
-                    placeholder="Search Twitch User Name"
+                    placeholder="Search.."
                     value={this.props.query}
                     onChange={this.doSearch}
                     />
-                {this.state.state}
-                <ListViewTwitchStreams data={this.state.data} />
+                    <select onChange={this.selectHandle}>
+                        <option value="stream">stream</option>
+                        <option value="game">game</option>
+                        <option value="followed">followed</option>
+                    </select>
+                    <b>{this.state.state}</b>
+                    <TwitchLoginButton />
+                    <b style={{color: this.state.login}}>{this.state.twitch_connected}</b>
+                    <button onClick={this.buttonHandle}>Clear Session</button>
+                    <button onClick={this.debugHandle2}>Debug</button>
+                    <ListViewTwitchStreams data={this.state.data} />
                 </div>
+
         );
     }
 });

@@ -27,7 +27,7 @@ class TwitchAPI {
             success: function(response) {
 
                 if (response.error) {
-                    console.log(response);
+                    // console.log(response);
                     callback(null);
                 } else {
                     callback(response); // Server response. Returns 503 if error.
@@ -49,7 +49,7 @@ class TwitchAPI {
             success: function(response) {
 
                 if (response.error) {
-                    console.log(response);
+                    // console.log(response);
                     callback(null);
                 } else {
                     callback(response); // Server response. Returns 503 if error.
@@ -94,7 +94,7 @@ class TwitchAPI {
             success: function(response) {
 
                 if (response.error) {
-                    console.log(response);
+                    // console.log(response);
                     callback(null);
                 } else {
                     callback(response); // Server response. Returns 503 if error.
@@ -127,7 +127,7 @@ class TwitchAPI {
 
     getAuthToken() {
         var access_token = sessionStorage.getItem('twitch_access_token');
-        var scope = sessionStorage.getItem('twich_scope');
+        var scope = sessionStorage.getItem('twitch_scope');
 
         if (access_token)
             return '{access_token}&scope={scope}'.format({access_token: access_token, scope: scope});

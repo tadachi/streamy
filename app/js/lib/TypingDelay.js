@@ -1,7 +1,7 @@
 
 class TypingDelay {
 
-    constructor(delay = 3000) {
+    constructor(delay = 1150) {
         this.delay = delay;
         this.actionFunc = null;
         this.timeout = null;
