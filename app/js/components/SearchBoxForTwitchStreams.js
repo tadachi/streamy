@@ -11,59 +11,26 @@ var SearchBoxForTwitchStreams = React.createClass({
             state: '...',
             searchType: 'stream',
             data: '',
-            twitch_connected: '',
-            login: 'red'
         };
     },
 
-    search: function(query = null) {
-        query = this.refs.searchInput.getDOMNode().value; // this is the search data
+    search: function(query = this.refs.searchInput.getDOMNode().value) {
 
-        switch(this.state.searchType) {
-            case 'stream':
-                this.twitch.searchForStream(query, function(data) {
-                    if (data) {
-                        this.setState({ state: 'found!'});
-                        this.setState({ data: data });
-                    } else {
-                        this.setState({ state: 'error!'});
-                    }
-                }.bind(this));
-                break;
-            case 'game':
-                this.twitch.searchForGame(query, function(data) {
-                    if (data) {
-                        this.setState({ state: 'found!'});
-                        this.setState({ data: data });
-                    } else {
-                        this.setState({ state: 'error!'});
-                    }
-                }.bind(this));
-                break;
-        }
+        this.twitch.searchForStream(query, function(data) {
+            if (data) {
+                this.setState({ state: 'found!'});
+                this.setState({ data: data });
+            } else {
+                this.setState({ state: '...'});
+                this.setState({ data: '' });
+            }
+        }.bind(this));
 
     },
 
     doSearch: function() {
         this.setState({state: 'searching...'});
         this.typingDelay.delayedRun(this.search);
-    },
-
-    selectHandle: function(e) {
-        // console.log(e.target.value);
-        this.setState({ searchType: e.target.value });
-        if (e.target.value == 'followed') {
-            this.twitch.getFollowedStreams(function(data) {
-                if (data) {
-                    this.setState({ state: 'found!'});
-                    this.setState({ data: data });
-                } else {
-                    this.setState({ state: 'error!'});
-                }
-            }.bind(this));
-        }
-
-
     },
 
     buttonHandle: function(e) {
@@ -76,16 +43,6 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
     componentDidMount: function() {
-        // Periodically check if user is auth'ed
-        setInterval(function(){
-            if (this.twitch.getAuthToken()) {
-                this.setState({ login: 'green' });
-                this.setState({ twitch_connected: 'C'});
-            } else {
-                this.setState({ login: 'green' });
-                this.setState({ twitch_connected: ''});
-            }
-        }.bind(this), 2000);
     },
 
     render: function() {
@@ -105,20 +62,39 @@ var SearchBoxForTwitchStreams = React.createClass({
                     value={this.props.query}
                     onChange={this.doSearch}
                     />
-                    <select onChange={this.selectHandle}>
-                        <option value="stream">stream</option>
-                        <option value="game">game</option>
-                        <option value="followed">followed</option>
-                    </select>
                     <b>{this.state.state}</b>
                     <TwitchLoginButton />
-                    <b style={{color: this.state.login}}>{this.state.twitch_connected}</b>
                     <button onClick={this.buttonHandle}>Clear Session</button>
                     <button onClick={this.debugHandle2}>Debug</button>
                     <ListViewTwitchStreams data={this.state.data} />
                 </div>
 
         );
+    }
+});
+
+var SelectorTwitch = React.createClass({
+
+    twitch: new TwitchAPI(),
+    typingDelay: new TypingDelay(),
+
+    getInitialState: function() {
+        return {
+            state: '...',
+            searchType: 'stream',
+            data: '',
+        };
+    },
+
+    componentDidMount: function() {
+    },
+
+    render: function() {
+        (
+            <div>
+                test
+            </div>
+        )
     }
 });
 
@@ -188,11 +164,6 @@ var ListViewTwitchStreams = React.createClass({
         if (this.props.data) {
             listView = this.props.data.streams.map(function(stream, i) {
                 return (
-                    // <div style={list} key={i} onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)}>
-                    //     {stream.channel.name} {stream.channel.game} {stream.viewers}
-                    //     <HoverStreamPreview key={i} ref={i} stream={stream} />
-                    // </div>
-                    // onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)}
                     <tbody style={table} key={i} >
                         <tr>
                             <td style={logo} rowSpan="2">
@@ -205,11 +176,6 @@ var ListViewTwitchStreams = React.createClass({
                             <td style={status}>{stream.channel.status}</td>
                             <td></td>
                         </tr>
-                        {/*<tr>
-                            <td>
-                                <HoverStreamPreview key={i} ref={i} stream={stream} />
-                            </td>
-                        </tr>*/}
                     </tbody>
                 );
             }.bind(this));
@@ -217,11 +183,9 @@ var ListViewTwitchStreams = React.createClass({
 
         return (
             <div>
-                {/*{listView}*/}
                 <table>
                     {listView}
                 </table>
-
             </div>
         );
 
