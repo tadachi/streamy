@@ -54,6 +54,7 @@ var SearchBoxForTwitchStreams = React.createClass({
 
         return (
                 <div>
+                    <SelectorTwitch />
                     <input
                     style={input}
                     type="text"
@@ -76,122 +77,71 @@ var SearchBoxForTwitchStreams = React.createClass({
 var SelectorTwitch = React.createClass({
 
     twitch: new TwitchAPI(),
-    typingDelay: new TypingDelay(),
 
     getInitialState: function() {
         return {
-            state: '...',
-            searchType: 'stream',
+            offset: 0, // offset for getting the next set of games.
             data: '',
         };
     },
 
     componentDidMount: function() {
+        // data.top[i].channels number of people streaming that game
+        // data.top[i].viewers number of viewers watching
+        // data.top[i].name name of game
+        // data.top[i].logo.large logo of game
+        // data.top[i].logo.large box of game
+        this.twitch.searchTopStreamedGames(30, 0, function(data) {
+            this.setState({data: data});
+            // console.log(data);
+        }.bind(this));
     },
 
-    render: function() {
-        (
-            <div>
-                test
-            </div>
-        )
-    }
-});
-
-var ListViewTwitchStreams = React.createClass({
-
-    getInitialState: function () {
-        return { user_default_icon: '', display: 'none' };
-    },
-
-    handleMouseOver: function(index) {
-        this.refs[index].showPreview();
-    },
-
-    handleMouseOut: function(index) {
-        this.refs[index].hidePreview();
+    buttonHandle: function(e) {
+        this.setState({state: this.state.offset += 30});
+        console.log(this.state.offset);
+        this.twitch.searchTopStreamedGames(30, this.state.offset, function(data) {
+            this.setState({data: data});
+            // console.log(data);
+        }.bind(this));
     },
 
     render: function() {
         var listView;
 
-        // CSS inline styles
-        var list = {
-            width: '300px',
-            display: 'block',
-            padding: '10px',
-            border: '1px solid black',
-            fontWeight: 'bold'
-        };
+        if (this.state.data) {
 
-        var table = {
-            width: '100px',
-            margin: '0px',
-            border: '0px',
-            padding: '0px'
-        };
-
-        var logo = {
-            padding: '5px'
-        };
-
-        var name = {
-            padding: '5px',
-        	fontSize: '18px',
-            fontWeight: 'bold',
-            color: '#000066' /*~ darkgreen */
-        };
-
-        var viewers = {
-            padding: '5px',
-            fontSize: '14px',
-            color: 'red',
-            textAlign: 'right'
-        };
-
-        var status = {
-            paddingLeft: '5px',
-            maxWidth: '50px', /* To clip text with an ellipsis when it overflows a table cell */
-        	fontSize: '14px',
-        	color: 'white',
-
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-        };
-
-        //{stream.channel.name} {stream.channel.status} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}
-        // console.log(this.props.data);
-        if (this.props.data) {
-            listView = this.props.data.streams.map(function(stream, i) {
+            // {top.game.name} {top.viewers} {top.channels} {top.game.box.large}
+            listView = this.state.data.top.map(function(top, i) {
+                // console.log(top);
                 return (
-                    <tbody style={table} key={i} >
+                    <tbody key={i} >
                         <tr>
-                            <td style={logo} rowSpan="2">
-                                <TwitchUserLogo src={stream.channel.logo}/>
+                            <td>
+                                {top.game.name}
                             </td>
-                            <td style={name}>{stream.channel.name}</td>
-                            <td style={viewers}>{stream.viewers}</td>
-                        </tr>
-                        <tr>
-                            <td style={status}>{stream.channel.status}</td>
-                            <td></td>
+                            <td>
+                                {top.viewers}
+                            </td>
                         </tr>
                     </tbody>
                 );
             }.bind(this));
         }
 
+
         return (
             <div>
                 <table>
+                    <button onClick={this.buttonHandle}>Show More</button>
                     {listView}
                 </table>
             </div>
         );
-
     }
-
 });
+
+
 
 var HoverStreamPreview = React.createClass({
 

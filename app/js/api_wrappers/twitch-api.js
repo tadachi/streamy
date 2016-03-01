@@ -81,6 +81,28 @@ class TwitchAPI {
         });
     }
 
+    searchTopStreamedGames(limit = 100, offset = 0, callback) {
+        $.ajax({
+            url: 'https://api.twitch.tv/kraken/games/top?limit={limit}&offset={offset}'.format({limit: limit, offset: offset}),
+            // The name of the callback parameter, as specified by the YQL service.
+            jsonp: 'callback',
+            // Tell jQuery we're expecting JSONP.
+            dataType: 'jsonp',
+
+            success: function(response) {
+
+                if (response.error) {
+                    // console.log(response);
+                    callback(null);
+                } else {
+                    callback(response); // Server response. Returns 503 if error.
+                }
+
+            }
+        });
+
+    }
+
     getFollowedStreams(callback) {
         //https://api.twitch.tv/kraken/streams/followed?oauth_token=
 
