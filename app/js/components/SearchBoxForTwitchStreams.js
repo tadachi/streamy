@@ -44,9 +44,15 @@ var SearchBoxForTwitchStreams = React.createClass({
     render: function() {
 
         // Inline CSS.
-        var input = {
-            width: '200px'
-        };
+        var styles = StyleSheet.create({
+            input: {
+                width: '200px'
+            },
+            
+            inline: {
+                display: 'inline-block'
+            }
+        });
 
         return (
                 <div>
@@ -59,9 +65,9 @@ var SearchBoxForTwitchStreams = React.createClass({
                     value={this.props.query}
                     onChange={this.doSearch}
                     />
-                    {/*<b>{this.state.state}</b>*/}
-                    {/*<button onClick={this.debugHandle1}>Clear Session</button>
-                    <button onClick={this.debugHandle2}>Debug</button>*/}
+                    <b style={[styles.inline, styles.inline]}>{this.state.state}</b>
+                    <button onClick={this.debugHandle1}>Clear Session</button>
+                    <button onClick={this.debugHandle2}>Debug</button>
                     <ListViewTwitchStreams data={this.state.data} />
                     {/*<SelectorForTwitchGames />*/}
                 </div>
