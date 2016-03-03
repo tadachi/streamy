@@ -29,7 +29,7 @@ var SearchBoxForTwitchStreams = React.createClass({
         this.typingDelay.delayedRun(this.search);
     },
 
-    buttonHandle: function(e) {
+    debugHandle1: function(e) {
         sessionStorage.clear();
         console.log('session cleared');
     },
@@ -50,7 +50,7 @@ var SearchBoxForTwitchStreams = React.createClass({
 
         return (
                 <div>
-                    <SelectorForTwitchGames />
+                    <TwitchLoginButton />
                     <input
                     style={input}
                     type="text"
@@ -59,11 +59,11 @@ var SearchBoxForTwitchStreams = React.createClass({
                     value={this.props.query}
                     onChange={this.doSearch}
                     />
-                    <b>{this.state.state}</b>
-                    <TwitchLoginButton />
-                    <button onClick={this.buttonHandle}>Clear Session</button>
-                    <button onClick={this.debugHandle2}>Debug</button>
+                    {/*<b>{this.state.state}</b>*/}
+                    {/*<button onClick={this.debugHandle1}>Clear Session</button>
+                    <button onClick={this.debugHandle2}>Debug</button>*/}
                     <ListViewTwitchStreams data={this.state.data} />
+                    {/*<SelectorForTwitchGames />*/}
                 </div>
 
         );

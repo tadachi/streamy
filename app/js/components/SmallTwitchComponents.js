@@ -69,14 +69,12 @@ var HoverStreamPreview = React.createClass({
             if (this.props.stream.channel.logo) {
                 return (
                     <div style={div}>
-                        <TwitchUserLogo src={this.props.stream.channel.logo}/>
                         <TwitchStreamPreviewImg src={this.props.stream.preview.medium}/>
                     </div>
                 );
             }
             return (
                 <div style={div}>
-                    <TwitchUserLogo />
                     <TwitchStreamPreviewImg />
                 </div>
             );

@@ -6,7 +6,7 @@ var SelectorForTwitchGames = React.createClass({
         return {
             offset: 0, // offset for getting the next set of games.
             display_bool: true,
-            display: 'inline-block', // hide/show selector by changing it to none or inline-block, etc.
+            display: '', // hide/show selector by changing it to none or '', inline, etc.
             data: '',
         };
     },
@@ -47,7 +47,7 @@ var SelectorForTwitchGames = React.createClass({
     showHideHandle: function(e) {
         this.state.display_bool = !this.state.display_bool;
         if (this.state.display_bool) {
-            this.setState({display: 'inline-block'});
+            this.setState({display: ''});
         } else {
             this.setState({display: 'none'});
         }
@@ -73,14 +73,20 @@ var SelectorForTwitchGames = React.createClass({
             // border: '1px solid #ccc'
         };
 
+        var td = {
+            maxWidth: '100px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+        };
+
         var game_name = {
-            maxWidth: '80%',
             paddingBottom: '10px',
-            marginLeft: '5px',
+            paddingLeft: '5px',
         	fontSize: '12px',
             fontWeight: 'bold',
             color: 'blue',
-            textOverflow: 'ellipsis'
+
         };
 
         var channels = {
@@ -113,35 +119,35 @@ var SelectorForTwitchGames = React.createClass({
         };
 
         var preview = {
-            textAlign: 'center'
+            paddingLeft: '5px'
         };
 
         if (this.state.data) {
-            // {top.game.name} {top.viewers} {top.channels} {top.game.box.large}
+            // {top.game.name} {top.viewers} {top.channels} {top.game.box.large} {top.game.box.medium}
             listView = this.state.data.top.map(function(top, i) {
                 // console.log(top);
                 return (
                     <tbody style={tbody} key={i} >
                         <tr>
-                            <td colSpan="2">
-                                <span onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)} style={game_name}>
+                            <td style={td} colSpan="2">
+                                <span style={game_name}>
                                     {top.game.name}
                                 </span>
                             </td>
                         </tr>
                         <tr>
                             <td style={channels}>
-                                <img style={icon} src="https://assistly-production.s3.amazonaws.com/twitchtv/portal_attachments/349942/broadcaster-background_original.png?AWSAccessKeyId=AKIAJNSFWOZ6ZS23BMKQ&Expires=1456896548&Signature=HEqoaALPWtOyXzf%2Fpd5eGpKxYQQ%3D&response-content-disposition=filename%3D%22broadcaster-background.png%22&response-content-type=image%2Fpng" />
+                                <img onMouseMove={this.handleMouseOver.bind(this, i)} onMouseOut={this.handleMouseOut.bind(this, i)} style={icon} src="assets/streamer_icon.png" />
                                 {top.channels}
                             </td>
                             <td style={viewers}>
-                                <img style={icon} src="https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_purple.png" />
+                                <img style={icon} src="assets/live_viewer_icon.png" />
                                 {top.viewers}
                             </td>
                         </tr>
                         <tr>
                             <td style={preview} colSpan="2">
-                                <HoverGamePreview key={i} ref={i} game_logo={top.game.box.large} />
+                                <HoverGamePreview key={i} ref={i} game_logo={top.game.box.medium} />
                             </td>
                         </tr>
 

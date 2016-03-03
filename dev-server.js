@@ -11,6 +11,7 @@ app.enable('trust proxy');
 
 var home = require('express.io')();
 
+home.use('/assets', express.static(__dirname + '/app/assets'));
 home.use('/js', express.static(__dirname + '/app/js'));
 home.use('/css', express.static(__dirname + '/app/css'));
 
