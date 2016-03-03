@@ -70,7 +70,7 @@ var ListViewTwitchStreams = React.createClass({
         if (this.props.data) {
             listView = this.props.data.streams.map(function(stream, i) {
                 return (
-                    <tbody style={table} key={i} >
+                    <tbody style={table} key={i}>
                         <tr>
                             <td style={logo} rowSpan="2">
                                 <TwitchUserLogo src={stream.channel.logo}/>

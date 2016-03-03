@@ -16,6 +16,7 @@ class TwitchAPI {
     constructor() {
     }
 
+    // Returns people playing a game based on query.
     searchForStream(stream, callback) {
         $.ajax({
             url: 'https://api.twitch.tv/kraken/search/streams?limit=100&q={stream}'.format({ stream: stream}),
@@ -30,7 +31,7 @@ class TwitchAPI {
                     // console.log(response);
                     callback(null);
                 } else {
-                    callback(response); // Server response. Returns 503 if error.
+                    callback(response);
                 }
 
             }
@@ -38,6 +39,7 @@ class TwitchAPI {
 
     }
 
+    // Returns a live channel matching the query.
     searchForChannel(channel, callback) {
         $.ajax({
             url: 'https://api.twitch.tv/kraken/search/channels?limit=50&q={channel}'.format({ channel: channel}),
@@ -52,7 +54,7 @@ class TwitchAPI {
                     // console.log(response);
                     callback(null);
                 } else {
-                    callback(response); // Server response. Returns 503 if error.
+                    callback(response);
                 }
 
             }
@@ -74,7 +76,7 @@ class TwitchAPI {
                     console.log(response);
                     callback(null);
                 } else {
-                    callback(response); // Server response. Returns 503 if error.
+                    callback(response);
                 }
 
             }
@@ -95,7 +97,7 @@ class TwitchAPI {
                     // console.log(response);
                     callback(null);
                 } else {
-                    callback(response); // Server response. Returns 503 if error.
+                    callback(response);
                 }
 
             }
@@ -119,7 +121,7 @@ class TwitchAPI {
                     // console.log(response);
                     callback(null);
                 } else {
-                    callback(response); // Server response. Returns 503 if error.
+                    callback(response);
                 }
 
             }
@@ -132,7 +134,7 @@ class TwitchAPI {
             '?response_type=token' +
             '&client_id={client_id}'.format({client_id: 'f55txr3qf7w1bxsjqszl1u2fqmlbk4l'}) +
             '&redirect_uri=http://beastmachine:4000/?closewindow=true' +
-            '&scope=channel_read' +
+            '&scope=user_read' +
             '&force_verify=true';
 
         popUp(url);
