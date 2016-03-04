@@ -1,12 +1,3 @@
-Promise.config({
-    // Enable warnings.
-    warnings: false,
-    // Enable long stack traces.
-    longStackTraces: false,
-    // Enable cancellation.
-    cancellation: true
-});
-
 function saveAuthToSession(access_token, scope) {
     sessionStorage.setItem('twitch_access_token', access_token);
     sessionStorage.setItem('twitch_scope', scope);
@@ -27,7 +18,7 @@ if (Util.getQueryStringParams('closewindow')) { // Check querystring for closewi
 // }
 
 // React
-React.render(
+ReactDOM.render(
     <SearchBoxForTwitchStreams />,
     document.getElementById('twitch_search_stream')
 );

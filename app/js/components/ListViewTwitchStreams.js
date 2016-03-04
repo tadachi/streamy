@@ -23,7 +23,7 @@ var ListViewTwitchStreams = React.createClass({
 
         // CSS inline styles
         var list = {
-            width: '300px',
+            width: '200px',
             display: 'block',
             padding: '10px',
             border: '1px solid black',
@@ -31,7 +31,7 @@ var ListViewTwitchStreams = React.createClass({
         };
 
         var table = {
-            width: '100px',
+            width: '200px',
             margin: '0px',
             border: '0px',
             padding: '0px'
@@ -59,7 +59,7 @@ var ListViewTwitchStreams = React.createClass({
             paddingLeft: '5px',
             maxWidth: '50px', /* To clip text with an ellipsis when it overflows a table cell */
         	fontSize: '14px',
-        	color: 'white',
+        	color: 'black',
 
             overflow: 'hidden',
             whiteSpace: 'nowrap',

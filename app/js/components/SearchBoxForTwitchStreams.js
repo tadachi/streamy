@@ -39,24 +39,32 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
     componentDidMount: function() {
+        this.search('ESL_SC2');
     },
 
     render: function() {
 
         // Inline CSS.
-        var styles = StyleSheet.create({
-            input: {
-                width: '200px'
-            },
-            
-            inline: {
-                display: 'inline-block'
-            }
-        });
+        var login = {
+            display: 'block',
+        }
+
+        var input = {
+            display: 'block',
+            width: '200px'
+        }
+
+        var state = {
+            display: 'block'
+        }
+
+        var list_view = {
+            display: 'block'
+        }
 
         return (
                 <div>
-                    <TwitchLoginButton />
+                    <TwitchLoginButton style={login}/>
                     <input
                     style={input}
                     type="text"
@@ -65,10 +73,10 @@ var SearchBoxForTwitchStreams = React.createClass({
                     value={this.props.query}
                     onChange={this.doSearch}
                     />
-                    <b style={[styles.inline, styles.inline]}>{this.state.state}</b>
+                    <b style={state}>{this.state.state}</b>
                     <button onClick={this.debugHandle1}>Clear Session</button>
                     <button onClick={this.debugHandle2}>Debug</button>
-                    <ListViewTwitchStreams data={this.state.data} />
+                    <ListViewTwitchStreams style={list_view} data={this.state.data} />
                     {/*<SelectorForTwitchGames />*/}
                 </div>
 
