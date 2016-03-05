@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <title>Hello React!</title>
+    <!-- External -->
+    <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
     <!-- Vendor -->
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/react-with-addons.js"></script>
@@ -10,6 +12,7 @@
     <script src="js/vendor/react-imageloader.js"></script>
     <script src="js/vendor/bluebird.js"></script>
     <script src="js/vendor/JSXTransformer.js"></script>
+    <!-- <script src="js/vendor/react-linkify.js"></script> -->
     <!-- Libs -->
     <script src="js/lib/util.js"></script>
     <script src="js/lib/TypingDelay.js"></script>
@@ -22,11 +25,25 @@
     <script type="text/jsx" src="js/components/TwitchLoginButton.js"></script>
     <script type="text/jsx" src="js/components/CustomVideoPlayer.js"></script>
     <script type="text/jsx" src="js/streamy2.js"></script>
-    <!-- External -->
-    <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
+
+    <style>
+        .flex-container {
+            display: -webkit-flex;
+            display: flex;
+            background-color: Silver;
+        }
+        .flex-item {
+            background-color: DeepSkyBlue;
+            margin: 5px;
+        }
+    </style>
+
 </head>
 <body style="margin: 0px; padding: 0px">
-    <div id="twitch_search_stream"></div>
-    <div id="twitch_player"></div>
+    <div class="flex-container">
+        <div class="flex-item" id="twitch_search_stream"></div>
+        <div class="flex-item" id="twitch_player"></div>
+    </div>
+
 </body>
 </html>

@@ -6,6 +6,11 @@ var SearchBoxForTwitchStreams = React.createClass({
     twitch: new TwitchAPI(),
     typingDelay: new TypingDelay(),
 
+    Status: {
+        PENDING: '...',
+        SEARCHING: 'searching...',
+    },
+
     getInitialState: function() {
         return {
             state: '...',
@@ -19,14 +24,20 @@ var SearchBoxForTwitchStreams = React.createClass({
         }
 
         this.twitch.searchForStream(query, function(data) {
-            this.setState({ state: '...'});
+            this.setState({ state: this.Status.PENDING});
             this.setState({ data: data });
         }.bind(this));
     },
 
     doSearch: function() {
-        this.setState({state: 'searching...'});
+        this.setState({state: this.Status.SEARCHING});
         this.typingDelay.delayedRun(this.search);
+    },
+
+    followsHandle: function() {
+        this.twitch.getFollowedStreams(function(data) {
+            this.setState({ data: data });
+        }.bind(this));
     },
 
     debugHandle1: function(e) {
@@ -39,7 +50,7 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
     componentDidMount: function() {
-        this.search('ESL_SC2');
+        this.search('360Chrism');
     },
 
     render: function() {
@@ -62,6 +73,10 @@ var SearchBoxForTwitchStreams = React.createClass({
             display: 'block'
         }
 
+        var button = {
+            display: 'block'
+        }
+
         return (
                 <div>
                     <TwitchLoginButton style={login}/>
@@ -74,8 +89,9 @@ var SearchBoxForTwitchStreams = React.createClass({
                     onChange={this.doSearch}
                     />
                     <b style={state}>{this.state.state}</b>
-                    <button onClick={this.debugHandle1}>Clear Session</button>
-                    <button onClick={this.debugHandle2}>Debug</button>
+                    <button style={button} onClick={this.followsHandle}>Get Followed</button>
+                    <button style={button} onClick={this.debugHandle1}>Clear Session</button>
+                    <button style={button} onClick={this.debugHandle2}>Debug</button>
                     <ListViewTwitchStreams style={list_view} data={this.state.data} />
                     {/*<SelectorForTwitchGames />*/}
                 </div>

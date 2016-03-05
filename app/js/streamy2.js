@@ -22,3 +22,5 @@ ReactDOM.render(
     <SearchBoxForTwitchStreams />,
     document.getElementById('twitch_search_stream')
 );
+
+var customTWitchPlayer = new CustomTwitchPlayer('twitch_player');

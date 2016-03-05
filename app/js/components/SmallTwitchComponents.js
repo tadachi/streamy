@@ -90,8 +90,8 @@ var TwitchUserLogo = React.createClass({
     render: function () {
         // CSS inline styles
         var icon_logo = {
-            width: '75px',
-            height: '75px'
+            width: '35px',
+            height: '35px'
         };
 
         if (this.props.src) {

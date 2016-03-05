@@ -73,7 +73,7 @@ var SelectorForTwitchGames = React.createClass({
             // border: '1px solid #ccc'
         };
 
-        var td = {
+        var game = {
             maxWidth: '100px',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
@@ -129,7 +129,7 @@ var SelectorForTwitchGames = React.createClass({
                 return (
                     <tbody style={tbody} key={i} >
                         <tr>
-                            <td style={td} colSpan="2">
+                            <td style={game} colSpan="2">
                                 <span style={game_name}>
                                     {top.game.name}
                                 </span>

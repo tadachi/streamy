@@ -21,56 +21,88 @@ var ListViewTwitchStreams = React.createClass({
     render: function() {
         var listView;
 
-        // CSS inline styles
-        var list = {
-            width: '200px',
-            display: 'block',
-            padding: '10px',
-            border: '1px solid black',
-            fontWeight: 'bold'
-        };
-
+        // CSS Inline Styles
         var table = {
             width: '200px',
+            height: '35px',
             margin: '0px',
             border: '0px',
-            padding: '0px'
+            padding: '0px',
+
+            // border: '1px solid black',
         };
 
+        var tbody = {
+            width: '200px',
+            border: '1px solid black',
+            display: 'inline-block',
+            borderRadius: '1px',
+        }
+
         var logo = {
-            padding: '5px'
+            width: '50px',
+            eight: '50px',
+
+            margin: '0px',
+            padding: '0px',
+
+            verticalAlign: 'center',
+            textAlign: 'center',
+
+            // border: '1px solid black',
         };
 
         var name = {
-            padding: '5px',
-        	fontSize: '18px',
+            width: '100px',
+            padding: '0px',
+
+        	fontSize: '10px',
             fontWeight: 'bold',
-            color: '#000066' /*~ darkgreen */
+            color: '#000066', /*~ darkgreen */
+
+            verticalAlign: 'top',
+            textAlign: 'left',
+
+            // border: '1px solid black',
         };
 
         var viewers = {
-            padding: '5px',
-            fontSize: '14px',
+            maxWidth: '35px',
+
+            fontSize: '9px',
             color: 'red',
-            textAlign: 'right'
+
+            verticalAlign: 'top',
+            textAlign: 'right',
+
+            // border: '1px solid black',
         };
 
         var status = {
-            paddingLeft: '5px',
-            maxWidth: '50px', /* To clip text with an ellipsis when it overflows a table cell */
-        	fontSize: '14px',
+            width: '150px',
+
+        	fontSize: '9px',
         	color: 'black',
 
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
+            overflow: '',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'wrap',
+
+            verticalAlign: 'top',
+            textAlign: 'left',
+
+            // border: '1px solid black',
         };
 
         //{stream.channel.name} {stream.channel.status} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}
         // console.log(this.props.data);
+
+        var test = 'www.google.ca';
+
         if (this.props.data) {
             listView = this.props.data.streams.map(function(stream, i) {
                 return (
-                    <tbody style={table} key={i}>
+                    <tbody style={tbody} key={i}>
                         <tr>
                             <td style={logo} rowSpan="2">
                                 <TwitchUserLogo src={stream.channel.logo}/>
@@ -79,8 +111,10 @@ var ListViewTwitchStreams = React.createClass({
                             <td style={viewers}>{stream.viewers}</td>
                         </tr>
                         <tr>
-                            <td style={status}>{stream.channel.status}</td>
-                            <td></td>
+                            <td style={status} colSpan="2">{stream.channel.status}</td>
+                            {/*<td style={status} colSpan="2">{console.log(linkifyStr(stream.channel.status))}</td>*/}
+                            {/*<td style={status} colSpan="2">{linkifyHtml(stream.channel.status)}</td>*/}
+                            {/*<td style={status} colSpan="2">Test<a class="linkified" href={test}>www.google.ca</a></td>*/}
                         </tr>
                     </tbody>
                 );
@@ -89,7 +123,7 @@ var ListViewTwitchStreams = React.createClass({
 
         return (
             <div>
-                <table>
+                <table style={table}>
                     {listView}
                 </table>
             </div>

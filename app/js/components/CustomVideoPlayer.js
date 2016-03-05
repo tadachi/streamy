@@ -1,14 +1,14 @@
-class CustomTwitchVideoPlayer {
+class CustomTwitchPlayer {
 
     constructor(div_id) {
         this.options = {
-            width: 854,
-            height: 480,
+            width: 480,
+            height: 320,
             channel: "",
             //video: "{VIDEO_ID}"
         };
         this.div_id = div_id;
-        // this.player = new Twitch.Player(this.div_id, this.options);
+        this.player = new Twitch.Player(this.div_id, this.options);
     }
 
     pause() {
