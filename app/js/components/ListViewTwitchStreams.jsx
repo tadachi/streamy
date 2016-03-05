@@ -13,8 +13,8 @@ var ListViewTwitchStreams = React.createClass({
         };
     },
 
-    handle1: function(i) {
-        console.log(i);
+    debugHandle1: function() {
+        console.log('test');
     },
 
     handleMouseOver: function(index) {
@@ -31,7 +31,6 @@ var ListViewTwitchStreams = React.createClass({
         // CSS Inline Styles
         var table = {
             width: '99%',
-            height: '35px',
             margin: '0px',
             border: '0px',
             padding: '0px',
@@ -74,7 +73,7 @@ var ListViewTwitchStreams = React.createClass({
             fontFamily: 'Droid Sans, serif',
         	fontSize: '21px',
             fontWeight: 'bold',
-            color: '#000066', /*~ darkgreen */
+            color: '#4d79ff', /*~ lightish blue*/
 
             paddingLeft: '5px',
 
@@ -87,6 +86,7 @@ var ListViewTwitchStreams = React.createClass({
         var viewers = {
             maxWidth: '35px',
 
+            fontFamily: 'Droid Sans, serif',
             fontSize: '18px',
             fontWeight: 'bold',
             color: 'red',
@@ -105,7 +105,6 @@ var ListViewTwitchStreams = React.createClass({
         	color: 'white',
 
             paddingLeft: '5px',
-            overflow: '',
             textOverflow: 'ellipsis',
             whiteSpace: 'wrap',
 
@@ -117,16 +116,14 @@ var ListViewTwitchStreams = React.createClass({
 
         //{stream.channel.name} {stream.channel.status} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}
         // console.log(this.props.data);
-
-        var test = 'www.google.ca';
-
         if (this.props.data) {
             listView = this.props.data.streams.map(function(stream, i) {
+
                 return (
                     <tbody style={tbody} key={i}>
                         <tr>
-                            <td style={logo} rowSpan="2" >
-                                <TwitchUserLogo src={stream.channel.logo} onMouseMove={this.handle1.bind(this,i)}/>
+                            <td style={logo} onClick={this.props.setChannel.bind(null, stream.channel.name)}  rowSpan="2" >
+                                <TwitchUserLogo src={stream.channel.logo} />
                             </td>
                             <td style={name}>{stream.channel.name}</td>
                             <td style={viewers}>{stream.viewers}</td>
@@ -143,11 +140,9 @@ var ListViewTwitchStreams = React.createClass({
         }
 
         return (
-            <div>
-                <table style={table}>
-                    {listView}
-                </table>
-            </div>
+            <table style={table}>
+                {listView}
+            </table>
         );
 
     }

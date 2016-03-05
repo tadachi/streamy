@@ -34,6 +34,15 @@ var SearchBoxForTwitchStreams = React.createClass({
         this.typingDelay.delayedRun(this.search);
     },
 
+    setChannel: function(channel) {
+        $('#' + this.props.player.div_id).show();
+        this.props.player.setChannel(channel);
+    },
+
+    toggleVideoPlayer: function() {
+        $('#' + this.props.player.div_id).toggle();
+    },
+
     followsHandle: function() {
         this.twitch.getFollowedStreams(function(data) {
             this.setState({ data: data });
@@ -47,6 +56,11 @@ var SearchBoxForTwitchStreams = React.createClass({
 
     debugHandle2: function(e) {
         console.log(this.twitch.getAuthToken());
+        this.props.player.toString();
+    },
+
+    handleScroll(scrollData){
+        console.log(scrollData);
     },
 
     componentDidMount: function() {
@@ -58,44 +72,69 @@ var SearchBoxForTwitchStreams = React.createClass({
         // Inline CSS.
         var login = {
             display: 'block',
-        }
+        };
 
         var input = {
             display: 'block',
             width: '200px'
-        }
+        };
 
         var state = {
             display: 'block'
-        }
+        };
 
         var list_view = {
             display: 'block'
-        }
+        };
 
         var button = {
             display: 'block'
+        };
+
+        var scrollBarStyles = {
+            borderRadius: 5
+        };
+
+        var fat = {
+            fontSize: '14px',
+            width: '350px',
+            backgroundColor: 'white',
+        }
+
+        liArray = [];
+
+        for ( var i = 0; i < 100; i++) {
+            liArray.push(<li key={i}>{i}</li>);
         }
 
         return (
-                <div>
-                    <TwitchLoginButton style={login}/>
-                    <input
-                    style={input}
-                    type="text"
-                    ref="searchInput"
-                    placeholder="Search.."
-                    value={this.props.query}
-                    onChange={this.doSearch}
-                    />
-                    <b style={state}>{this.state.state}</b>
-                    <button style={button} onClick={this.followsHandle}>Get Followed</button>
-                    <button style={button} onClick={this.debugHandle1}>Clear Session</button>
-                    <button style={button} onClick={this.debugHandle2}>Debug</button>
-                    <ListViewTwitchStreams style={list_view} data={this.state.data} />
-                    {/*<SelectorForTwitchGames />*/}
+            <ScrollArea
+                speed={0.8}
+                horizontal={false}
+                onScroll={this.handleScroll}
+                >
+                <div style={fat}>
+                    <ul>
+                        {liArray}
+                    </ul>
                 </div>
-
+            </ScrollArea>
         );
     }
 });
+{/*<TwitchLoginButton style={login}/>
+<input
+style={input}
+type="text"
+ref="searchInput"
+placeholder="Search.."
+value={this.props.query}
+onChange={this.doSearch}
+/>
+<b style={state}>{this.state.state}</b>
+<button style={button} onClick={this.followsHandle}>Get Followed</button>
+<button style={button} onClick={this.debugHandle1}>Clear Session</button>
+<button style={button} onClick={this.debugHandle2}>Debug</button>
+<button style={button} onClick={this.toggleVideoPlayer}>toggleVideoPlayer</button>
+<ListViewTwitchStreams setChannel={this.setChannel} style={list_view} data={this.state.data} />*/}
+{/*<SelectorForTwitchGames />*/}

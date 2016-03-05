@@ -8,9 +8,10 @@
     <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
     <!-- Vendor -->
     <script src="js/vendor/jquery.js"></script>
-    <script src="js/vendor/react-with-addons.js"></script>
+    <script src="js/vendor/react.js"></script>
     <script src="js/vendor/react-dom.js"></script>
     <script src="js/vendor/react-imageloader.js"></script>
+    <script src="js/vendor/scrollArea.js"></script>
     <script src="js/vendor/bluebird.js"></script>
     <script src="js/vendor/JSXTransformer.js"></script>
     <!-- <script src="js/vendor/react-linkify.js"></script> -->
@@ -19,38 +20,44 @@
     <script src="js/lib/TypingDelay.js"></script>
     <script src="js/api_wrappers/twitch-api.js"></script>
     <!-- React/JSX -->
-    <script type="text/jsx" src="js/components/SmallTwitchComponents.js"></script>
-    <script type="text/jsx" src="js/components/ListViewTwitchStreams.js"></script>
-    <script type="text/jsx" src="js/components/SearchBoxForTwitchStreams.js"></script>
-    <script type="text/jsx" src="js/components/SelectorForTwitchGames.js"></script>
-    <script type="text/jsx" src="js/components/TwitchLoginButton.js"></script>
+    <script type="text/jsx" src="js/components/SmallTwitchComponents.jsx"></script>
+    <script type="text/jsx" src="js/components/ListViewTwitchStreams.jsx"></script>
+    <script type="text/jsx" src="js/components/SearchBoxForTwitchStreams.jsx"></script>
+    <script type="text/jsx" src="js/components/SelectorForTwitchGames.jsx"></script>
+    <script type="text/jsx" src="js/components/TwitchLoginButton.jsx"></script>
     <script type="text/jsx" src="js/components/CustomVideoPlayer.js"></script>
     <script type="text/jsx" src="js/streamy2.js"></script>
 
     <style>
         .preview-background {
-            background-color: #C8C8C8;
+            background-color: black;
         }
 
         .flex-body {
             display: -webkit-flex;
             display: flex;
-            background-color: #C8C8C8;
+            background-color: grey;
 
+            font-size: 0;
+            margin: 0;
+            scroll: hidden;
+            overflow-y: hidden;
+            overflow-x: hidden;
         }
         .flex-search {
-            width: 350px;
-            height: 100%;
-            background-color: #989898;
+            background-color: grey;
         }
         .flex-player {
-            background: linear-gradient(#989898, #484848); /* Standard syntax */
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+            /*background: linear-gradient(#989898, #484848); /* Standard syntax */*/
         }
     </style>
 </head>
 
 <!-- change class programmatically to their respective flex css programmatically -->
-<body class="preview-background" style="margin: 0px; padding: 0px">
+<body class="preview-background">
     <div class="" id="twitch_search_stream"></div>
     <div class="" id="twitch_player"></div>
 </body>
