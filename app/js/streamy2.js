@@ -9,7 +9,14 @@ if (Util.getQueryStringParams('closewindow')) { // Check querystring for closewi
     window.opener.saveAuthToSession(Util.getQueryStringParams('access_token'), Util.getQueryStringParams('scope'));
     window.close();
 }
+// detected that it's not a new window getting twitch oauth token so set the flexbox css classes in index.html
+else {
+    $('body').addClass('flex-body').removeClass('preview-background');
+    $('#twitch_search_stream').addClass('flex-search')
+    $('#twitch_player').addClass('flex-player')
+}
 
+// Debug
 // if (sessionStorage.getItem('twitch_access_token')) {
 //     console.log(sessionStorage.getItem('twitch_access_token'));
 //     if (sessionStorage.getItem('twitch_scope')) {
@@ -18,9 +25,10 @@ if (Util.getQueryStringParams('closewindow')) { // Check querystring for closewi
 // }
 
 // React
+var customTwitchPlayer = new CustomTwitchPlayer('twitch_player');
+// customTwitchPlayer.pause();
+
 ReactDOM.render(
     <SearchBoxForTwitchStreams />,
     document.getElementById('twitch_search_stream')
 );
-
-var customTWitchPlayer = new CustomTwitchPlayer('twitch_player');

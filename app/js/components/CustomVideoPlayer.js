@@ -8,7 +8,7 @@ class CustomTwitchPlayer {
             //video: "{VIDEO_ID}"
         };
         this.div_id = div_id;
-        this.player = new Twitch.Player(this.div_id, this.options);
+        // this.player = new Twitch.Player(this.div_id, this.options);
     }
 
     pause() {

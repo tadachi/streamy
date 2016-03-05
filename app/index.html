@@ -5,6 +5,7 @@
     <title>Hello React!</title>
     <!-- External -->
     <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
     <!-- Vendor -->
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/react-with-addons.js"></script>
@@ -27,23 +28,30 @@
     <script type="text/jsx" src="js/streamy2.js"></script>
 
     <style>
-        .flex-container {
+        .preview-background {
+            background-color: #C8C8C8;
+        }
+
+        .flex-body {
             display: -webkit-flex;
             display: flex;
-            background-color: Silver;
+            background-color: #C8C8C8;
+
         }
-        .flex-item {
-            background-color: DeepSkyBlue;
-            margin: 5px;
+        .flex-search {
+            width: 350px;
+            height: 100%;
+            background-color: #989898;
+        }
+        .flex-player {
+            background: linear-gradient(#989898, #484848); /* Standard syntax */
         }
     </style>
-
 </head>
-<body style="margin: 0px; padding: 0px">
-    <div class="flex-container">
-        <div class="flex-item" id="twitch_search_stream"></div>
-        <div class="flex-item" id="twitch_player"></div>
-    </div>
 
+<!-- change class programmatically to their respective flex css programmatically -->
+<body class="preview-background" style="margin: 0px; padding: 0px">
+    <div class="" id="twitch_search_stream"></div>
+    <div class="" id="twitch_player"></div>
 </body>
 </html>

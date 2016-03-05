@@ -2,12 +2,19 @@ var ListViewTwitchStreams = React.createClass({
 
     getDefaultProps: function() {
         return {
-            data: ''
+            data: '',
         };
     },
 
     getInitialState: function () {
-        return { user_default_icon: '', display: 'none' };
+        return {
+            user_default_icon: '',
+            display: 'none',
+        };
+    },
+
+    handle1: function(i) {
+        console.log(i);
     },
 
     handleMouseOver: function(index) {
@@ -23,28 +30,32 @@ var ListViewTwitchStreams = React.createClass({
 
         // CSS Inline Styles
         var table = {
-            width: '200px',
+            width: '99%',
             height: '35px',
             margin: '0px',
             border: '0px',
             padding: '0px',
-
             // border: '1px solid black',
         };
 
         var tbody = {
-            width: '200px',
-            border: '1px solid black',
-            display: 'inline-block',
-            borderRadius: '1px',
+            width: '99%',
+            margin: '0px',
+            padding: '0px',
+
+            // border: '1px solid black',
+            // display: 'inline-block',
+            // borderRadius: '1px',
         }
 
         var logo = {
-            width: '50px',
-            eight: '50px',
+            width: '70px',
+            height: '70px',
 
             margin: '0px',
             padding: '0px',
+
+            opacity: '0.7',
 
             verticalAlign: 'center',
             textAlign: 'center',
@@ -52,13 +63,20 @@ var ListViewTwitchStreams = React.createClass({
             // border: '1px solid black',
         };
 
+        var highlight = {
+            opacity: '1',
+        };
+
         var name = {
             width: '100px',
             padding: '0px',
 
-        	fontSize: '10px',
+            fontFamily: 'Droid Sans, serif',
+        	fontSize: '21px',
             fontWeight: 'bold',
             color: '#000066', /*~ darkgreen */
+
+            paddingLeft: '5px',
 
             verticalAlign: 'top',
             textAlign: 'left',
@@ -69,7 +87,8 @@ var ListViewTwitchStreams = React.createClass({
         var viewers = {
             maxWidth: '35px',
 
-            fontSize: '9px',
+            fontSize: '18px',
+            fontWeight: 'bold',
             color: 'red',
 
             verticalAlign: 'top',
@@ -81,9 +100,11 @@ var ListViewTwitchStreams = React.createClass({
         var status = {
             width: '150px',
 
-        	fontSize: '9px',
-        	color: 'black',
+            fontFamily: 'Droid Sans, serif',
+        	fontSize: '14px',
+        	color: 'white',
 
+            paddingLeft: '5px',
             overflow: '',
             textOverflow: 'ellipsis',
             whiteSpace: 'wrap',
@@ -104,8 +125,8 @@ var ListViewTwitchStreams = React.createClass({
                 return (
                     <tbody style={tbody} key={i}>
                         <tr>
-                            <td style={logo} rowSpan="2">
-                                <TwitchUserLogo src={stream.channel.logo}/>
+                            <td style={logo} rowSpan="2" >
+                                <TwitchUserLogo src={stream.channel.logo} onMouseMove={this.handle1.bind(this,i)}/>
                             </td>
                             <td style={name}>{stream.channel.name}</td>
                             <td style={viewers}>{stream.viewers}</td>
