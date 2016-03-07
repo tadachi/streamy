@@ -11,7 +11,6 @@
     <script src="js/vendor/react.js"></script>
     <script src="js/vendor/react-dom.js"></script>
     <script src="js/vendor/react-imageloader.js"></script>
-    <script src="js/vendor/scrollArea.js"></script>
     <script src="js/vendor/bluebird.js"></script>
     <script src="js/vendor/JSXTransformer.js"></script>
     <!-- <script src="js/vendor/react-linkify.js"></script> -->
@@ -22,43 +21,64 @@
     <!-- React/JSX -->
     <script type="text/jsx" src="js/components/SmallTwitchComponents.jsx"></script>
     <script type="text/jsx" src="js/components/ListViewTwitchStreams.jsx"></script>
-    <script type="text/jsx" src="js/components/SearchBoxForTwitchStreams.jsx"></script>
+
     <script type="text/jsx" src="js/components/SelectorForTwitchGames.jsx"></script>
     <script type="text/jsx" src="js/components/TwitchLoginButton.jsx"></script>
     <script type="text/jsx" src="js/components/CustomVideoPlayer.js"></script>
+    <script type="text/jsx" src="js/components/MainTwitchComponent.jsx"></script>
     <script type="text/jsx" src="js/streamy2.js"></script>
 
     <style>
+        body {
+            font-size: 0;
+            margin: 0;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
         .preview-background {
             background-color: black;
         }
 
-        .flex-body {
+        .flex-container {
             display: -webkit-flex;
             display: flex;
+            flex-grow: 1;
             background-color: grey;
 
-            font-size: 0;
-            margin: 0;
-            scroll: hidden;
             overflow-y: hidden;
             overflow-x: hidden;
+
         }
         .flex-search {
-            background-color: grey;
+            margin: 5px;
+            width: 300px;
+            max-width: 300px;
+            background-color: #D3D3D3;
         }
         .flex-player {
-            display: -webkit-flex;
-            display: flex;
-            width: 100%;
-            /*background: linear-gradient(#989898, #484848); /* Standard syntax */*/
+            margin: 5px;
+            background-color: red;
+            flex-grow: 1;
+
+            overflow: hidden;
+            overflow-y: hidden;
+            overflow-x: hidden;
+            /*background: linear-gradient(#989898, #484848);*/ /* Standard syntax */
         }
     </style>
 </head>
 
-<!-- change class programmatically to their respective flex css programmatically -->
+<!-- add/remove class to their respective flex css programmatically -->
 <body class="preview-background">
-    <div class="" id="twitch_search_stream"></div>
-    <div class="" id="twitch_player"></div>
+    <div class="" id="flex_container">
+        <div class="" id="flex_search">
+            <div id="twitch_search_stream"></div>
+        </div>
+        <div class="" id="flex_player">
+            <div id="twitch_player"></div>
+        </div>
+    </div>
+
 </body>
 </html>

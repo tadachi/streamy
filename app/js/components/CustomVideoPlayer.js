@@ -1,14 +1,14 @@
 class CustomTwitchPlayer {
 
-    constructor(div_id) {
+    constructor(div_id, width=480, height=320) {
         this.options = {
-            width: 480,
-            height: 320,
+            width: width,
+            height: height,
             channel: '{CHANNEL}',
             //video: "{VIDEO_ID}"
         };
         this.div_id = div_id;
-        // this.player = new Twitch.Player(this.div_id, this.options);
+        this.player = new Twitch.Player(this.div_id, this.options);
     }
 
     pause() {
@@ -21,12 +21,8 @@ class CustomTwitchPlayer {
         console.log('watching ' + channel);
     }
 
-    setWidth(width) {
-        this.options.width = width;
-    }
-
-    setHeight(height) {
-        this.options.height = height;
+    getDivId() {
+        return(this.div_id);
     }
 
     toString() {

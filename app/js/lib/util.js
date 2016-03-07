@@ -62,7 +62,7 @@ Util.getQueryStringParams = function(sParam) {
 			arr = querystring[i].split("=");
 			key = arr[0];
 			value = arr[1];
-            
+
 			if (key == sParam) { // key mataches param.
 				return value;    // Return match.
 			}
