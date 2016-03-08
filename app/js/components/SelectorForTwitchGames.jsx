@@ -60,7 +60,7 @@ var SelectorForTwitchGames = React.createClass({
         this.setState({display: 'none'});
 
         // Pass game to parent to use it as a query.
-        this.props.searchStreamersOfGame(game);
+        this.props.search(game);
     },
 
     componentDidMount: function() {
@@ -145,7 +145,7 @@ var SelectorForTwitchGames = React.createClass({
         };
 
         if (this.state.data) {
-            console.log(this.state.data.top);
+            // console.log(this.state.data.top);
             // {top.game.name} {top.viewers} {top.channels} {top.game.box.large} {top.game.box.medium} {top.game.box.small}
             listView = this.state.data.top.map(function(top, i) {
                 return (

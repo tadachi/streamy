@@ -136,7 +136,9 @@ var ListViewTwitchStreams = React.createClass({
         // console.log(this.props.data);
         if (this.props.data) {
             console.log(this.props.data);
+            // From Twitch
             if (this.props.data.streams) {
+                // Sort streams by viewers before processing
                 listView = this.props.data.streams.map(function(stream, i) {
                     return (
                         <tbody style={tbody} key={i}>
@@ -160,6 +162,46 @@ var ListViewTwitchStreams = React.createClass({
                     );
                 }.bind(this));
             }
+            // From SpeedRunsLive
+            else if (this.props.data._source) {
+                // Sorted top viewers to bottom descending
+                var compare = function(a, b) {
+                    //a.current_viewers b.current_viewers
+                    if (a.current_viewers < b.current_viewers) {
+                        return 1;
+                    } else if (a.current_viewers > b.current_viewers) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+                var array = this.props.data._source.channels.sort(compare)
+
+                // {stream.image.size70} {stream.display_name} {stream.api} {stream.current_viewers}  {stream.meta_game} {stream.title}
+                listView = array.map(function(stream, i) {
+                    return (
+                        <tbody style={tbody} key={i}>
+                            <tr>
+                                <td style={logo} onClick={this.props.setChannel.bind(null, stream.display_name)}  rowSpan="3" >
+                                    <TwitchUserLogo src={stream.image.size70} />
+                                </td>
+                                <td style={name}>{stream.display_name}</td>
+                                <td style={viewers}>{stream.current_viewers}</td>
+                            </tr>
+                            <tr>
+                                <td style={game}>{stream.meta_game}</td>
+                            </tr>
+                            <tr>
+                                <td style={status}>{stream.title}</td>
+                                {/*<td style={status} colSpan="2">{console.log(linkifyStr(stream.channel.status))}</td>*/}
+                                {/*<td style={status} colSpan="2">{linkifyHtml(stream.channel.status)}</td>*/}
+                                {/*<td style={status} colSpan="2">Test<a class="linkified" href={test}>www.google.ca</a></td>*/}
+                            </tr>
+                        </tbody>
+                    );
+                }.bind(this));
+            }
+
 
         }
 

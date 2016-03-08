@@ -28,7 +28,7 @@ var SearchBoxForTwitchStreams = React.createClass({
 
     search: function(query = null) {
         if (!query) {
-            query = this.refs.searchInput.getDOMNode().value; // this is the search data
+            query = this.refs.searchInput.value; // this is the search data
         }
 
         this.twitch.searchForStream(query, function(data) {
@@ -43,24 +43,27 @@ var SearchBoxForTwitchStreams = React.createClass({
         this.typingDelay.delayedRun(this.search);
     },
 
-    searchStreamersOfGame: function(game) {
-        console.log(game);
-        this.twitch.searchForStream(game, function(data) {
-            this.setState({ state: this.Status.PENDING});
-            this.setState({ data: data });
-
-        }.bind(this));
-    },
-
     setChannel: function(channel) {
         $('#' + this.props.player.div_id).show();
         this.props.player.setChannel(channel);
     },
 
-    followsHandle: function() {
-        this.twitch.getFollowedStreams(function(data) {
-            this.setState({ data: data });
-        }.bind(this));
+    selectCategoryHandle: function() {
+        let value = this.refs.selectInput.value;
+        switch(value) {
+            case 'TOPGAMES':
+                break;
+            case 'FOLLOWED':
+                this.twitch.getFollowedStreams(function(data) {
+                    this.setState({ data: data });
+                }.bind(this));
+                break;
+            case 'SPEEDRUNS':
+                this.twitch.getSpeedrunStreams(function(data) {
+                    this.setState({ data: data });
+                }.bind(this));
+                break;
+        }
     },
 
     handleScroll(scrollData){
@@ -103,13 +106,6 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
     componentDidUpdate: function() {
-        // console.log('componentDidUpdate:');
-        // console.log('window w ' + window.innerWidth);
-        // console.log('window h ' + window.innerHeight);
-        // console.log('search w ' + $('#flex_search').width());
-        // console.log('search h ' + $('#flex_search').height());
-        // console.log('player w ' + $('#flex_player').width());
-        // console.log('player h ' + $('#flex_player').height());
     },
 
     render: function() {
@@ -197,14 +193,14 @@ var SearchBoxForTwitchStreams = React.createClass({
                     onChange={this.doSearch}
                     />
 
-                    <select style={select}>
+                <select style={select} ref='selectInput' onChange={this.selectCategoryHandle}>
                         <option value='TOPGAMES'>Top Games</option>
                         <option value='SPEEDRUNS'>Speedruns</option>
                         <option value='FOLLOWED'>Followed</option>
                     </select>
                 </div>
 
-                <SelectorForTwitchGames searchStreamersOfGame={this.searchStreamersOfGame} />
+                <SelectorForTwitchGames search={this.search} />
                 <ListViewTwitchStreams style={list_view} setChannel={this.setChannel}  data={this.state.data} />
             </div>
         );
