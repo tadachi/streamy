@@ -129,11 +129,40 @@ class TwitchAPI {
 
     }
 
+    getSpeedrunStreams(callback) {
+        $.ajax({
+            url: 'http://api.speedrunslive.com/frontend/streams',
+            // The name of the callback parameter, as specified by the YQL service.
+            jsonp: 'callback',
+            // Tell jQuery we're expecting JSONP.
+            dataType: 'jsonp',
+
+            success: function(response) {
+
+                if (response.error) {
+                    // console.log(response);
+                    callback(null);
+                } else {
+                    callback(response);
+                }
+
+            }
+        });
+    }
+
     authenticate() {
+        // Dev
+        let redirect_uri = 'http://beastmachine:4000/?closewindow=true';
+        let client_id = 'f55txr3qf7w1bxsjqszl1u2fqmlbk4l';
+
+        // Production
+        // let redirect_uri = 'http://www.takbytes.com/streamy/?closewindow=true';
+        // let client_id = '6hmvfxikonfu17x6ax3wmc206qtalc8';
+
         var url = 'https://api.twitch.tv/kraken/oauth2/authorize' +
             '?response_type=token' +
-            '&client_id={client_id}'.format({client_id: 'f55txr3qf7w1bxsjqszl1u2fqmlbk4l'}) +
-            '&redirect_uri=http://beastmachine:4000/?closewindow=true' +
+            '&client_id={client_id}'.format({client_id: client_id}) +
+            '&redirect_uri={redirect_uri}'.format({redirect_uri: redirect_uri}) +
             '&scope=user_read' +
             '&force_verify=true';
 

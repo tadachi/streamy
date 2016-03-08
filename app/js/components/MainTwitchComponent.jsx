@@ -44,6 +44,7 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
     searchStreamersOfGame: function(game) {
+        console.log(game);
         this.twitch.searchForStream(game, function(data) {
             this.setState({ state: this.Status.PENDING});
             this.setState({ data: data });
@@ -124,31 +125,36 @@ var SearchBoxForTwitchStreams = React.createClass({
             overflowY: 'scroll',
         };
 
-        var div = {
+        var flex_div = {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+
             width: 'inherit',
             padding: '5px',
             backgroundColor: '#21235C',
         };
 
         var login = {
-            marginBottom: '5px',
+            width: '147px',
+            margin: '5px',
         };
 
         var input = {
-            width: '120px',
+            width: '140px',
             height: '20px',
+            margin: '5px',
         };
 
         var select = {
-            width: '90px',
-            padding: '3.5px',
+            width: '100px',
 
-            marginLeft: '9px',
+            margin: '5px',
         };
 
         var followButton = {
-            marginTop: '5px',
-            padding: '3.5px',
+            margin: '5px',
         };
 
         var list_view = {
@@ -179,7 +185,7 @@ var SearchBoxForTwitchStreams = React.createClass({
 
         return (
             <div style={search}>
-                <div style={div}>
+                <div style={flex_div}>
                     <TwitchLoginButton style={login} />
 
                     <input
@@ -190,11 +196,12 @@ var SearchBoxForTwitchStreams = React.createClass({
                     value={this.props.query}
                     onChange={this.doSearch}
                     />
+
                     <select style={select}>
-                        <option value='GAMES'>Games</option>
-                        <option value='FOLLOWED'>Streamers</option>
+                        <option value='TOPGAMES'>Top Games</option>
+                        <option value='SPEEDRUNS'>Speedruns</option>
+                        <option value='FOLLOWED'>Followed</option>
                     </select>
-                    <button style={followButton} onClick={this.followsHandle}>Get Followed</button>
                 </div>
 
                 <SelectorForTwitchGames searchStreamersOfGame={this.searchStreamersOfGame} />

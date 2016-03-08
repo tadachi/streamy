@@ -5,6 +5,7 @@ var SelectorForTwitchGames = React.createClass({
     getInitialState: function() {
         return {
             offset: 0, // offset for getting the next set of games.
+            visibility_prev: '',
             display_bool: true,
             display: '', // hide/show selector by changing it to none or '', inline, etc.
             data: '',
@@ -12,8 +13,14 @@ var SelectorForTwitchGames = React.createClass({
     },
 
     showPrevHandle: function(e) {
+        // Show games even if it is hidden.
+        this.state.display_bool = true;
+        this.setState({display: ''});
+
         this.setState({state: this.state.offset -= 15});
         if (this.state.offset <= 0) {
+            // Hide prev button.
+            this.setState({visibility_prev: 'hidden'});
             this.setState({state: this.state.offset = 0});
         }
         // console.log(this.state.offset);
@@ -24,7 +31,14 @@ var SelectorForTwitchGames = React.createClass({
     },
 
     showNextHandle: function(e) {
+        // Show games even if it is hidden.
+        this.state.display_bool = true;
+        this.setState({display: ''});
+        // Show prev button.
+        this.setState({visibility_prev: ''});
+
         this.setState({state: this.state.offset += 15});
+
         // console.log(this.state.offset);
         this.twitch.searchTopStreamedGames(15, this.state.offset, function(data) {
             this.setState({data: data});
@@ -41,7 +55,16 @@ var SelectorForTwitchGames = React.createClass({
         }
     },
 
+    selectGame: function(game) {
+        this.state.display_bool = false;
+        this.setState({display: 'none'});
+
+        // Pass game to parent to use it as a query.
+        this.props.searchStreamersOfGame(game);
+    },
+
     componentDidMount: function() {
+        this.setState({visibility_prev: 'hidden'});
         // data.top[i].channels number of people streaming that game
         // data.top[i].viewers number of viewers watching
         // data.top[i].name name of game
@@ -51,6 +74,9 @@ var SelectorForTwitchGames = React.createClass({
             this.setState({data: data});
             // console.log(data);
         }.bind(this));
+    },
+
+    componentDidUpdate: function() {
     },
 
     render: function() {
@@ -119,13 +145,14 @@ var SelectorForTwitchGames = React.createClass({
         };
 
         if (this.state.data) {
+            console.log(this.state.data.top);
             // {top.game.name} {top.viewers} {top.channels} {top.game.box.large} {top.game.box.medium} {top.game.box.small}
             listView = this.state.data.top.map(function(top, i) {
                 return (
                     <tbody style={tbody} key={i} >
                         <tr>
                             <td style={logo} rowSpan='2'>
-                                <img onClick={this.props.searchStreamersOfGame.bind(null, top.game.name)} src={top.game.box.small}/>
+                                <img onClick={this.selectGame.bind(null, top.game.name)} src={top.game.box.small}/>
                             </td>
                             <td style={game} colSpan='2'>
                                 {top.game.name}
@@ -153,19 +180,17 @@ var SelectorForTwitchGames = React.createClass({
             flexWrap: 'nowrap',
         };
 
-        var flex_button = {
-            margin: '5px',
-        };
+        var prev_button = {
+            visibility: this.state.visibility_prev,
+        }
 
         return (
             <div>
                 <div style={flex_button_area}>
-                    <button style={flex_button} onClick={this.showPrevHandle}>Prev</button>
-                    <button style={flex_button} onClick={this.showHideHandle}>Show/Hide Games</button>
-                    <button style={flex_button} onClick={this.showNextHandle}>Next</button>
+                    <button style={prev_button} onClick={this.showPrevHandle}>Prev</button>
+                    <button onClick={this.showHideHandle}>Show/Hide Games</button>
+                    <button onClick={this.showNextHandle}>Next</button>
                 </div>
-
-
 
                 <table style={table}>
                     {listView}
