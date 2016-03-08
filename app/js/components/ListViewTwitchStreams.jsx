@@ -35,7 +35,6 @@ var ListViewTwitchStreams = React.createClass({
         // CSS Inline Styles
         var table = {
             width: 'inherit',
-            height: 'inherit',
             margin: '0px',
             border: '0px',
             padding: '0px',

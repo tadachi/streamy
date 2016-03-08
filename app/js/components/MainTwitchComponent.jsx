@@ -15,8 +15,8 @@ var SearchBoxForTwitchStreams = React.createClass({
 
     getInitialState: function() {
         return {
-            state: '...',
             data: '',
+            showFollowButton: 'none',
             window_inner_width: window.innerWidth,
             window_inner_height: window.innerHeight,
             search_twitch_width:  $('#flex_search').width(),
@@ -43,29 +43,23 @@ var SearchBoxForTwitchStreams = React.createClass({
         this.typingDelay.delayedRun(this.search);
     },
 
+    searchStreamersOfGame: function(game) {
+        this.twitch.searchForStream(game, function(data) {
+            this.setState({ state: this.Status.PENDING});
+            this.setState({ data: data });
+
+        }.bind(this));
+    },
+
     setChannel: function(channel) {
         $('#' + this.props.player.div_id).show();
         this.props.player.setChannel(channel);
-    },
-
-    toggleVideoPlayer: function() {
-        $('#' + this.props.player.div_id).toggle();
     },
 
     followsHandle: function() {
         this.twitch.getFollowedStreams(function(data) {
             this.setState({ data: data });
         }.bind(this));
-    },
-
-    debugHandle1: function(e) {
-        sessionStorage.clear();
-        console.log('session cleared');
-    },
-
-    debugHandle2: function(e) {
-        console.log(this.twitch.getAuthToken());
-        this.props.player.toString();
     },
 
     handleScroll(scrollData){
@@ -120,36 +114,47 @@ var SearchBoxForTwitchStreams = React.createClass({
     render: function() {
 
         // Inline CSS.
-        var login = {
-            display: 'block',
-        };
-
-        var input = {
-            display: 'block',
-            width: '200px',
-        };
-
-        var state = {
-            display: 'block',
-        };
 
         var search = {
             display: 'block',
             maxWidth: '300px',
-            height: (this.state.window_inner_height-15) + 'px',
-            maxHeight: (this.state.window_inner_height-15) + 'px',
+            height: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
+            maxHeight: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
             overflowX: 'hidden',
             overflowY: 'scroll',
         };
 
-        var button = {
-            display: 'block',
+        var div = {
+            width: 'inherit',
+            padding: '5px',
+            backgroundColor: '#21235C',
+        };
+
+        var login = {
+            marginBottom: '5px',
+        };
+
+        var input = {
+            width: '120px',
+            height: '20px',
+        };
+
+        var select = {
+            width: '90px',
+            padding: '3.5px',
+
+            marginLeft: '9px',
+        };
+
+        var followButton = {
+            marginTop: '5px',
+            padding: '3.5px',
         };
 
         var list_view = {
             maxWidth: '300px',
-            height: (this.state.window_inner_height-15) + 'px',
-            maxHeight: (this.state.window_inner_height-15) + 'px',
+            height: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
+            maxHeight: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
         };
 
         // var fat = {
@@ -174,22 +179,26 @@ var SearchBoxForTwitchStreams = React.createClass({
 
         return (
             <div style={search}>
-                <TwitchLoginButton style={login} />
-                <input
-                style={input}
-                type="text"
-                ref="searchInput"
-                placeholder="Search.."
-                value={this.props.query}
-                onChange={this.doSearch}
-                />
-                <b style={state}>{this.state.state}</b>
-                <button style={button} onClick={this.followsHandle}>Get Followed</button>
-                <button style={button} onClick={this.debugHandle1}>Clear Session</button>
-                <button style={button} onClick={this.debugHandle2}>Debug</button>
-                <button style={button} onClick={this.toggleVideoPlayer}>toggleVideoPlayer</button>
+                <div style={div}>
+                    <TwitchLoginButton style={login} />
+
+                    <input
+                    style={input}
+                    type="text"
+                    ref='searchInput'
+                    placeholder='Search..'
+                    value={this.props.query}
+                    onChange={this.doSearch}
+                    />
+                    <select style={select}>
+                        <option value='GAMES'>Games</option>
+                        <option value='FOLLOWED'>Streamers</option>
+                    </select>
+                    <button style={followButton} onClick={this.followsHandle}>Get Followed</button>
+                </div>
+
+                <SelectorForTwitchGames searchStreamersOfGame={this.searchStreamersOfGame} />
                 <ListViewTwitchStreams style={list_view} setChannel={this.setChannel}  data={this.state.data} />
-                {/*<SelectorForTwitchGames />*/}
             </div>
         );
     }

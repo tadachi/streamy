@@ -17,17 +17,21 @@ else {
     // Hide the player until user selects a stream to watch.
     // $('#twitch_player').hide();
 
-    var customTwitchPlayer = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
+
 
     // Remove the preview class and show the rest of the app.
     // $('body').removeClass('preview-background');
     $('#flex_container').addClass('flex-container')
     $('#flex_search').addClass('flex-search');
+    $('#flex_chat').addClass('flex-search');
     $('#flex_player').addClass('flex-player');
 
-    // React.
+    // React
+
+    var customTwitchPlayer = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
+
     ReactDOM.render(
-        <SearchBoxForTwitchStreams player={customTwitchPlayer} />,
+        <SearchBoxForTwitchStreams parentDiv="flex_search" player={customTwitchPlayer} />,
         document.getElementById('twitch_search_stream')
     );
 }
