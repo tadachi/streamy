@@ -3,7 +3,7 @@
  */
 let MAGIC_MARGIN = 15;
 
-var SearchBoxForTwitchStreams = React.createClass({
+var MainTwitchComponent = React.createClass({
 
     twitch: new TwitchAPI(),
     typingDelay: new TypingDelay(),
@@ -150,10 +150,6 @@ var SearchBoxForTwitchStreams = React.createClass({
         }
     },
 
-    handleScroll(scrollData){
-        console.log(scrollData);
-    },
-
     handleResize: function(e) {
         this.setState({ window_inner_width: window.innerWidth});
         this.setState({ window_inner_height: window.innerHeight});
@@ -178,8 +174,6 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
     componentDidMount: function() {
-
-
         $('#twitch_player').find('iframe').css('width', $('#flex_player').width());
         $('#twitch_player').find('iframe').css('height', this.state.window_inner_height - MAGIC_MARGIN);
 
@@ -194,14 +188,12 @@ var SearchBoxForTwitchStreams = React.createClass({
 
         // Hide button on first mounting
         if (this.twitch.getAuthToken()) {
-            console.log('hide button');
             this.setState({authorized: 'none'})
         }
 
         // Continue to check if token hasn't expired.
         setInterval(function() {
             if (this.twitch.getAuthToken()) {
-                console.log('hide button');
                 this.setState({authorized: 'none'})
             }
         }.bind(this), 1000);

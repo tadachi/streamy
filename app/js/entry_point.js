@@ -1,6 +1,11 @@
 ``
 
+
 // Main.
+var customTwitchPlayer;
+var MainTwitchComponentElement;
+var MainTwitchComponent;
+
 function saveAuthToSession(access_token, scope) {
     sessionStorage.setItem('twitch_access_token', access_token);
     sessionStorage.setItem('twitch_scope', scope);
@@ -15,7 +20,7 @@ if (Util.getQueryStringParams('closewindow')) { // Check querystring for closewi
 else {
 
     // Hide the player until user selects a stream to watch.
-    // $('#twitch_player').hide();
+    $('#flex_chat').hide();
 
     // Remove the preview class and show the rest of the app.
     // $('body').removeClass('preview-background');
@@ -25,13 +30,38 @@ else {
     $('#flex_chat').addClass('flex-chat');
 
     // React
-    var customTwitchPlayer = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
+    customTwitchPlayer = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
 
-    ReactDOM.render(
-        <SearchBoxForTwitchStreams parentDiv='flex_search' twitch_chat_div='twitch_chat' player={customTwitchPlayer} />,
+    MainTwitchComponentElement = <MainTwitchComponent parentDiv='flex_search' twitch_chat_div='twitch_chat' player={customTwitchPlayer} />
+
+    MainTwitchComponent =  ReactDOM.render(
+        MainTwitchComponentElement,
         document.getElementById('twitch_search_stream')
     );
+
+
 }
+
+$(document).keydown(function(event) {
+    if (MainTwitchComponent) {
+        console.log(event.keyCode);
+        switch(event.keyCode) {
+            case 37:
+                $('#flex_search').toggle();
+                MainTwitchComponent.handleResize();
+                break
+            case 38:
+                break
+            case 39:
+                $('#flex_chat').toggle();
+                MainTwitchComponent.handleResize();
+                break
+            case 40:
+                break
+        }
+    }
+
+});
 
 // Debug
 // if (sessionStorage.getItem('twitch_access_token')) {
