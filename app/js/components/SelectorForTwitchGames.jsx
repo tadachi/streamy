@@ -26,7 +26,7 @@ var SelectorForTwitchGames = React.createClass({
         };
 
         var logo = {
-            border: '3px solid #FF9933',
+            // border: '3px solid #FF9933', // ~ Orange-legendary color from D3
             // width: '52px',
             // height: '72px',
             // opacity: '0.7',

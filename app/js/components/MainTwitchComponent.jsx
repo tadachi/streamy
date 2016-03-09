@@ -27,6 +27,8 @@ var SearchBoxForTwitchStreams = React.createClass({
             player_width:  $('#flex_player').width(),
             player_height: $('#flex_player').height() - MAGIC_MARGIN,
 
+            authorized: '',
+
             games_offset: 0, // offset for getting the next set of games.
             prev_visibility_button: '',
             games_display: 'initial',
@@ -176,6 +178,8 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
     componentDidMount: function() {
+
+
         $('#twitch_player').find('iframe').css('width', $('#flex_player').width());
         $('#twitch_player').find('iframe').css('height', this.state.window_inner_height - MAGIC_MARGIN);
 
@@ -187,6 +191,20 @@ var SearchBoxForTwitchStreams = React.createClass({
             this.setState({games: data});
             // console.log(data);
         }.bind(this));
+
+        // Hide button on first mounting
+        if (this.twitch.getAuthToken()) {
+            console.log('hide button');
+            this.setState({authorized: 'none'})
+        }
+
+        // Continue to check if token hasn't expired.
+        setInterval(function() {
+            if (this.twitch.getAuthToken()) {
+                console.log('hide button');
+                this.setState({authorized: 'none'})
+            }
+        }.bind(this), 1000);
     },
 
     componentWillUnmount: function() {
@@ -220,6 +238,8 @@ var SearchBoxForTwitchStreams = React.createClass({
         };
 
         var login = {
+            display: this.state.authorized,
+
             width: '147px',
             margin: '5px',
         };
