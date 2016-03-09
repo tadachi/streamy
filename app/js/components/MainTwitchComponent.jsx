@@ -15,28 +15,94 @@ var SearchBoxForTwitchStreams = React.createClass({
 
     getInitialState: function() {
         return {
-            data: '',
+            streams: '',
+            games: '',
+
             showFollowButton: 'none',
+
             window_inner_width: window.innerWidth,
             window_inner_height: window.innerHeight,
             search_twitch_width:  $('#flex_search').width(),
             search_twitch_height:  $('#flex_search').height() - MAGIC_MARGIN,
             player_width:  $('#flex_player').width(),
             player_height: $('#flex_player').height() - MAGIC_MARGIN,
+
+            games_offset: 0, // offset for getting the next set of games.
+            prev_visibility_button: '',
+            games_display: 'initial',
         };
+    },
+
+    showPrevGamesHandle: function(e) {
+        // Show games even if it is hidden.
+        this.state.games_display= 'initial';
+
+        this.setState({state: this.state.games_offset -= 15});
+        if (this.state.games_offset <= 0) {
+            // Hide prev button.
+            this.setState({prev_visibility_button: 'hidden'});
+            this.setState({state: this.state.games_offset = 0});
+        }
+        // console.log(this.state.offset);
+        this.twitch.searchTopStreamedGames(15, this.state.games_offset, function(data) {
+            this.setState({games: data});
+            // console.log(data);
+        }.bind(this));
+    },
+
+    showNextGamesHandle: function(e) {
+        // Show games even if it is hidden.
+        this.state.games_display = 'initial';
+        this.setState({display: ''});
+        // Show prev button.
+        this.setState({prev_visibility_button: ''});
+
+        this.setState({state: this.state.games_offset += 15});
+
+        // console.log(this.state.offset);
+        this.twitch.searchTopStreamedGames(15, this.state.games_offset, function(data) {
+            this.setState({games: data});
+            // console.log(data);
+        }.bind(this));
+    },
+
+    showHideHandle: function(e) {
+        if (this.state.games_display == 'initial') {
+            this.setState({games_display: 'none'});
+        } else {
+            this.setState({games_display: 'initial'});
+        }
+    },
+
+    hideGames: function() {
+        this.setState({games_display: 'none'});
+    },
+
+    showGames: function() {
+        this.setState({games_display: 'initial'});
     },
 
     search: function(query = null) {
         if (!query) {
             query = this.refs.searchInput.value; // this is the search data
         }
-        this.setState({ data: ''});
+        this.setState({ streams: ''}); // Empty list.
+        this.hideGames();
         this.twitch.searchForStream(query, function(data) {
             this.setState({ state: this.Status.PENDING});
-            this.setState({ data: data });
+            this.setState({ streams: data });
 
         }.bind(this));
     },
+
+    searchStreamsOfGame: function(query = null) {
+        this.setState({ streams: ''}); // Empty list.
+        this.twitch.searchForStreamsOfGame(query, function(data) {
+            this.setState({ state: this.Status.PENDING});
+            this.setState({ streams: data });
+        }.bind(this));
+    },
+
 
     doSearch: function() {
         this.setState({state: this.Status.SEARCHING});
@@ -45,23 +111,37 @@ var SearchBoxForTwitchStreams = React.createClass({
 
     setChannel: function(channel) {
         $('#' + this.props.player.div_id).show();
-        reloadTwitchChat(this.props.twitch_chat_div, 300, (window.innerHeight-MAGIC_MARGIN), channel);
+        this.hideGames();
+        // reloadTwitchChat(this.props.twitch_chat_div, 300, (window.innerHeight-MAGIC_MARGIN), channel);
         this.props.player.setChannel(channel);
+    },
+
+    selectGame: function(game) {
+        // Pass game to parent to use it as a query.
+        this.props.games_display = 'none';
+        this.search(game);
     },
 
     selectCategoryHandle: function() {
         let value = this.refs.selectInput.value;
         switch(value) {
+            case 'SEARCH':
+                this.hideGames();
+                this.setState({ streams: ''});
+                break;
             case 'TOPGAMES':
+                this.showGames();
                 break;
             case 'FOLLOWED':
+                this.hideGames();
                 this.twitch.getFollowedStreams(function(data) {
-                    this.setState({ data: data });
+                    this.setState({ streams: data });
                 }.bind(this));
                 break;
             case 'SPEEDRUNS':
+                this.hideGames();
                 this.twitch.getSpeedrunStreams(function(data) {
-                    this.setState({ data: data });
+                    this.setState({ streams: data });
                 }.bind(this));
                 break;
         }
@@ -100,6 +180,12 @@ var SearchBoxForTwitchStreams = React.createClass({
 
         window.addEventListener('resize', this.handleResize);
 
+        this.setState({prev_visibility_button: 'hidden'});
+
+        this.twitch.searchTopStreamedGames(15, 0, function(data) {
+            this.setState({games: data});
+            // console.log(data);
+        }.bind(this));
     },
 
     componentWillUnmount: function() {
@@ -112,7 +198,6 @@ var SearchBoxForTwitchStreams = React.createClass({
     render: function() {
 
         // Inline CSS.
-
         var search = {
             display: 'block',
             maxWidth: '300px',
@@ -120,8 +205,6 @@ var SearchBoxForTwitchStreams = React.createClass({
             maxHeight: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
             overflowX: 'hidden',
             overflowY: 'scroll',
-
-            // scroll bar style
 
         };
 
@@ -141,7 +224,7 @@ var SearchBoxForTwitchStreams = React.createClass({
         };
 
         var input = {
-            width: '140px',
+            width: '142px',
             height: '20px',
             margin: '5px',
         };
@@ -155,11 +238,33 @@ var SearchBoxForTwitchStreams = React.createClass({
             margin: '5px',
         };
 
-        var list_view = {
+        var streams_list_view = {
             maxWidth: '300px',
             height: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
             maxHeight: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
         };
+
+        var game_list_view = {
+            maxWidth: '300px',
+            height: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
+            maxHeight: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
+        };
+
+        var flex_button_area = {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            flexWrap: 'nowrap',
+        };
+
+        var prev_button = {
+            visibility: this.state.prev_visibility_button,
+            margin: '5px',
+        }
+
+        var button = {
+            margin: '5px',
+        }
 
         return (
             <div id='search' style={search}>
@@ -175,16 +280,21 @@ var SearchBoxForTwitchStreams = React.createClass({
                     onChange={this.doSearch}
                     />
 
-                    <select style={select} ref='selectInput' onChange={this.selectCategoryHandle}>
-                            <option value='SEARCH'>Top Games</option>
+                    <select style={select} ref='selectInput' defaultValue="TOPGAMES" onChange={this.selectCategoryHandle}>
                             <option value='TOPGAMES'>Top Games</option>
                             <option value='SPEEDRUNS'>Speedruns</option>
                             <option value='FOLLOWED'>Followed</option>
                     </select>
                 </div>
 
-                <SelectorForTwitchGames search={this.search} />
-                <ListViewTwitchStreams style={list_view} setChannel={this.setChannel}  data={this.state.data} />
+                <div style={flex_button_area}>
+                    <button style={prev_button} onClick={this.showPrevGamesHandle}>Prev</button>
+                    <button style={button} onClick={this.showHideHandle}>Show/Hide Games</button>
+                    <button style={button} onClick={this.showNextGamesHandle}>Next</button>
+                </div>
+
+                <SelectorForTwitchGames style={game_list_view} selectGame={this.selectGame} data={this.state.games} display={this.state.games_display} />
+                <ListViewTwitchStreams style={streams_list_view} setChannel={this.setChannel} data={this.state.streams} />
             </div>
         );
     }

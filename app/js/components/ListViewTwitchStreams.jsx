@@ -6,29 +6,6 @@ var ListViewTwitchStreams = React.createClass({
         };
     },
 
-    getInitialState: function () {
-        return {
-            user_default_icon: '',
-            display: 'none',
-        };
-    },
-
-    debugHandle1: function() {
-        console.log('test');
-    },
-
-    handleMouseOver: function(index) {
-        this.refs[index].showPreview();
-    },
-
-    handleMouseOut: function(index) {
-        this.refs[index].hidePreview();
-    },
-
-    componentDidMount: function() {
-    },
-
-
     render: function() {
         var listView;
 
@@ -74,7 +51,7 @@ var ListViewTwitchStreams = React.createClass({
 
             overflow: 'hidden',
             fontFamily: 'Droid Sans, serif',
-        	fontSize: '20px',
+        	fontSize: '18px',
             fontWeight: 'bold',
             color: '#9900CC', /*~ purplish*/
 
@@ -194,9 +171,6 @@ var ListViewTwitchStreams = React.createClass({
                             </tr>
                             <tr>
                                 <td style={status}>{stream.title}</td>
-                                {/*<td style={status} colSpan="2">{console.log(linkifyStr(stream.channel.status))}</td>*/}
-                                {/*<td style={status} colSpan="2">{linkifyHtml(stream.channel.status)}</td>*/}
-                                {/*<td style={status} colSpan="2">Test<a class="linkified" href={test}>www.google.ca</a></td>*/}
                             </tr>
                         </tbody>
                     );

@@ -9,7 +9,7 @@ class CustomTwitchPlayer {
         };
         this.current_channel = '{CHANNEL}' // This can be used by TwitchChat
         this.div_id = div_id;
-        this.player = new Twitch.Player(this.div_id, this.options);
+        // this.player = new Twitch.Player(this.div_id, this.options);
     }
 
     pause() {

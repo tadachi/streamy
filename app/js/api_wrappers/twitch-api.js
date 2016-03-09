@@ -42,7 +42,7 @@ class TwitchAPI {
     // Returns a live channel matching the query.
     searchForChannel(channel, callback) {
         $.ajax({
-            url: 'https://api.twitch.tv/kraken/search/channels?limit=50&q={channel}'.format({ channel: channel}),
+            url: 'https://api.twitch.tv/kraken/search/channels?limit=100&q={channel}'.format({ channel: channel}),
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -62,9 +62,32 @@ class TwitchAPI {
 
     }
 
-    searchForGame(game, callback) {
+    searchForStreamsOfGame(game, callback) {
         $.ajax({
-            url: 'https://api.twitch.tv/kraken/search/games?limit=50&q={game}&type=suggest&live=true'.format({ game: game}),
+            url: 'https://api.twitch.tv/kraken/streams?game={game}&limit=100'.format({ game: game}),
+            // The name of the callback parameter, as specified by the YQL service.
+            jsonp: 'callback',
+            // Tell jQuery we're expecting JSONP.
+            dataType: 'jsonp',
+
+            success: function(response) {
+
+                if (response.error) {
+                    console.log(response);
+                    callback(null);
+                } else {
+                    callback(response);
+                }
+
+            }
+        });
+
+    }
+
+    searchForGame(game, callback) {
+
+        $.ajax({
+            url: 'https://api.twitch.tv/kraken/search/games?limit=100&q={game}&type=suggest&live=true'.format({ game: game}),
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
