@@ -27,10 +27,10 @@ else {
     // React
     var customTwitchPlayer = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
 
-    // ReactDOM.render(
-    //     <SearchBoxForTwitchStreams parentDiv='flex_search' twitch_chat_div='twitch_chat' player={customTwitchPlayer} />,
-    //     document.getElementById('twitch_search_stream')
-    // );
+    ReactDOM.render(
+        <SearchBoxForTwitchStreams parentDiv='flex_search' twitch_chat_div='twitch_chat' player={customTwitchPlayer} />,
+        document.getElementById('twitch_search_stream')
+    );
 }
 
 // Debug

@@ -96,6 +96,7 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
     searchStreamsOfGame: function(query = null) {
+        console.log(query);
         this.setState({ streams: ''}); // Empty list.
         this.twitch.searchForStreamsOfGame(query, function(data) {
             this.setState({ state: this.Status.PENDING});
@@ -104,7 +105,7 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
 
-    doSearch: function() {
+    doSearchDelayed: function() {
         this.setState({state: this.Status.SEARCHING});
         this.typingDelay.delayedRun(this.search);
     },
@@ -118,8 +119,8 @@ var SearchBoxForTwitchStreams = React.createClass({
 
     selectGame: function(game) {
         // Pass game to parent to use it as a query.
-        this.props.games_display = 'none';
-        this.search(game);
+        this.hideGames();
+        this.searchStreamsOfGame(game);
     },
 
     selectCategoryHandle: function() {
@@ -277,7 +278,7 @@ var SearchBoxForTwitchStreams = React.createClass({
                     ref='searchInput'
                     placeholder='Search..'
                     value={this.props.query}
-                    onChange={this.doSearch}
+                    onChange={this.doSearchDelayed}
                     />
 
                     <select style={select} ref='selectInput' defaultValue="TOPGAMES" onChange={this.selectCategoryHandle}>

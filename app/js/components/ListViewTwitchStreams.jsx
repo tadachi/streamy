@@ -113,7 +113,7 @@ var ListViewTwitchStreams = React.createClass({
         //{stream.channel.name} {stream.channel.status} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}
         // console.log(this.props.data);
         if (this.props.data) {
-            console.log(this.props.data);
+            // console.log(this.props.data);
             // From Twitch
             if (this.props.data.streams) {
                 // Sort streams by viewers before processing
