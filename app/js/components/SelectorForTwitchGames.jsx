@@ -96,43 +96,10 @@ var SelectorForTwitchGames = React.createClass({
         };
 
         var logo = {
-            border: '1px solid black',
+            border: '3px solid #FF9933',
             // width: '52px',
             // height: '72px',
             // opacity: '0.7',
-        };
-
-        var game = {
-            fontFamily: 'Droid Sans, serif',
-            width: '248px',
-
-            fontSize: '15px',
-            fontWeight: 'bold',
-            color: 'blue',
-
-            border: '1px solid black',
-        };
-
-        var channels = {
-            fontFamily: 'Droid Sans, serif',
-            fontSize: '18px',
-            fontWeight: 'bold',
-            textAlign: 'left',
-
-            color: 'white',
-
-            border: '1px solid black',
-        };
-
-        var viewers = {
-            fontFamily: 'Droid Sans, serif',
-            fontSize: '18px',
-            fontWeight: 'bold',
-            textAlign: 'left',
-
-            color: 'white',
-
-            border: '1px solid black',
         };
 
         var icon = {
@@ -143,6 +110,41 @@ var SelectorForTwitchGames = React.createClass({
             height: '20px',
             verticalAlign: 'middle',
         };
+
+        var game = {
+            fontFamily: 'Droid Sans, serif',
+            width: '248px',
+
+            fontSize: '17px',
+            fontWeight: 'bold',
+            color: '#FF9933',
+
+            // border: '1px solid black',
+        };
+
+        var channels = {
+            fontFamily: 'Droid Sans, serif',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            textAlign: 'left',
+
+            color: 'white',
+
+            // border: '1px solid black',
+        };
+
+        var viewers = {
+            fontFamily: 'Droid Sans, serif',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            textAlign: 'left',
+
+            color: 'white',
+
+            // border: '1px solid black',
+        };
+
+
 
         if (this.state.data) {
             // console.log(this.state.data.top);
@@ -182,14 +184,19 @@ var SelectorForTwitchGames = React.createClass({
 
         var prev_button = {
             visibility: this.state.visibility_prev,
+            margin: '5px',
+        }
+
+        var button = {
+            margin: '5px',
         }
 
         return (
             <div>
                 <div style={flex_button_area}>
                     <button style={prev_button} onClick={this.showPrevHandle}>Prev</button>
-                    <button onClick={this.showHideHandle}>Show/Hide Games</button>
-                    <button onClick={this.showNextHandle}>Next</button>
+                    <button style={button} onClick={this.showHideHandle}>Show/Hide Games</button>
+                    <button style={button} onClick={this.showNextHandle}>Next</button>
                 </div>
 
                 <table style={table}>

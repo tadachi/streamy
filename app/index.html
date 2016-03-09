@@ -21,10 +21,10 @@
     <!-- React/JSX -->
     <script type="text/jsx" src="js/components/SmallTwitchComponents.jsx"></script>
     <script type="text/jsx" src="js/components/ListViewTwitchStreams.jsx"></script>
-
     <script type="text/jsx" src="js/components/SelectorForTwitchGames.jsx"></script>
     <script type="text/jsx" src="js/components/TwitchLoginButton.jsx"></script>
     <script type="text/jsx" src="js/components/CustomVideoPlayer.js"></script>
+    <script type="text/jsx" src="js/components/TwitchChat.jsx"></script>
     <script type="text/jsx" src="js/components/MainTwitchComponent.jsx"></script>
     <script type="text/jsx" src="js/streamy2.js"></script>
 
@@ -64,15 +64,13 @@
             margin: 5px;
             width: 300px;
             max-width: 300px;
-
-            font-family: inherit;
-
-            background-color: #D3D3D3;
+            flex-grow: 2;
+            background-color: #989898;
         }
         .flex-player {
             margin: 5px;
             background-color: black;
-            flex-grow: 1;
+            flex-grow: 3;
 
             font-family: inherit;
 
@@ -83,11 +81,27 @@
         }
         .flex-chat {
             margin: 5px;
-            width: 300px;
             max-width: 300px;
-
-            background-color: #D3D3D3;
+            background-color: #989898;
         }
+
+        /*
+         *  Scrollbar Style for React.
+         */
+         #search::-webkit-scrollbar-track {
+             -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+          	 background-color: #F5F5F5;
+         }
+
+         #search::-webkit-scrollbar {
+             width: 6px;
+        	 background-color: #F5F5F5;
+         }
+
+         #search::-webkit-scrollbar-thumb {
+         	 background-color: #000000;
+         }
+
     </style>
 </head>
 
@@ -101,7 +115,9 @@
             <div id="twitch_player"></div>
         </div>
         <div class="" id="flex_chat">
-            <div id="twitch_chat"></div>
+            <div id="twitch_chat">
+
+            </div>
         </div>
     </div>
 

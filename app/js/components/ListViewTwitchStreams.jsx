@@ -62,7 +62,7 @@ var ListViewTwitchStreams = React.createClass({
             verticalAlign: 'center',
             textAlign: 'center',
 
-            border: '1px solid black',
+            // border: '1px solid black',
         };
 
         var highlight = {
@@ -74,9 +74,9 @@ var ListViewTwitchStreams = React.createClass({
 
             overflow: 'hidden',
             fontFamily: 'Droid Sans, serif',
-        	fontSize: '16px',
+        	fontSize: '20px',
             fontWeight: 'bold',
-            color: '#4d79ff', /*~ lightish blue*/
+            color: '#9900CC', /*~ purplish*/
 
             paddingLeft: '5px',
 
@@ -85,7 +85,7 @@ var ListViewTwitchStreams = React.createClass({
             // verticalAlign: 'center',
             // textAlign: 'left',
 
-            border: '1px solid black',
+            // border: '1px solid black',
         };
 
         var viewers = {
@@ -99,7 +99,7 @@ var ListViewTwitchStreams = React.createClass({
             verticalAlign: 'top',
             textAlign: 'right',
 
-            border: '1px solid black',
+            // border: '1px solid black',
         };
 
         var game = {
@@ -111,7 +111,7 @@ var ListViewTwitchStreams = React.createClass({
             paddingLeft: '5px',
             textOverflow: 'ellipsis',
 
-            border: '1px solid black',
+            // border: '1px solid black',
         }
 
         var status = {
@@ -123,13 +123,14 @@ var ListViewTwitchStreams = React.createClass({
             maxWidth: '170px',
 
             paddingLeft: '5px',
+            overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'wrap',
 
             verticalAlign: 'top',
             textAlign: 'left',
 
-            border: '1px solid black',
+            // border: '1px solid black',
         };
 
         //{stream.channel.name} {stream.channel.status} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}

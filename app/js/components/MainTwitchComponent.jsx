@@ -30,7 +30,7 @@ var SearchBoxForTwitchStreams = React.createClass({
         if (!query) {
             query = this.refs.searchInput.value; // this is the search data
         }
-
+        this.setState({ data: ''});
         this.twitch.searchForStream(query, function(data) {
             this.setState({ state: this.Status.PENDING});
             this.setState({ data: data });
@@ -45,6 +45,7 @@ var SearchBoxForTwitchStreams = React.createClass({
 
     setChannel: function(channel) {
         $('#' + this.props.player.div_id).show();
+        reloadTwitchChat(this.props.twitch_chat_div, 300, (window.innerHeight-MAGIC_MARGIN), channel);
         this.props.player.setChannel(channel);
     },
 
@@ -94,11 +95,11 @@ var SearchBoxForTwitchStreams = React.createClass({
     },
 
     componentDidMount: function() {
-
         $('#twitch_player').find('iframe').css('width', $('#flex_player').width());
         $('#twitch_player').find('iframe').css('height', this.state.window_inner_height - MAGIC_MARGIN);
 
         window.addEventListener('resize', this.handleResize);
+
     },
 
     componentWillUnmount: function() {
@@ -119,6 +120,9 @@ var SearchBoxForTwitchStreams = React.createClass({
             maxHeight: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
             overflowX: 'hidden',
             overflowY: 'scroll',
+
+            // scroll bar style
+
         };
 
         var flex_div = {
@@ -129,7 +133,6 @@ var SearchBoxForTwitchStreams = React.createClass({
 
             width: 'inherit',
             padding: '5px',
-            backgroundColor: '#21235C',
         };
 
         var login = {
@@ -145,7 +148,6 @@ var SearchBoxForTwitchStreams = React.createClass({
 
         var select = {
             width: '100px',
-
             margin: '5px',
         };
 
@@ -159,28 +161,8 @@ var SearchBoxForTwitchStreams = React.createClass({
             maxHeight: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
         };
 
-        // var fat = {
-        //     fontSize: '14px',
-        //     width: '250px',
-        //     maxHeight: $(window).height() + 'px',
-        //     backgroundColor: 'white',
-        //     overflowY: 'scroll',
-        // }
-        //
-        // liArray = [];
-        //
-        // for ( var i = 0; i < 100; i++) {
-        //     liArray.push(<li key={i}>{i}</li>);
-        // }
-        //
-        // <div style={fat}>
-        //     <ul>
-        //         {liArray}
-        //     </ul>
-        // </div>
-
         return (
-            <div style={search}>
+            <div id='search' style={search}>
                 <div style={flex_div}>
                     <TwitchLoginButton style={login} />
 
@@ -193,10 +175,11 @@ var SearchBoxForTwitchStreams = React.createClass({
                     onChange={this.doSearch}
                     />
 
-                <select style={select} ref='selectInput' onChange={this.selectCategoryHandle}>
-                        <option value='TOPGAMES'>Top Games</option>
-                        <option value='SPEEDRUNS'>Speedruns</option>
-                        <option value='FOLLOWED'>Followed</option>
+                    <select style={select} ref='selectInput' onChange={this.selectCategoryHandle}>
+                            <option value='SEARCH'>Top Games</option>
+                            <option value='TOPGAMES'>Top Games</option>
+                            <option value='SPEEDRUNS'>Speedruns</option>
+                            <option value='FOLLOWED'>Followed</option>
                     </select>
                 </div>
 

@@ -7,6 +7,7 @@ class CustomTwitchPlayer {
             channel: '{CHANNEL}',
             //video: "{VIDEO_ID}"
         };
+        this.current_channel = '{CHANNEL}' // This can be used by TwitchChat
         this.div_id = div_id;
         this.player = new Twitch.Player(this.div_id, this.options);
     }
@@ -17,6 +18,7 @@ class CustomTwitchPlayer {
     }
 
     setChannel(channel) {
+        this.current_channel = channel;
         this.player.setChannel(channel);
         console.log('watching ' + channel);
     }

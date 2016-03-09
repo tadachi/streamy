@@ -1,20 +1,18 @@
-var TwitchChat = React.createClass({
-    propTypes: {
-        id : React.PropTypes.string.isRequired,
-        streamer : React.PropTypes.string.isRequired,
-        height : React.PropTypes.number.isRequired,
-        width : React.PropTypes.number.isRequired,
-    },
-    render: function() {
-        return (
-            <iframe
-            id={this.props.id}
-            scrolling='yes'
-            src={this.props.streamer}
-            height={this.props.height}
-            width={this.props.width}
-            >
-            </iframe>
-        );
-    }
-});
+reloadTwitchChat = function(div_id, width=300, height=500, channel) {
+    // Change the chat to the corresponding video channel.
+    var src = 'http://www.twitch.tv/{CHANNEL}/chat'.format({
+        CHANNEL: channel});
+
+    http://www.twitch.tv/{CHANNEL}/chat
+
+    var html =    ['<iframe ',
+                    'id="chat" ',
+                    'frameborder="0" ',
+                    'scrolling="yes" ',
+                    'src="{src}" '.format({src: src}),
+                    'width="{w}" '.format({w: width}),
+                    'height="{h}">'.format({h: height}),
+                '</iframe>'].join("");
+
+    $('#' + div_id).html(html);
+}
