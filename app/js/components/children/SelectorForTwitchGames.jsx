@@ -44,7 +44,7 @@ var SelectorForTwitchGames = React.createClass({
         var game = {
             fontFamily: 'Droid Sans, serif',
             width: '248px',
-
+            paddingLeft: '5px',
             fontSize: '17px',
             fontWeight: 'bold',
             color: '#FF9933',

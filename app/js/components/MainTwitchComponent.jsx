@@ -18,8 +18,6 @@ var MainTwitchComponent = React.createClass({
             streams: '',
             games: '',
 
-            showFollowButton: 'none',
-
             window_inner_width: window.innerWidth,
             window_inner_height: window.innerHeight,
             search_twitch_width:  $('#flex_search').width(),
@@ -27,7 +25,7 @@ var MainTwitchComponent = React.createClass({
             player_width:  $('#flex_player').width(),
             player_height: $('#flex_player').height() - MAGIC_MARGIN,
 
-            authorized: '',
+            connect_twitch_button_display: '',
 
             games_offset: 0, // offset for getting the next set of games.
             prev_visibility_button: '',
@@ -188,13 +186,13 @@ var MainTwitchComponent = React.createClass({
 
         // Hide button on first mounting
         if (this.twitch.getAuthToken()) {
-            this.setState({authorized: 'none'})
+            this.setState({connect_twitch_button_display: 'none'})
         }
 
         // Continue to check if token hasn't expired.
         setInterval(function() {
             if (this.twitch.getAuthToken()) {
-                this.setState({authorized: 'none'})
+                this.setState({connect_twitch_button_display: 'none'})
             }
         }.bind(this), 1000);
     },
@@ -216,7 +214,6 @@ var MainTwitchComponent = React.createClass({
             maxHeight: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
             overflowX: 'hidden',
             overflowY: 'scroll',
-
         };
 
         var flex_div = {
@@ -227,10 +224,20 @@ var MainTwitchComponent = React.createClass({
 
             width: 'inherit',
             padding: '5px',
+            backgroundColor: '#E0E2E4',
+        };
+
+        var flex_button_area = {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            flexWrap: 'nowrap',
+            backgroundColor: '#E0E2E4',
+            marginBottom: '10px',
         };
 
         var login = {
-            display: this.state.authorized,
+            display: this.state.connect_twitch_button_display,
 
             width: '147px',
             margin: '5px',
@@ -263,20 +270,13 @@ var MainTwitchComponent = React.createClass({
             maxHeight: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
         };
 
-        var flex_button_area = {
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            flexWrap: 'nowrap',
-        };
-
         var prev_button = {
             visibility: this.state.prev_visibility_button,
-            margin: '5px',
+            margin: '10px',
         }
 
         var button = {
-            margin: '5px',
+            margin: '10px',
         }
 
         return (
