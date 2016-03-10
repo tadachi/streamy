@@ -1,20 +1,6 @@
-// var takbytes_JSON_URLs = {
-//     speedruns: 'https://api.takbytes.com/speedruns',
-//     starcraft: 'https://api.takbytes.com/starcraft',
-//     hearthstone: 'https://api.takbytes.com/hearthstone',
-//     dota: 'https://api.takbytes.com/dota',
-//     counterstrike: 'https://api.takbytes.com/counterstrike',
-//     hitbox: 'https://api.takbytes.com/hitbox',
-//     league: 'https://api.takbytes.com/league',
-//     heroes: 'https://api.takbytes.com/heroes',
-//     diablo: 'https://api.takbytes.com/diablo'
-//     // followed: 'https://api.twitch.tv/kraken/streams/followed?oauth_token={oauth_token}'.format({ oauth_token: twitchAccessToken})
-// };
-
 class TwitchAPI {
 
-    constructor() {
-    }
+    constructor() {}
 
     // Returns people playing a game based on query.
     searchForStream(stream, callback) {
@@ -129,7 +115,6 @@ class TwitchAPI {
     }
 
     getFollowedStreams(callback) {
-        //https://api.twitch.tv/kraken/streams/followed?oauth_token=
 
         $.ajax({
             url: 'https://api.twitch.tv/kraken/streams/followed?oauth_token={oauth_token}'.format({ oauth_token: this.getAuthToken()}),

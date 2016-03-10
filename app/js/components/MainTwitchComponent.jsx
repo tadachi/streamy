@@ -88,26 +88,26 @@ var MainTwitchComponent = React.createClass({
     },
 
     search: function(query = null) {
-        let value = this.refs.selectInput.value;
-
         if (!query) {
             query = this.refs.searchInput.value; // this is the search data
         }
 
         this.setState({ streams: ''}); // Empty list.
 
-        switch(value) {
+        switch(this.refs.selectInput.value) {
             case this.CATEGORIES.TOPGAMES:
                 this.twitch.searchForGame(query, function(data) {
                     this.showGames();
-                    this.setState({ state: this.STATUS.PENDING});
+                    this.setState({ status: this.STATUS.PENDING});
                     this.setState({ games: data });
                 }.bind(this));
                 break;
             default:
                 this.twitch.searchForStream(query, function(data) {
+                    console.log(query);
+                    console.log(data);
                     this.hideGames();
-                    this.setState({ state: this.STATUS.PENDING});
+                    this.setState({ status: this.STATUS.PENDING});
                     this.setState({ streams: data });
                 }.bind(this));
                 break;
@@ -119,14 +119,14 @@ var MainTwitchComponent = React.createClass({
         console.log(query);
         this.setState({ streams: ''}); // Empty list.
         this.twitch.searchForStreamsOfGame(query, function(data) {
-            this.setState({ state: this.STATUS.PENDING});
+            this.setState({ status: this.STATUS.PENDING});
             this.setState({ streams: data });
         }.bind(this));
     },
 
 
     doSearchDelayed: function() {
-        this.setState({state: this.STATUS.SEARCHING});
+        this.setState({status: this.STATUS.SEARCHING});
         this.typingDelay.delayedRun(this.search);
     },
 
@@ -148,7 +148,11 @@ var MainTwitchComponent = React.createClass({
         let value = this.refs.selectInput.value;
         switch(value) {
             case this.CATEGORIES.TOPGAMES:
-                this.showGames();
+                this.twitch.searchTopStreamedGames(function(data) {
+                    this.showGames();
+                    this.setState({ streams: data });
+                }.bind(this));
+
                 break;
             case this.CATEGORIES.SPEEDRUNS:
                 this.hideGames();
@@ -189,8 +193,6 @@ var MainTwitchComponent = React.createClass({
     },
 
     componentDidMount: function() {
-        let value = this.refs.selectInput.value;
-
         // Set flex'ed sizes
         $('#twitch_player').find('iframe').css('width', $('#flex_player').width());
         $('#twitch_player').find('iframe').css('height', this.state.window_inner_height - MAGIC_MARGIN);
@@ -218,7 +220,7 @@ var MainTwitchComponent = React.createClass({
         }.bind(this), 1000);
 
         setInterval(function() {
-            if (value == this.CATEGORIES.FOLLOWED) {
+            if (this.refs.selectInput.value == this.CATEGORIES.FOLLOWED) {
                 this.twitch.getFollowedStreams(function(data) {
                     this.setState({ streams: data });
                 }.bind(this));
@@ -308,6 +310,10 @@ var MainTwitchComponent = React.createClass({
             margin: '10px',
         }
 
+        var status= {
+            fontSize: '15px',
+        }
+
         return (
             <div id='search' style={search}>
                 <div style={flex_div}>
@@ -322,7 +328,7 @@ var MainTwitchComponent = React.createClass({
                     onChange={this.doSearchDelayed}
                     />
 
-                    <b>this.state.status</b>
+                    <b style={status}>{this.state.status}</b>
 
                     <select style={select} ref='selectInput' defaultValue="TOPGAMES" onChange={this.selectCategoryHandle}>
                             <option value={this.CATEGORIES.TOPGAMES}>{this.CATEGORIES.TOPGAMES}</option>

@@ -67,7 +67,6 @@ var TwitchChat = React.createClass({
 
         var button = {
             display: this.state.load_chat_button_display,
-            // maxWidth: '50%',
         };
 
         var error = {
