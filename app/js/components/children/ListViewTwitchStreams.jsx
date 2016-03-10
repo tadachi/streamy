@@ -28,9 +28,6 @@ var ListViewTwitchStreams = React.createClass({
         }
 
         var logo = {
-            width: '53px',
-            height: '53px',
-
             margin: '0px',
             padding: '0px',
 
@@ -41,6 +38,12 @@ var ListViewTwitchStreams = React.createClass({
 
             // border: '1px solid black',
         };
+
+        var image = {
+            width: '53px',
+            height: '53px',
+            opacity: '0.55',
+        }
 
         var highlight = {
             opacity: '1',
@@ -113,7 +116,6 @@ var ListViewTwitchStreams = React.createClass({
         //{stream.channel.name} {stream.channel.status} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}
         // console.log(this.props.data);
         if (this.props.data) {
-            // console.log(this.props.data);
             // From Twitch
             if (this.props.data.streams) {
                 // Sort streams by viewers before processing
@@ -122,7 +124,7 @@ var ListViewTwitchStreams = React.createClass({
                         <tbody style={tbody} key={i}>
                             <tr>
                                 <td style={logo} onClick={this.props.setChannel.bind(null, stream.channel.name)}  rowSpan="3" >
-                                    <TwitchUserLogo src={stream.channel.logo} />
+                                    <TwitchUserLogo style={image} src={stream.channel.logo} />
                                 </td>
                                 <td style={name}>{stream.channel.name}</td>
                                 <td style={viewers}>{stream.viewers}</td>
@@ -161,7 +163,7 @@ var ListViewTwitchStreams = React.createClass({
                         <tbody style={tbody} key={i}>
                             <tr>
                                 <td style={logo} onClick={this.props.setChannel.bind(null, stream.display_name)}  rowSpan="3" >
-                                    <TwitchUserLogo src={stream.image.size70} />
+                                    <TwitchUserLogo style={image} src={stream.image.size70} />
                                 </td>
                                 <td style={name}>{stream.display_name}</td>
                                 <td style={viewers}>{stream.current_viewers}</td>
@@ -176,9 +178,8 @@ var ListViewTwitchStreams = React.createClass({
                     );
                 }.bind(this));
             }
-
-
         }
+
 
         return (
             <table style={table}>

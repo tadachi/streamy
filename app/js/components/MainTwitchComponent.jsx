@@ -1,20 +1,25 @@
 /*
  * Component for twitch channel search.
  */
-let MAGIC_MARGIN = 15;
-
 var MainTwitchComponent = React.createClass({
 
     twitch: new TwitchAPI(),
     typingDelay: new TypingDelay(),
 
-    Status: {
-        PENDING: '...',
-        SEARCHING: 'searching...',
+    STATUS: {
+        PENDING: '',
+        SEARCHING: '...',
+    },
+
+    CATEGORIES: {
+        TOPGAMES: 'Top Games',
+        SPEEDRUNS: 'Speedruns',
+        FOLLOWED: 'Followed'
     },
 
     getInitialState: function() {
         return {
+            status: this.STATUS.PENDING,
             streams: '',
             games: '',
 
@@ -83,38 +88,54 @@ var MainTwitchComponent = React.createClass({
     },
 
     search: function(query = null) {
+        let value = this.refs.selectInput.value;
+
         if (!query) {
             query = this.refs.searchInput.value; // this is the search data
         }
-        this.setState({ streams: ''}); // Empty list.
-        this.hideGames();
-        this.twitch.searchForStream(query, function(data) {
-            this.setState({ state: this.Status.PENDING});
-            this.setState({ streams: data });
 
-        }.bind(this));
+        this.setState({ streams: ''}); // Empty list.
+
+        switch(value) {
+            case this.CATEGORIES.TOPGAMES:
+                this.twitch.searchForGame(query, function(data) {
+                    this.showGames();
+                    this.setState({ state: this.STATUS.PENDING});
+                    this.setState({ games: data });
+                }.bind(this));
+                break;
+            default:
+                this.twitch.searchForStream(query, function(data) {
+                    this.hideGames();
+                    this.setState({ state: this.STATUS.PENDING});
+                    this.setState({ streams: data });
+                }.bind(this));
+                break;
+        }
+
     },
 
     searchStreamsOfGame: function(query = null) {
         console.log(query);
         this.setState({ streams: ''}); // Empty list.
         this.twitch.searchForStreamsOfGame(query, function(data) {
-            this.setState({ state: this.Status.PENDING});
+            this.setState({ state: this.STATUS.PENDING});
             this.setState({ streams: data });
         }.bind(this));
     },
 
 
     doSearchDelayed: function() {
-        this.setState({state: this.Status.SEARCHING});
+        this.setState({state: this.STATUS.SEARCHING});
         this.typingDelay.delayedRun(this.search);
     },
 
     setChannel: function(channel) {
         $('#' + this.props.player.div_id).show();
         this.hideGames();
-        // reloadTwitchChat(this.props.twitch_chat_div, 300, (window.innerHeight-MAGIC_MARGIN), channel);
         this.props.player.setChannel(channel);
+        // Setup to load chat.
+        this.props.setChatChannel(channel);
     },
 
     selectGame: function(game) {
@@ -126,22 +147,18 @@ var MainTwitchComponent = React.createClass({
     selectCategoryHandle: function() {
         let value = this.refs.selectInput.value;
         switch(value) {
-            case 'SEARCH':
-                this.hideGames();
-                this.setState({ streams: ''});
-                break;
-            case 'TOPGAMES':
+            case this.CATEGORIES.TOPGAMES:
                 this.showGames();
                 break;
-            case 'FOLLOWED':
+            case this.CATEGORIES.SPEEDRUNS:
                 this.hideGames();
-                this.twitch.getFollowedStreams(function(data) {
+                this.twitch.getSpeedrunStreams(function(data) {
                     this.setState({ streams: data });
                 }.bind(this));
                 break;
-            case 'SPEEDRUNS':
+            case this.CATEGORIES.FOLLOWED:
                 this.hideGames();
-                this.twitch.getSpeedrunStreams(function(data) {
+                this.twitch.getFollowedStreams(function(data) {
                     this.setState({ streams: data });
                 }.bind(this));
                 break;
@@ -172,16 +189,20 @@ var MainTwitchComponent = React.createClass({
     },
 
     componentDidMount: function() {
+        let value = this.refs.selectInput.value;
+
+        // Set flex'ed sizes
         $('#twitch_player').find('iframe').css('width', $('#flex_player').width());
         $('#twitch_player').find('iframe').css('height', this.state.window_inner_height - MAGIC_MARGIN);
 
         window.addEventListener('resize', this.handleResize);
 
+        // Hide prev button because Top Games start at the top.
         this.setState({prev_visibility_button: 'hidden'});
 
+        // Set the top games on mount
         this.twitch.searchTopStreamedGames(15, 0, function(data) {
             this.setState({games: data});
-            // console.log(data);
         }.bind(this));
 
         // Hide button on first mounting
@@ -195,6 +216,14 @@ var MainTwitchComponent = React.createClass({
                 this.setState({connect_twitch_button_display: 'none'})
             }
         }.bind(this), 1000);
+
+        setInterval(function() {
+            if (value == this.CATEGORIES.FOLLOWED) {
+                this.twitch.getFollowedStreams(function(data) {
+                    this.setState({ streams: data });
+                }.bind(this));
+            }
+        }.bind(this), 10000);
     },
 
     componentWillUnmount: function() {
@@ -293,10 +322,12 @@ var MainTwitchComponent = React.createClass({
                     onChange={this.doSearchDelayed}
                     />
 
+                    <b>this.state.status</b>
+
                     <select style={select} ref='selectInput' defaultValue="TOPGAMES" onChange={this.selectCategoryHandle}>
-                            <option value='TOPGAMES'>Top Games</option>
-                            <option value='SPEEDRUNS'>Speedruns</option>
-                            <option value='FOLLOWED'>Followed</option>
+                            <option value={this.CATEGORIES.TOPGAMES}>{this.CATEGORIES.TOPGAMES}</option>
+                            <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
+                            <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option>
                     </select>
                 </div>
 

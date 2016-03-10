@@ -1,8 +1,8 @@
-``
-
-
 // Main.
+let MAGIC_MARGIN = 15;
 var customTwitchPlayer;
+var TwitchChatElement;
+var TwitchChatComponent;
 var MainTwitchComponentElement;
 var MainTwitchComponent;
 
@@ -20,10 +20,10 @@ if (Util.getQueryStringParams('closewindow')) { // Check querystring for closewi
 else {
 
     // Hide the player until user selects a stream to watch.
-    $('#flex_chat').hide();
+    // $('#flex_search').hide();
+    // $('#flex_chat').hide();
 
     // Remove the preview class and show the rest of the app.
-    // $('body').removeClass('preview-background');
     $('#flex_container').addClass('flex-container')
     $('#flex_search').addClass('flex-search');
     $('#flex_player').addClass('flex-player');
@@ -32,31 +32,49 @@ else {
     // React
     customTwitchPlayer = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
 
-    MainTwitchComponentElement = <MainTwitchComponent parentDiv='flex_search' twitch_chat_div='twitch_chat' player={customTwitchPlayer} />
+    // Twitch Chat
+    TwitchChatElement = <TwitchChat div_id='twitch_chat' />
 
-    MainTwitchComponent =  ReactDOM.render(
+    TwitchChatComponent =  ReactDOM.render(
+        TwitchChatElement,
+        document.getElementById('twitch_chat')
+    );
+
+    // Main Component
+    MainTwitchComponentElement = <MainTwitchComponent
+        parentDiv='flex_search'
+        twitch_chat_div='flex_chat'
+        player={customTwitchPlayer}
+        setChatChannel={this.TwitchChatComponent.setChatChannel}
+        />
+
+    MainTwitchComponent = ReactDOM.render(
         MainTwitchComponentElement,
         document.getElementById('twitch_search_stream')
     );
-
-
-}
+};
 
 $(document).keydown(function(event) {
     if (MainTwitchComponent) {
-        console.log(event.keyCode);
+        // console.log(event.keyCode);
         switch(event.keyCode) {
             case 37:
                 $('#flex_search').toggle();
                 MainTwitchComponent.handleResize();
                 break
             case 38:
+                $('#flex_search').show();
+                $('#flex_chat').show();
+                MainTwitchComponent.handleResize();
                 break
             case 39:
                 $('#flex_chat').toggle();
                 MainTwitchComponent.handleResize();
                 break
             case 40:
+                $('#flex_search').hide();
+                $('#flex_chat').hide();
+                MainTwitchComponent.handleResize();
                 break
         }
     }

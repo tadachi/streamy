@@ -19,6 +19,7 @@ var SelectorForTwitchGames = React.createClass({
             margin: '0px',
             border: '0px',
             padding: '0px',
+            fontSize: '10px',
         };
 
         var tbody = {
@@ -29,7 +30,7 @@ var SelectorForTwitchGames = React.createClass({
             // border: '3px solid #FF9933', // ~ Orange-legendary color from D3
             // width: '52px',
             // height: '72px',
-            // opacity: '0.7',
+            // opacity: '0.55',
         };
 
         var icon = {
@@ -41,7 +42,11 @@ var SelectorForTwitchGames = React.createClass({
             verticalAlign: 'middle',
         };
 
-        var game = {
+        var image = {
+            opacity: '0.55',
+        }
+
+        var game_name = {
             fontFamily: 'Droid Sans, serif',
             width: '248px',
             paddingLeft: '5px',
@@ -74,34 +79,51 @@ var SelectorForTwitchGames = React.createClass({
             // border: '1px solid black',
         };
 
+        // console.log(this.props.data);
         if (this.props.data) {
-            // console.log(this.state.data.top);
-            // {top.game.name} {top.viewers} {top.channels} {top.game.box.large} {top.game.box.medium} {top.game.box.small}
-            listView = this.props.data.top.map(function(top, i) {
-                return (
-                    <tbody style={tbody} key={i} >
-                        <tr>
-                            <td style={logo} rowSpan='2'>
-                                <img onClick={this.props.selectGame.bind(null, top.game.name)} src={top.game.box.small}/>
-                            </td>
-                            <td style={game} colSpan='2'>
-                                {top.game.name}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style={channels}>
-                                <img style={icon} src='assets/streamer_icon.png' />
-                                {top.channels}
-                            </td>
-                            <td style={viewers}>
-                                <img style={icon} src='assets/live_viewer_icon.png' />
-                                {top.viewers}
-                            </td>
-                        </tr>
-                    </tbody>
-                );
-            }.bind(this));
-        }
+                // {top.game.name} {top.viewers} {top.channels} {top.game.box.large} {top.game.box.medium} {top.game.box.small}
+                if (this.props.data.top) {
+                    listView = this.props.data.top.map(function(top, i) {
+                        return (
+                            <tbody style={tbody} key={i} >
+                                <tr>
+                                    <td style={logo} rowSpan='2'>
+                                        <img style={image} onClick={this.props.selectGame.bind(null, top.game.name)} src={top.game.box.small}/>
+                                    </td>
+                                    <td style={game_name} colSpan='2'>
+                                        {top.game.name}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style={channels}>
+                                        <img style={icon} src='assets/streamer_icon.png' />
+                                        {top.channels}
+                                    </td>
+                                    <td style={viewers}>
+                                        <img style={icon} src='assets/live_viewer_icon.png' />
+                                        {top.viewers}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        );
+                    }.bind(this));
+                } else if (this.props.data.games) {
+                    listView = this.props.data.games.map(function(game, i) {
+                        return (
+                            <tbody style={tbody} key={i} >
+                                <tr>
+                                    <td style={logo}>
+                                        <img style={image} onClick={this.props.selectGame.bind(null, game.name)} src={game.box.small}/>
+                                    </td>
+                                    <td style={game_name}>
+                                        {game.name}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        );
+                    }.bind(this));
+                }
+            }
 
         return (
             <div>

@@ -87,7 +87,7 @@ class TwitchAPI {
     searchForGame(game, callback) {
 
         $.ajax({
-            url: 'https://api.twitch.tv/kraken/search/games?limit=100&q={game}&type=suggest&live=true'.format({ game: game}),
+            url: 'https://api.twitch.tv/kraken/search/games?limit=100&q={game}&type=suggest&live=true&limit=100'.format({ game: game}),
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -192,7 +192,7 @@ class TwitchAPI {
         popUp(url);
 
         function popUp(url) {
-        	var new_window = window.open(url,'name','height=423,width=370'); // Nice height and width.
+        	var new_window = window.open(url,'name','height=600,width=390'); // Nice height and width.
         	if (window.focus) {
                 new_window.focus();
             }

@@ -89,17 +89,11 @@ var TwitchUserLogo = React.createClass({
 
     render: function () {
         // CSS inline styles
-        var icon_logo = {
-            opacity: 'inherit',
-            width: 'inherit',
-            height: 'inherit',
-        };
-
         if (this.props.src) {
-            return <img style={icon_logo} src={this.props.src} />;
+            return <img style={this.props.style} src={this.props.src} />;
         }
 
-        return <img style={icon_logo} src={this.default_src} />;
+        return <img style={this.props.style} src={this.default_src} />;
     }
 
 });
@@ -111,9 +105,10 @@ var TwitchGameLogo = React.createClass({
     render: function () {
         // CSS inline styles
         var preview = {
-            display: 'inline-block',
-            width: '136px',
-            height: '190px',
+            display: 'inherit',
+            opacity: 'inherit',
+            width: 'inherit',
+            height: 'inherit',
         };
 
         if (this.props.src) {
