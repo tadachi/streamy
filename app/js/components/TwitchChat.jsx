@@ -8,11 +8,16 @@ var TwitchChat = React.createClass({
             error_display: '',
             load_chat_button_display: 'none',
             flex_div_display: '',
-            chat_display: '',
         };
     },
 
-    src: 'http://www.twitch.tv/destiny/chat',
+    setWidth: function(width) {
+        $('#' + this.props.div_id).css('width', width);
+    },
+
+    setHeight: function(height) {
+        $('#' + this.props.div_id).css('height', height);
+    },
 
     setChatChannel: function(channel) {
         this.setState({error_display: 'none'});
@@ -22,12 +27,14 @@ var TwitchChat = React.createClass({
     },
 
     loadChat: function() {
+        this.setState({flex_div: 'none'});
+
         // Change the chat to the corresponding video channel.
         var src = 'http://www.twitch.tv/{CHANNEL}/chat'.format({
             CHANNEL: this.state.channel});
 
         var html =    ['<iframe ',
-                        'id="chat" ',
+                        'id="{div_id}" '.format({div_id: this.props.div_id}),
                         'frameborder="0" ',
                         'scrolling="yes" ',
                         'src="{src}" '.format({src: src}),
@@ -35,7 +42,7 @@ var TwitchChat = React.createClass({
                         'height="{h}">'.format({h: this.state.height}),
                     '</iframe>'].join("");
 
-        $('#' + this.props.div_id).prepend(html);
+        $('#' + this.props.parent_div_id).prepend(html);
     },
 
     componentDidMount: function() {
@@ -43,14 +50,16 @@ var TwitchChat = React.createClass({
     },
 
     removeIframeChat: function() {
-        var iframe = $('#chat').get(0);
+        var iframe = $('#' + this.props.div_id).get(0);
         iframe.parentNode.removeChild(iframe);
 
         this.setState({flex_div_display: ''});
+        this.setState({flex_div: ''});
     },
 
     render: function() {
         var div = {
+            display: this.state.flex_div,
             width: '300px',
             height: this.state.height,
         }
@@ -81,7 +90,7 @@ var TwitchChat = React.createClass({
         return (
             <div style={div}>
                 <div style={flex_div}>
-                    <p style={error}>No Stream has been loaded</p>
+                    <p style={error}>No stream has been loaded.</p>
                     <button style={button} onClick={this.loadChat}>Load chat for {this.state.channel}</button>
                 </div>
             </div>

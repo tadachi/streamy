@@ -29,6 +29,8 @@ var MainTwitchComponent = React.createClass({
             search_twitch_height:  $('#flex_search').height() - MAGIC_MARGIN,
             player_width:  $('#flex_player').width(),
             player_height: $('#flex_player').height() - MAGIC_MARGIN,
+            chat_width:  $('#flex_chat').width(),
+            chat_height: $('#flex_chat').height() - MAGIC_MARGIN,
 
             connect_twitch_button_display: '',
 
@@ -131,11 +133,13 @@ var MainTwitchComponent = React.createClass({
     },
 
     setChannel: function(channel) {
-        $('#' + this.props.player.div_id).show();
+        // Setup video.
+        $('#' + this.props.player_div_id).show();
         this.hideGames();
-        this.props.player.setChannel(channel);
+        this.props.TwitchPlayer.setChannel(channel);
+
         // Setup to load chat.
-        this.props.setChatChannel(channel);
+        this.props.TwitchChat.setChatChannel(channel);
     },
 
     selectGame: function(game) {
@@ -176,13 +180,23 @@ var MainTwitchComponent = React.createClass({
         this.setState({ search_twitch_height: window.innerHeight - MAGIC_MARGIN });
         this.setState({ player_width: $('#flex_player').width() });
         this.setState({ player_height: window.innerHeight - MAGIC_MARGIN });
+        this.setState({ chat_width: $('#flex_chat').width() });
+        this.setState({ chat_height: window.innerHeight - MAGIC_MARGIN });
 
-        $('#flex_search').css('height', this.state.search_twitch_height);
-        $('#flex_player').css('width', this.state.player_width);
-        $('#flex_player').css('height', this.state.player_height);
-        $('#twitch_player').find('iframe').css('width', this.state.player_width);
-        $('#twitch_player').find('iframe').css('height', this.state.player_height);
+        // Deprecated
+        // $('#flex_search').css('height', this.state.search_twitch_height);
+        // $('#flex_player').css('width', this.state.player_width);
+        // $('#flex_player').css('height', this.state.player_height);
+        // $('#twitch_player').find('iframe').css('width', this.state.player_width);
+        // $('#twitch_player').find('iframe').css('height', this.state.player_height);
 
+        // New
+        this.props.TwitchPlayer.setWidth(this.state.player_width);
+        this.props.TwitchPlayer.setHeight(this.state.player_height);
+        this.props.TwitchChat.setWidth(this.state.chat_width);
+        this.props.TwitchChat.setHeight(this.state.chat_height);
+
+        // Debug
         // console.log('handleResize:');
         // console.log('window w ' + window.innerWidth);
         // console.log('window h ' + window.innerHeight);

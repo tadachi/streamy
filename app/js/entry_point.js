@@ -29,13 +29,21 @@ else {
     $('#flex_player').addClass('flex-player');
     $('#flex_chat').addClass('flex-chat');
 
-    // React
-    customTwitchPlayer = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
+    /* React */
+
+    // Video
+    // customTwitchPlayer = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
+    TwitchVideoPlayerElement = <TwitchVideoPlayer div_id='player' />
+
+    TwitchVideoPlayerComponent = ReactDOM.render(
+        TwitchVideoPlayerElement,
+        document.getElementById('twitch_player')
+    );
 
     // Twitch Chat
-    TwitchChatElement = <TwitchChat div_id='twitch_chat' />
+    TwitchChatElement = <TwitchChat parent_div_id='twitch_chat' />
 
-    TwitchChatComponent =  ReactDOM.render(
+    TwitchChatComponent = ReactDOM.render(
         TwitchChatElement,
         document.getElementById('twitch_chat')
     );
@@ -44,8 +52,10 @@ else {
     MainTwitchComponentElement = <MainTwitchComponent
         parentDiv='flex_search'
         twitch_chat_div='flex_chat'
-        player={customTwitchPlayer}
-        setChatChannel={this.TwitchChatComponent.setChatChannel}
+        player_div_id='player'
+        chat_div_id='chat'
+        TwitchChat={TwitchChatComponent}
+        TwitchPlayer={TwitchVideoPlayerComponent}
         />
 
     MainTwitchComponent = ReactDOM.render(
