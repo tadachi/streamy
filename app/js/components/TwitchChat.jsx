@@ -51,7 +51,10 @@ var TwitchChat = React.createClass({
 
     removeIframeChat: function() {
         var iframe = $('#' + this.props.div_id).get(0);
-        iframe.parentNode.removeChild(iframe);
+        if (iframe) {
+            iframe.parentNode.removeChild(iframe);
+        }
+
 
         this.setState({flex_div_display: ''});
         this.setState({flex_div: ''});

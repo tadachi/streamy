@@ -118,7 +118,6 @@ var MainTwitchComponent = React.createClass({
     },
 
     searchStreamsOfGame: function(query = null) {
-        console.log(query);
         this.setState({ streams: ''}); // Empty list.
         this.twitch.searchForStreamsOfGame(query, function(data) {
             this.setState({ status: this.STATUS.PENDING});
@@ -233,13 +232,18 @@ var MainTwitchComponent = React.createClass({
             }
         }.bind(this), 1000);
 
-        setInterval(function() {
-            if (this.refs.selectInput.value == this.CATEGORIES.FOLLOWED) {
-                this.twitch.getFollowedStreams(function(data) {
-                    this.setState({ streams: data });
-                }.bind(this));
-            }
-        }.bind(this), 10000);
+        // setInterval(function() {
+        //     if (this.refs.selectInput.value == this.CATEGORIES.FOLLOWED) {
+        //         this.twitch.getFollowedStreams(function(data) {
+        //             this.setState({ streams: data });
+        //         }.bind(this));
+        //     }
+        // }.bind(this), 10000);
+        var streamer = Util.getQueryStringParams("streamer");
+        if (streamer) {
+            this.props.TwitchPlayer.setChannel(streamer);
+        }
+
     },
 
     componentWillUnmount: function() {

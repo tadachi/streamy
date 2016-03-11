@@ -56,7 +56,7 @@ var ListViewTwitchStreams = React.createClass({
             fontFamily: 'Droid Sans, serif',
         	fontSize: '18px',
             fontWeight: 'bold',
-            color: '#9900CC', /*~ purplish*/
+            color: '#8A2BE2', /*~ purplish*/
 
             paddingLeft: '5px',
 
@@ -123,8 +123,14 @@ var ListViewTwitchStreams = React.createClass({
                     return (
                         <tbody style={tbody} key={i}>
                             <tr>
-                                <td style={logo} onClick={this.props.setChannel.bind(null, stream.channel.name)}  rowSpan="3" >
-                                    <TwitchUserLogo style={image} src={stream.channel.logo} />
+                                <td style={logo} rowSpan="3" >
+                                    <a href={"/#/!/?streamer="+stream.channel.name}
+                                        onClick={this.props.setChannel.bind(null, stream.channel.name)}>
+                                        <TwitchUserLogo
+                                            style={image}
+                                            src={stream.channel.logo}
+                                            />
+                                    </a>
                                 </td>
                                 <td style={name}>{stream.channel.name}</td>
                                 <td style={viewers}>{stream.viewers}</td>
@@ -162,8 +168,14 @@ var ListViewTwitchStreams = React.createClass({
                     return (
                         <tbody style={tbody} key={i}>
                             <tr>
-                                <td style={logo} onClick={this.props.setChannel.bind(null, stream.display_name)}  rowSpan="3" >
-                                    <TwitchUserLogo style={image} src={stream.image.size70} />
+                                <td style={logo} rowSpan="3" >
+                                    <a href={"/#/!/?streamer="+stream.display_name}
+                                        onClick={this.props.setChannel.bind(null, stream.display_name)}>
+                                        <TwitchUserLogo
+                                             style={image}
+                                             src={stream.image.size70}
+                                             />
+                                    </a>
                                 </td>
                                 <td style={name}>{stream.display_name}</td>
                                 <td style={viewers}>{stream.current_viewers}</td>
