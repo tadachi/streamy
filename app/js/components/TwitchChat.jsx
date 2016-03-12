@@ -1,10 +1,14 @@
+var React = require('react');
+var $ = require('jquery');
+var GLOBALS = require('../GLOBALS.js');
+
 var TwitchChat = React.createClass({
 
     getInitialState: function() {
         return {
             channel: '{CHANNEL}',
             width: '300',
-            height: window.innerHeight - MAGIC_MARGIN,
+            height: window.innerHeight - GLOBALS.MAGIC_MARGIN,
             error_display: '',
             load_chat_button_display: 'none',
             flex_div_display: '',
@@ -102,3 +106,5 @@ var TwitchChat = React.createClass({
     }
 
 });
+
+module.exports = TwitchChat;

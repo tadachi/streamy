@@ -1,3 +1,42 @@
+var React = require('react');
+
+var TwitchUserLogo = React.createClass({
+
+    default_src: 'https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png',
+
+    render: function () {
+        // CSS inline styles
+        if (this.props.src) {
+            return <img style={this.props.style} src={this.props.src} />;
+        }
+
+        return <img style={this.props.style} src={this.default_src} />;
+    }
+
+});
+
+var TwitchGameLogo = React.createClass({
+
+    default_src: 'http://static-cdn.jtvnw.net/ttv-static/404_boxart-136x190.jpg',
+
+    render: function () {
+        // CSS inline styles
+        var preview = {
+            display: 'inherit',
+            opacity: 'inherit',
+            width: 'inherit',
+            height: 'inherit',
+        };
+
+        if (this.props.src) {
+            return <img style={preview} src={this.props.src} />;
+        }
+
+        return <img style={preview} src={this.default_src} />;
+    }
+
+});
+
 var HoverGamePreview = React.createClass({
     default_src: 'https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png',
 
@@ -83,43 +122,6 @@ var HoverStreamPreview = React.createClass({
     }
 });
 
-var TwitchUserLogo = React.createClass({
-
-    default_src: 'https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png',
-
-    render: function () {
-        // CSS inline styles
-        if (this.props.src) {
-            return <img style={this.props.style} src={this.props.src} />;
-        }
-
-        return <img style={this.props.style} src={this.default_src} />;
-    }
-
-});
-
-var TwitchGameLogo = React.createClass({
-
-    default_src: 'http://static-cdn.jtvnw.net/ttv-static/404_boxart-136x190.jpg',
-
-    render: function () {
-        // CSS inline styles
-        var preview = {
-            display: 'inherit',
-            opacity: 'inherit',
-            width: 'inherit',
-            height: 'inherit',
-        };
-
-        if (this.props.src) {
-            return <img style={preview} src={this.props.src} />;
-        }
-
-        return <img style={preview} src={this.default_src} />;
-    }
-
-});
-
 var TwitchStreamPreviewImg = React.createClass({
 
     default_src: 'https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png',
@@ -141,3 +143,11 @@ var TwitchStreamPreviewImg = React.createClass({
     }
 
 });
+
+module.exports = {
+    TwitchUserLogo,
+    TwitchGameLogo,
+    HoverGamePreview,
+    HoverStreamPreview,
+    TwitchStreamPreviewImg,
+}

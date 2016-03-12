@@ -1,3 +1,18 @@
+var React = require('react');
+var $ = require('jquery');
+var GLOBALS = require('../GLOBALS.js');
+
+var TwitchAPI = require('../api_wrappers/twitch-api.js');
+var TypingDelay = require('../lib/util.js');
+
+// Lib
+var Util = require('../lib/util.js');
+
+// components
+var TwitchLoginButton = require('./children/TwitchLoginButton.jsx');
+var SelectorForTwitchGames = require('./children/SelectorForTwitchGames.jsx');
+var ListViewTwitchStreams = require('./children/ListViewTwitchStreams.jsx');
+
 /*
  * Component for twitch channel search.
  */
@@ -26,11 +41,11 @@ var MainTwitchComponent = React.createClass({
             window_inner_width: window.innerWidth,
             window_inner_height: window.innerHeight,
             search_twitch_width:  $('#flex_search').width(),
-            search_twitch_height:  $('#flex_search').height() - MAGIC_MARGIN,
+            search_twitch_height:  $('#flex_search').height() - GLOBALS.MAGIC_MARGIN,
             player_width:  $('#flex_player').width(),
-            player_height: $('#flex_player').height() - MAGIC_MARGIN,
+            player_height: $('#flex_player').height() - GLOBALS.MAGIC_MARGIN,
             chat_width:  $('#flex_chat').width(),
-            chat_height: $('#flex_chat').height() - MAGIC_MARGIN,
+            chat_height: $('#flex_chat').height() - GLOBALS.MAGIC_MARGIN,
 
             connect_twitch_button_display: '',
 
@@ -176,11 +191,11 @@ var MainTwitchComponent = React.createClass({
         this.setState({ window_inner_width: window.innerWidth});
         this.setState({ window_inner_height: window.innerHeight});
         this.setState({ search_twitch_width: $('#flex_search').width() });
-        this.setState({ search_twitch_height: window.innerHeight - MAGIC_MARGIN });
+        this.setState({ search_twitch_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
         this.setState({ player_width: $('#flex_player').width() });
-        this.setState({ player_height: window.innerHeight - MAGIC_MARGIN });
+        this.setState({ player_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
         this.setState({ chat_width: $('#flex_chat').width() });
-        this.setState({ chat_height: window.innerHeight - MAGIC_MARGIN });
+        this.setState({ chat_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
 
         // Deprecated
         // $('#flex_search').css('height', this.state.search_twitch_height);
@@ -208,7 +223,7 @@ var MainTwitchComponent = React.createClass({
     componentDidMount: function() {
         // Set flex'ed sizes
         $('#twitch_player').find('iframe').css('width', $('#flex_player').width());
-        $('#twitch_player').find('iframe').css('height', this.state.window_inner_height - MAGIC_MARGIN);
+        $('#twitch_player').find('iframe').css('height', this.state.window_inner_height - GLOBALS.MAGIC_MARGIN);
 
         window.addEventListener('resize', this.handleResize);
 
@@ -242,6 +257,7 @@ var MainTwitchComponent = React.createClass({
         var streamer = Util.getQueryStringParams("streamer");
         if (streamer) {
             this.props.TwitchPlayer.setChannel(streamer);
+            this.props.TwitchChat.setChatChannel(streamer);
         }
 
     },
@@ -259,8 +275,8 @@ var MainTwitchComponent = React.createClass({
         var search = {
             display: 'block',
             maxWidth: '300px',
-            height: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
-            maxHeight: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
+            height: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN) + 'px',
+            maxHeight: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN) + 'px',
             overflowX: 'hidden',
             overflowY: 'scroll',
         };
@@ -309,14 +325,14 @@ var MainTwitchComponent = React.createClass({
 
         var streams_list_view = {
             maxWidth: '300px',
-            height: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
-            maxHeight: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
+            height: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN) + 'px',
+            maxHeight: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN) + 'px',
         };
 
         var game_list_view = {
             maxWidth: '300px',
-            height: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
-            maxHeight: (this.state.window_inner_height-MAGIC_MARGIN) + 'px',
+            height: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN) + 'px',
+            maxHeight: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN) + 'px',
         };
 
         var prev_button = {
@@ -367,3 +383,6 @@ var MainTwitchComponent = React.createClass({
         );
     }
 });
+
+// Export on bottom to avoid invariant errors from React.
+module.exports = MainTwitchComponent;

@@ -1,3 +1,6 @@
+var React = require('react');
+var TwitchAPI = require('../../api_wrappers/twitch-api.js');
+
 var TwitchLoginButton = React.createClass({
 
     twitch: new TwitchAPI(),
@@ -12,3 +15,5 @@ var TwitchLoginButton = React.createClass({
         );
     }
 });
+
+module.exports = TwitchLoginButton;

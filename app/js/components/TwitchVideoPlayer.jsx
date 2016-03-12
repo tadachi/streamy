@@ -1,9 +1,13 @@
+var React = require('react');
+var $ = require('jquery');
+var GLOBALS = require('../GLOBALS.js');
+
 var TwitchVideoPlayer = React.createClass({
 
     getInitialState: function() {
         return {
             width: $('#flex_search').width(),
-            height: window.innerHeight - MAGIC_MARGIN,
+            height: window.innerHeight - GLOBALS.MAGIC_MARGIN,
             channel: '{CHANNEL}',
         };
     },
@@ -43,6 +47,10 @@ var TwitchVideoPlayer = React.createClass({
            </iframe>
         );
 
+
     }
 
 });
+
+// Export on bottom to avoid invariant errors from React.
+module.exports = TwitchVideoPlayer;

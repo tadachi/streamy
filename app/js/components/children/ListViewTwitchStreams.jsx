@@ -1,3 +1,6 @@
+var React = require('react');
+var SmallTwitchComponents = require('./SmallTwitchComponents.jsx')
+
 var ListViewTwitchStreams = React.createClass({
 
     getDefaultProps: function() {
@@ -126,7 +129,7 @@ var ListViewTwitchStreams = React.createClass({
                                 <td style={logo} rowSpan="3" >
                                     <a href={"/#/!/?streamer="+stream.channel.name}
                                         onClick={this.props.setChannel.bind(null, stream.channel.name)}>
-                                        <TwitchUserLogo
+                                        <SmallTwitchComponents.TwitchUserLogo
                                             style={image}
                                             src={stream.channel.logo}
                                             />
@@ -169,9 +172,9 @@ var ListViewTwitchStreams = React.createClass({
                         <tbody style={tbody} key={i}>
                             <tr>
                                 <td style={logo} rowSpan="3" >
-                                    <a href={"/#/!/?streamer="+stream.display_name}
+                                    <a href={window.location.href  + '/#/!/?streamer='+stream.display_name}
                                         onClick={this.props.setChannel.bind(null, stream.display_name)}>
-                                        <TwitchUserLogo
+                                        <SmallTwitchComponents.TwitchUserLogo
                                              style={image}
                                              src={stream.image.size70}
                                              />
@@ -202,3 +205,5 @@ var ListViewTwitchStreams = React.createClass({
     }
 
 });
+
+module.exports = ListViewTwitchStreams;

@@ -1,4 +1,3 @@
-
 class TypingDelay {
 
     constructor(delay = 1150) {
@@ -31,3 +30,5 @@ class TypingDelay {
         }, this.delay);
     };
 };
+
+module.exports = TwitchAPI;

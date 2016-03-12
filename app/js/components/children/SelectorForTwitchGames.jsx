@@ -1,3 +1,6 @@
+var React = require('react');
+var TwitchAPI = require('../../api_wrappers/twitch-api.js');
+
 var SelectorForTwitchGames = React.createClass({
 
     twitch: new TwitchAPI(),
@@ -134,3 +137,5 @@ var SelectorForTwitchGames = React.createClass({
         );
     }
 });
+
+module.exports = SelectorForTwitchGames;

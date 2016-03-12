@@ -1,3 +1,5 @@
+module.exports = Util;
+
 /* Similar to what you find in Java's format. */
 /* Usage: chatsrc = 'http://twitch.tv/chat/embed?channel={channel}&amp;popout_chat=true'.format({ channel: streamer}); */
 if (!String.prototype.format) {
@@ -19,6 +21,7 @@ if (!String.prototype.format) {
     };
 }
 
+// Class.
 function Util() {}
 
 /**

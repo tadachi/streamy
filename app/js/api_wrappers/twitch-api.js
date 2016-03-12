@@ -1,3 +1,6 @@
+var $ = require('jquery');
+var GLOBALS = require('../GLOBALS.js');
+
 class TwitchAPI {
 
     constructor() {}
@@ -197,3 +200,5 @@ class TwitchAPI {
     }
 
 }
+
+module.exports = TwitchAPI;
