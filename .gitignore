@@ -3,4 +3,6 @@ node_modules/
 app/bower_components/
 app/js/es5-streamy2.js
 app/js/es5-twitch-api.js
+app/js/bundle.js
+app/js/bundle.js.map
 build/
