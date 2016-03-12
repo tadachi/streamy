@@ -1,4 +1,3 @@
-
 var React = require('react');
 var ReactDOM = require('react-dom');
 var $ = require('jquery');
@@ -16,10 +15,9 @@ var TwitchChatComponent;
 var MainTwitchComponent;
 var TwitchVideoPlayerComponent;
 
-// Main.
-function saveAuthToSession(access_token, scope) {
-
-}
+/*
+ * Main
+ */
 
 // Handles implicit authentication to Twitch and its oAuth tokens.
 if (Util.getQueryStringParams('closewindow')) { // Check querystring for closewindow=true
@@ -29,7 +27,6 @@ if (Util.getQueryStringParams('closewindow')) { // Check querystring for closewi
 }
 // detected that it's not a new window getting twitch oauth token so remove the preview parlor trick and show the actual app.
 else {
-
     // Hide the player until user selects a stream to watch.
     // $('#flex_search').hide();
     // $('#flex_chat').hide();
@@ -67,32 +64,32 @@ else {
 
 };
 
-// $(document).keydown(function(event) {
-//     if (MainTwitchComponent) {
-//         // console.log(event.keyCode);
-//         switch(event.keyCode) {
-//             case 37:
-//                 $('#flex_search').toggle();
-//                 MainTwitchComponent.handleResize();
-//                 break
-//             case 38:
-//                 $('#flex_search').show();
-//                 $('#flex_chat').show();
-//                 MainTwitchComponent.handleResize();
-//                 break
-//             case 39:
-//                 $('#flex_chat').toggle();
-//                 MainTwitchComponent.handleResize();
-//                 break
-//             case 40:
-//                 $('#flex_search').hide();
-//                 $('#flex_chat').hide();
-//                 MainTwitchComponent.handleResize();
-//                 break
-//         }
-//     }
-//
-// });
+$(document).keydown(function(event) {
+    if (MainTwitchComponent) {
+        // console.log(event.keyCode);
+        switch(event.keyCode) {
+            case 37:
+                $('#flex_search').toggle();
+                MainTwitchComponent.handleResize();
+                break
+            case 38:
+                $('#flex_search').show();
+                $('#flex_chat').show();
+                MainTwitchComponent.handleResize();
+                break
+            case 39:
+                $('#flex_chat').toggle();
+                MainTwitchComponent.handleResize();
+                break
+            case 40:
+                $('#flex_search').hide();
+                $('#flex_chat').hide();
+                MainTwitchComponent.handleResize();
+                break
+        }
+    }
+
+});
 
 // Debug
 // if (sessionStorage.getItem('twitch_access_token')) {
