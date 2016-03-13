@@ -53,10 +53,9 @@ else {
     /*TwitchPlayer={TwitchVideoPlayerComponent}*/
     MainTwitchComponent = ReactDOM.render(
         <MainTwitchComponent
-            parentDiv='flex_search'
-            twitch_chat_div='flex_chat'
-            player_div_id='player'
-            chat_div_id='chat'
+            search_div='flex_search'
+            chat_div='flex_chat'
+            player_div='flex_player'
             TwitchChat={TwitchChatComponent}
             TwitchPlayer={TwitchVideoPlayerComponent}
             />,

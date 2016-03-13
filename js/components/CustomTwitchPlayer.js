@@ -1,3 +1,5 @@
+var $ = require('jquery');
+
 class CustomTwitchPlayer {
 
     constructor(div_id, width=480, height=320) {
@@ -18,11 +20,11 @@ class CustomTwitchPlayer {
     };
 
     setWidth(width) {
-        $('#' + this.props.div_id).find('iframe').css('width', width);
+        $('#' + this.div_id).find('iframe').css('width', width);
     };
 
     setHeight(height) {
-        $('#' + this.props.div_id).find('iframe').css('height', height);
+        $('#' + this.div_id).find('iframe').css('height', height);
     };
 
     setChannel(channel) {

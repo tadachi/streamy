@@ -40,12 +40,12 @@ var MainTwitchComponent = React.createClass({
 
             window_inner_width: window.innerWidth,
             window_inner_height: window.innerHeight,
-            search_twitch_width:  $('#flex_search').width(),
-            search_twitch_height:  $('#flex_search').height() - GLOBALS.MAGIC_MARGIN,
-            player_width:  $('#flex_player').width(),
-            player_height: $('#flex_player').height() - GLOBALS.MAGIC_MARGIN,
-            chat_width:  $('#flex_chat').width(),
-            chat_height: $('#flex_chat').height() - GLOBALS.MAGIC_MARGIN,
+            search_width:  $('#' + this.props.search_div).width(),
+            search_height:  $('#' + this.props.search_div).height() - GLOBALS.MAGIC_MARGIN,
+            player_width:  $('#' + this.props.player_div).width(),
+            player_height: $('#' + this.props.player_div).height() - GLOBALS.MAGIC_MARGIN,
+            chat_width:  $('#' + this.props.chat_div).width(),
+            chat_height: $('#' + this.props.chat_div).height() - GLOBALS.MAGIC_MARGIN,
 
             connect_twitch_button_display: '',
 
@@ -148,7 +148,6 @@ var MainTwitchComponent = React.createClass({
 
     setChannel: function(channel) {
         // Setup video.
-        $('#' + this.props.player_div_id).show();
         this.hideGames();
         // Setup video player.
         this.props.TwitchPlayer.setChannel(channel);
@@ -191,21 +190,24 @@ var MainTwitchComponent = React.createClass({
     handleResize: function(e) {
         this.setState({ window_inner_width: window.innerWidth});
         this.setState({ window_inner_height: window.innerHeight});
-        this.setState({ search_twitch_width: $('#flex_search').width() });
-        this.setState({ search_twitch_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
-        this.setState({ player_width: $('#flex_player').width() });
+        this.setState({ search_width: $('#' + this.props.search_div).width() });
+        this.setState({ search_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
+        this.setState({ player_width: $('#' + this.props.player_div).width() });
         this.setState({ player_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
-        this.setState({ chat_width: $('#flex_chat').width() });
+        this.setState({ chat_width: $('#' + this.props.chat_div).width() });
         this.setState({ chat_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
 
         // Deprecated
-        // $('#flex_search').css('height', this.state.search_twitch_height);
-        // $('#flex_player').css('width', this.state.player_width);
-        // $('#flex_player').css('height', this.state.player_height);
+        // $('#' + this.props.search_div).css('height', this.state.search_height);
+        // $('#' + this.props.player_div).css('width', this.state.player_width);
+        // $('#' + this.props.player_div).css('height', this.state.player_height);
         // $('#twitch_player').find('iframe').css('width', this.state.player_width);
         // $('#twitch_player').find('iframe').css('height', this.state.player_height);
 
         // New
+        $('#' + this.props.search_div).css('height', this.state.search_height);
+        $('#' + this.props.chat_div).css('height', this.state.chat_height);
+        $('#' + this.props.player_div).css('height', this.state.player_height);
         this.props.TwitchPlayer.setWidth(this.state.player_width);
         this.props.TwitchPlayer.setHeight(this.state.player_height);
         this.props.TwitchChat.setWidth(this.state.chat_width);
@@ -215,16 +217,18 @@ var MainTwitchComponent = React.createClass({
         // console.log('handleResize:');
         // console.log('window w ' + window.innerWidth);
         // console.log('window h ' + window.innerHeight);
-        // console.log('search w ' + $('#flex_search').width());
-        // console.log('search h ' + $('#flex_search').height());
-        // console.log('player w ' + $('#flex_player').width());
-        // console.log('player h ' + $('#flex_player').height());
+        // console.log('search w ' + $('#' + this.props.search_div).width());
+        // console.log('search h ' + $('#' + this.props.search_div).height());
+        // console.log('player w ' + $('#' + this.props.player_div).width());
+        // console.log('player h ' + $('#' + this.props.player_div).height());
     },
 
     componentDidMount: function() {
         // Set flex'ed sizes
-        $('#twitch_player').find('iframe').css('width', $('#flex_player').width());
-        $('#twitch_player').find('iframe').css('height', this.state.window_inner_height - GLOBALS.MAGIC_MARGIN);
+        this.setState({ player_width: $('#' + this.props.player_div).width() });
+        this.setState({ player_height: window.innerHeight });
+        this.props.TwitchPlayer.setWidth(this.state.player_width);
+        this.props.TwitchPlayer.setHeight(this.state.player_height);
 
         window.addEventListener('resize', this.handleResize);
 
