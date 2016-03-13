@@ -3,7 +3,7 @@ var $ = require('jquery');
 var GLOBALS = require('../GLOBALS.js');
 
 var TwitchAPI = require('../api_wrappers/twitch-api.js');
-var TypingDelay = require('../lib/util.js');
+var TypingDelay = require('../lib/TypingDelay.js');
 
 // Lib
 var Util = require('../lib/util.js');
@@ -150,6 +150,7 @@ var MainTwitchComponent = React.createClass({
         // Setup video.
         $('#' + this.props.player_div_id).show();
         this.hideGames();
+        // Setup video player.
         this.props.TwitchPlayer.setChannel(channel);
 
         // Setup to load chat.
@@ -255,7 +256,9 @@ var MainTwitchComponent = React.createClass({
         //     }
         // }.bind(this), 10000);
         var streamer = Util.getQueryStringParams("streamer");
+        console.log(streamer);
         if (streamer) {
+            console.log('test');
             this.props.TwitchPlayer.setChannel(streamer);
             this.props.TwitchChat.setChatChannel(streamer);
         }

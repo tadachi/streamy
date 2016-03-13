@@ -24,11 +24,8 @@ class TypingDelay {
 
         this.timeoutHandle = setTimeout(function(callback) {
             actionFunc();
-            // for (var func of actionFunc) {
-            //     func;
-            // }
         }, this.delay);
     };
 };
 
-module.exports = TwitchAPI;
+module.exports = TypingDelay;

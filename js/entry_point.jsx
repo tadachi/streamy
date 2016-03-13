@@ -8,9 +8,9 @@ var Util = require('./lib/util.js');
 // Components
 var MainTwitchComponent = require('./components/MainTwitchComponent.jsx');
 var TwitchVideoPlayer = require('./components/TwitchVideoPlayer.jsx');
+var CustomTwitchPlayer = require('./components/CustomTwitchPlayer.js');
 var TwitchChat = require('./components/TwitchChat.jsx')
 
-var customTwitchPlayer;
 var TwitchChatComponent;
 var MainTwitchComponent;
 var TwitchVideoPlayerComponent;
@@ -39,17 +39,18 @@ else {
 
     /* React */
 
-    // customTwitchPlayer = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
-    TwitchVideoPlayerComponent = ReactDOM.render(
-        <TwitchVideoPlayer div_id='player' />,
-        document.getElementById('twitch_player')
-    );
+    TwitchVideoPlayerComponent = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
+    // TwitchVideoPlayerComponent = ReactDOM.render(
+    //     <TwitchVideoPlayer div_id='player' />,
+    //     document.getElementById('twitch_player')
+    // );
 
     TwitchChatComponent = ReactDOM.render(
         <TwitchChat parent_div_id='twitch_chat' />,
         document.getElementById('twitch_chat')
     );
 
+    /*TwitchPlayer={TwitchVideoPlayerComponent}*/
     MainTwitchComponent = ReactDOM.render(
         <MainTwitchComponent
             parentDiv='flex_search'

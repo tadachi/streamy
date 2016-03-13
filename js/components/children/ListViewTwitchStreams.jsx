@@ -172,7 +172,7 @@ var ListViewTwitchStreams = React.createClass({
                         <tbody style={tbody} key={i}>
                             <tr>
                                 <td style={logo} rowSpan="3" >
-                                    <a href={window.location.pathname  + '#/!/?streamer='+stream.display_name}
+                                    <a href={window.location.pathname + '#/!/?streamer='+stream.display_name}
                                         onClick={this.props.setChannel.bind(null, stream.display_name)}>
                                         <SmallTwitchComponents.TwitchUserLogo
                                              style={image}
