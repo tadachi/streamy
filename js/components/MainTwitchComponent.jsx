@@ -260,9 +260,7 @@ var MainTwitchComponent = React.createClass({
         //     }
         // }.bind(this), 10000);
         var streamer = Util.getQueryStringParams("streamer");
-        console.log(streamer);
         if (streamer) {
-            console.log('test');
             this.props.TwitchPlayer.setChannel(streamer);
             this.props.TwitchChat.setChatChannel(streamer);
         }

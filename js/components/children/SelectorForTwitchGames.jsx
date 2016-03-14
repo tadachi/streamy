@@ -46,7 +46,7 @@ var SelectorForTwitchGames = React.createClass({
         };
 
         var image = {
-            opacity: '0.55',
+            // opacity: '0.55',
         }
 
         var game_name = {
@@ -90,7 +90,7 @@ var SelectorForTwitchGames = React.createClass({
                         return (
                             <tbody style={tbody} key={i} >
                                 <tr>
-                                    <td style={logo} rowSpan='2'>
+                                    <td rowSpan='2'>
                                         <img style={image} onClick={this.props.selectGame.bind(null, top.game.name)} src={top.game.box.small}/>
                                     </td>
                                     <td style={game_name} colSpan='2'>
@@ -115,7 +115,7 @@ var SelectorForTwitchGames = React.createClass({
                         return (
                             <tbody style={tbody} key={i} >
                                 <tr>
-                                    <td style={logo}>
+                                    <td>
                                         <img style={image} onClick={this.props.selectGame.bind(null, game.name)} src={game.box.small}/>
                                     </td>
                                     <td style={game_name}>

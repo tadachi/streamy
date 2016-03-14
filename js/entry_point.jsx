@@ -50,7 +50,6 @@ else {
         document.getElementById('twitch_chat')
     );
 
-    /*TwitchPlayer={TwitchVideoPlayerComponent}*/
     MainTwitchComponent = ReactDOM.render(
         <MainTwitchComponent
             search_div='flex_search'
@@ -90,11 +89,3 @@ $(document).keydown(function(event) {
     }
 
 });
-
-// Debug
-// if (sessionStorage.getItem('twitch_access_token')) {
-//     console.log(sessionStorage.getItem('twitch_access_token'));
-//     if (sessionStorage.getItem('twitch_scope')) {
-//         console.log(sessionStorage.getItem('twitch_scope'));
-//     }
-// }

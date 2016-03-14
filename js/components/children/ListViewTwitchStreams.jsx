@@ -45,7 +45,7 @@ var ListViewTwitchStreams = React.createClass({
         var image = {
             width: '53px',
             height: '53px',
-            opacity: '0.55',
+            // opacity: '0.55',
         }
 
         var highlight = {
