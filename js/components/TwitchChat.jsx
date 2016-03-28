@@ -73,7 +73,6 @@ var TwitchChat = React.createClass({
 
             width: '300px',
             height: this.state.height,
-            display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
         };

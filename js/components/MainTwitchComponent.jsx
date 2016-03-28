@@ -280,8 +280,8 @@ var MainTwitchComponent = React.createClass({
         var search = {
             display: 'block',
             maxWidth: '300px',
-            height: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN) + 'px',
-            maxHeight: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN) + 'px',
+            height: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN-87) + 'px', //87 is the height of the flex_button_area
+            maxHeight: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN-87) + 'px',
             overflowX: 'hidden',
             overflowY: 'scroll',
         };
@@ -298,12 +298,10 @@ var MainTwitchComponent = React.createClass({
         };
 
         var flex_button_area = {
-            display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             flexWrap: 'nowrap',
             backgroundColor: '#E0E2E4',
-            marginBottom: '10px',
         };
 
         var login = {
@@ -328,18 +326,6 @@ var MainTwitchComponent = React.createClass({
             margin: '5px',
         };
 
-        var streams_list_view = {
-            maxWidth: '300px',
-            height: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN) + 'px',
-            maxHeight: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN) + 'px',
-        };
-
-        var game_list_view = {
-            maxWidth: '300px',
-            height: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN) + 'px',
-            maxHeight: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN) + 'px',
-        };
-
         var prev_button = {
             visibility: this.state.prev_visibility_button,
             margin: '10px',
@@ -354,7 +340,7 @@ var MainTwitchComponent = React.createClass({
         }
 
         return (
-            <div id='search' style={search}>
+            <div>
                 <div style={flex_div}>
                     <TwitchLoginButton style={login} />
 
@@ -374,16 +360,18 @@ var MainTwitchComponent = React.createClass({
                             <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
                             <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option>
                     </select>
+
+                    <div style={flex_button_area}>
+                        <button style={prev_button} onClick={this.showPrevGamesHandle}>Prev</button>
+                        <button style={button} onClick={this.showHideHandle}>Show/Hide Games</button>
+                        <button style={button} onClick={this.showNextGamesHandle}>Next</button>
+                    </div>
                 </div>
 
-                <div style={flex_button_area}>
-                    <button style={prev_button} onClick={this.showPrevGamesHandle}>Prev</button>
-                    <button style={button} onClick={this.showHideHandle}>Show/Hide Games</button>
-                    <button style={button} onClick={this.showNextGamesHandle}>Next</button>
+                <div id='search' style={search}>
+                    <SelectorForTwitchGames selectGame={this.selectGame} data={this.state.games} display={this.state.games_display} />
+                    <ListViewTwitchStreams setChannel={this.setChannel} data={this.state.streams} />
                 </div>
-
-                <SelectorForTwitchGames style={game_list_view} selectGame={this.selectGame} data={this.state.games} display={this.state.games_display} />
-                <ListViewTwitchStreams style={streams_list_view} setChannel={this.setChannel} data={this.state.streams} />
             </div>
         );
     }

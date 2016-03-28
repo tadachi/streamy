@@ -1,7 +1,5 @@
 {
   "name": "streamy2",
-  "description": "Develop against this server.",
-  "main": "dev-server.js",
   "private": true,
   "dependencies": {
     "babel-core": "^6.7.2",
