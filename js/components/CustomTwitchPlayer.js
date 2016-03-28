@@ -28,7 +28,7 @@ class CustomTwitchPlayer {
 
     setChannel(channel) {
         this.current_channel = channel;
-        this.player.setChannel(channel);
+        // this.player.setChannel(channel);
         console.log('watching ' + channel);
     };
 

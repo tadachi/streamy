@@ -242,23 +242,14 @@ var MainTwitchComponent = React.createClass({
 
         // Hide button on first mounting
         if (this.twitch.getAuthToken()) {
-            this.setState({connect_twitch_button_display: 'none'})
+            this.setState({connect_twitch_button_display: 'none'}); // Hide button.
+            this.refs.selectInput.value = this.CATEGORIES.FOLLOWED; // Default to Followed
+            this.hideGames(); // Hide games
+            this.twitch.getFollowedStreams(function(data) { // Set data to followed games
+                this.setState({ streams: data });
+            }.bind(this));
         }
 
-        // Continue to check if token hasn't expired.
-        setInterval(function() {
-            if (this.twitch.getAuthToken()) {
-                this.setState({connect_twitch_button_display: 'none'})
-            }
-        }.bind(this), 1000);
-
-        // setInterval(function() {
-        //     if (this.refs.selectInput.value == this.CATEGORIES.FOLLOWED) {
-        //         this.twitch.getFollowedStreams(function(data) {
-        //             this.setState({ streams: data });
-        //         }.bind(this));
-        //     }
-        // }.bind(this), 10000);
         var streamer = Util.getQueryStringParams("streamer");
         if (streamer) {
             this.props.TwitchPlayer.setChannel(streamer);
