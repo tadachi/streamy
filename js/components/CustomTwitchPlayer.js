@@ -6,6 +6,7 @@ class CustomTwitchPlayer {
         this.options = {
             width: width,
             height: height,
+            channel: "{CHANNEL}",
             //video: "{VIDEO_ID}"
         };
         this.current_channel = '' // This can be used by TwitchChat

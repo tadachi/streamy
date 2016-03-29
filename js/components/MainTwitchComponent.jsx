@@ -28,6 +28,7 @@ var MainTwitchComponent = React.createClass({
 
     CATEGORIES: {
         TOPGAMES: 'Top Games',
+        SEARCH: 'Search',
         SPEEDRUNS: 'Speedruns',
         FOLLOWED: 'Followed'
     },
@@ -139,16 +140,18 @@ var MainTwitchComponent = React.createClass({
 
 
     doSearchDelayed: function() {
+        if (this.refs.selectInput.value != this.CATEGORIES.TOPGAMES) {
+            this.refs.selectInput.value = this.CATEGORIES.SEARCH;
+        }
+
         this.setState({status: this.STATUS.SEARCHING});
         this.typingDelay.delayedRun(this.search);
     },
 
     setChannel: function(channel) {
-        // Setup video.
         this.hideGames();
         // Setup video player.
         this.props.TwitchPlayer.setChannel(channel);
-
         // Setup to load chat.
         this.props.TwitchChat.setChatChannel(channel);
     },
@@ -156,6 +159,7 @@ var MainTwitchComponent = React.createClass({
     selectGame: function(game) {
         // Pass game to parent to use it as a query.
         this.hideGames();
+        this.refs.selectInput.value = this.CATEGORIES.SEARCH;
         this.searchStreamsOfGame(game);
     },
 
@@ -253,7 +257,13 @@ var MainTwitchComponent = React.createClass({
                     console.log(this.CATEGORIES.FOLLOWED + ' updated.');
                 }.bind(this));
             }
-        }.bind(this), 5000)
+            if (this.refs.selectInput.value === this.CATEGORIES.SPEEDRUNS) {
+                this.twitch.getSpeedrunStreams(function(data) {
+                    this.setState({ streams: data });
+                    console.log(this.CATEGORIES.SPEEDRUNS + ' updated.');
+                }.bind(this));
+            }
+        }.bind(this), 30000)
 
         var streamer = Util.getQueryStringParams("streamer");
         if (streamer) {
@@ -353,6 +363,7 @@ var MainTwitchComponent = React.createClass({
 
                     <select style={select} ref='selectInput' defaultValue="TOPGAMES" onChange={this.selectCategoryHandle}>
                             <option value={this.CATEGORIES.TOPGAMES}>{this.CATEGORIES.TOPGAMES}</option>
+                            <option value={this.CATEGORIES.SEARCH}>{this.CATEGORIES.SEARCH}</option>
                             <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
                             <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option>
                     </select>
