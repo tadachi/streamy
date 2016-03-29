@@ -197,13 +197,6 @@ var MainTwitchComponent = React.createClass({
         this.setState({ chat_width: $('#' + this.props.chat_div).width() });
         this.setState({ chat_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
 
-        // Deprecated
-        // $('#' + this.props.search_div).css('height', this.state.search_height);
-        // $('#' + this.props.player_div).css('width', this.state.player_width);
-        // $('#' + this.props.player_div).css('height', this.state.player_height);
-        // $('#twitch_player').find('iframe').css('width', this.state.player_width);
-        // $('#twitch_player').find('iframe').css('height', this.state.player_height);
-
         // New
         $('#' + this.props.search_div).css('height', this.state.search_height);
         $('#' + this.props.chat_div).css('height', this.state.chat_height);
