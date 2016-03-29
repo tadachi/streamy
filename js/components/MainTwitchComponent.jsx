@@ -65,10 +65,9 @@ var MainTwitchComponent = React.createClass({
             this.setState({prev_visibility_button: 'hidden'});
             this.setState({state: this.state.games_offset = 0});
         }
-        // console.log(this.state.offset);
+
         this.twitch.searchTopStreamedGames(15, this.state.games_offset, function(data) {
             this.setState({games: data});
-            // console.log(data);
         }.bind(this));
     },
 
@@ -81,10 +80,8 @@ var MainTwitchComponent = React.createClass({
 
         this.setState({state: this.state.games_offset += 15});
 
-        // console.log(this.state.offset);
         this.twitch.searchTopStreamedGames(15, this.state.games_offset, function(data) {
             this.setState({games: data});
-            // console.log(data);
         }.bind(this));
     },
 
@@ -166,11 +163,10 @@ var MainTwitchComponent = React.createClass({
         let value = this.refs.selectInput.value;
         switch(value) {
             case this.CATEGORIES.TOPGAMES:
-                this.twitch.searchTopStreamedGames(function(data) {
+                this.twitch.searchTopStreamedGames(15, 0, function(data) {
                     this.showGames();
-                    this.setState({ streams: data });
+                    this.setState({games: data});
                 }.bind(this));
-
                 break;
             case this.CATEGORIES.SPEEDRUNS:
                 this.hideGames();
@@ -249,6 +245,15 @@ var MainTwitchComponent = React.createClass({
                 this.setState({ streams: data });
             }.bind(this));
         }
+
+        setInterval(function() {
+            if (this.refs.selectInput.value === this.CATEGORIES.FOLLOWED) {
+                this.twitch.getFollowedStreams(function(data) { // Set data to followed games
+                    this.setState({ streams: data });
+                    console.log(this.CATEGORIES.FOLLOWED + ' updated.');
+                }.bind(this));
+            }
+        }.bind(this), 5000)
 
         var streamer = Util.getQueryStringParams("streamer");
         if (streamer) {
