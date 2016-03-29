@@ -244,19 +244,27 @@ var MainTwitchComponent = React.createClass({
         }
 
         setInterval(function() {
-            if (this.refs.selectInput.value === this.CATEGORIES.FOLLOWED) {
-                this.twitch.getFollowedStreams(function(data) { // Set data to followed games
-                    this.setState({ streams: data });
-                    console.log(this.CATEGORIES.FOLLOWED + ' updated.');
-                }.bind(this));
-            }
-            if (this.refs.selectInput.value === this.CATEGORIES.SPEEDRUNS) {
-                this.twitch.getSpeedrunStreams(function(data) {
-                    this.setState({ streams: data });
-                    console.log(this.CATEGORIES.SPEEDRUNS + ' updated.');
-                }.bind(this));
+            switch(this.refs.selectInput.value) {
+                case this.CATEGORIEES.FOLLOWED:
+                    this.twitch.getFollowedStreams(function(data) { // Set data to followed games
+                        this.setState({ streams: data });
+                        console.log(this.CATEGORIES.FOLLOWED + ' updated.');
+                    }.bind(this));
+                    break;
+                case this.CATEGORIES.SPEEDRUNS:
+                    this.twitch.getSpeedrunStreams(function(data) {
+                        this.setState({ streams: data });
+                        console.log(this.CATEGORIES.SPEEDRUNS + ' updated.');
+                    }.bind(this));
+                    break;
             }
         }.bind(this), 30000)
+
+        setInterval(function() {
+            if (this.twitch.getAuthToken()) {
+                this.setState({connect_twitch_button_display: 'none'}); // Hide button.
+            }
+        }.bind(this), 1000);
 
         var streamer = Util.getQueryStringParams("streamer");
         if (streamer) {
