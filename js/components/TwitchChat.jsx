@@ -11,7 +11,7 @@ var TwitchChat = React.createClass({
             height: window.innerHeight - GLOBALS.MAGIC_MARGIN,
             error_display: '',
             load_chat_button_display: 'none',
-            flex_div_display: '',
+            flex_div_display: 'flex',
         };
     },
 
@@ -56,20 +56,17 @@ var TwitchChat = React.createClass({
         if (iframe) {
             iframe.parentNode.removeChild(iframe);
         }
-
-        this.setState({flex_div_display: ''});
-        this.setState({flex_div: ''});
     },
 
     render: function() {
         var div = {
-            display: this.state.flex_div,
+            display: this.state.flex_div_display,
             width: '300px',
             height: this.state.height,
         }
 
         var flex_div = {
-            display: this.state.flex_div,
+            display: this.state.flex_div_display,
 
             width: '300px',
             height: this.state.height,

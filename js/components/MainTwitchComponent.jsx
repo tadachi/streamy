@@ -262,7 +262,7 @@ var MainTwitchComponent = React.createClass({
 
         setInterval(function() {
             if (this.twitch.getAuthToken()) {
-                this.setState({connect_twitch_button_display: 'none'}); // Hide button.
+                this.setState({connect_twitch_button_display: 'none'}); // Hide Twitch Auth button.
             }
         }.bind(this), 1000);
 
