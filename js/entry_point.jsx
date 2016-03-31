@@ -46,7 +46,7 @@ else {
     // );
 
     TwitchChatComponent = ReactDOM.render(
-        <TwitchChat parent_div_id='twitch_chat' />,
+        <TwitchChat parent_div_id='twitch_chat' div_id='chat'/>,
         document.getElementById('twitch_chat')
     );
 
@@ -63,29 +63,50 @@ else {
 
 };
 
-$(document).keydown(function(event) {
+// $(document).keydown(function(event) {
+document.addEventListener('keydown', function(event) {
     if (MainTwitchComponent) {
         // console.log(event.keyCode);
         switch(event.keyCode) {
-            case 37:
+            case 37: // Left Arrow.
                 $('#flex_search').toggle();
                 MainTwitchComponent.handleResize();
                 break
-            case 38:
+            case 38: // Up Arrow.
                 $('#flex_search').show();
                 $('#flex_chat').show();
                 MainTwitchComponent.handleResize();
                 break
-            case 39:
+            case 39: // Right Arrow.
                 $('#flex_chat').toggle();
                 MainTwitchComponent.handleResize();
                 break
-            case 40:
+            case 40: // Down Arrow.
                 $('#flex_search').hide();
                 $('#flex_chat').hide();
                 MainTwitchComponent.handleResize();
                 break
         }
     }
-
 });
+
+// document.getElementById('flex_chat').addEventListener('keydown', function(event) {
+//     console.log(event.keyCode);
+//     switch(event.keyCode) {
+//         case 66: // KeyA
+//             console.log('KeyA');
+//             break;
+//         case 37: // Left Arrow.
+//             console.log('Left');
+//             break
+//         case 38: // Up Arrow.
+//             console.log('Up');
+//             break
+//         case 39: // Right Arrow.
+//             console.log('Right');
+//             break
+//         case 40: // Down Arrow.
+//             console.log('Down');
+//             break
+//     }
+// });

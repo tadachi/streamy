@@ -34,22 +34,34 @@ var TwitchChat = React.createClass({
         this.setState({flex_div: 'none'});
 
         // Change the chat to the corresponding video channel.
-        var src = 'http://www.twitch.tv/{CHANNEL}/chat'.format({
+        var src = 'https://www.twitch.tv/{CHANNEL}/chat'.format({
             CHANNEL: this.state.channel});
 
         var html =    ['<iframe ',
                         'id="{div_id}" '.format({div_id: this.props.div_id}),
                         'frameborder="0" ',
                         'scrolling="yes" ',
+                        'onLoad=\"alert(\'Test\');\"',
                         'src="{src}" '.format({src: src}),
                         'width="{w}" '.format({w: this.state.width}),
                         'height="{h}">'.format({h: this.state.height}),
                     '</iframe>'].join("");
 
         $('#' + this.props.parent_div_id).prepend(html);
+
+        document.getElementById('chat').onload = function() {
+            console.log('Finished loading: ' + this.state.channel);
+
+            $(document.getElementById('chat').contentWindow.document).keydown(function() {
+                alert('Key down!');
+            });
+        }.bind(this);
+
+
     },
 
-    componentDidMount: function() {},
+    componentDidMount: function() {
+    },
 
     removeIframeChat: function() {
         var iframe = $('#' + this.props.div_id).get(0);
