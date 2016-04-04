@@ -189,6 +189,27 @@ class TwitchAPI {
 
     }
 
+    getUser() {
+        $.ajax({
+            url: 'https://api.twitch.tv/kraken/user?oauth_token={oauth_token}'.format({ oauth_token: this.getAuthToken()}),
+            // The name of the callback parameter, as specified by the YQL service.
+            jsonp: 'callback',
+            // Tell jQuery we're expecting JSONP.
+            dataType: 'jsonp',
+
+            success: function(response) {
+
+                if (response.error) {
+                    // console.log(response);
+                    callback(null);
+                } else {
+                    callback(response);
+                }
+
+            }
+        });
+    }
+
     getAuthToken() {
         var access_token = sessionStorage.getItem('twitch_access_token');
         var scope = sessionStorage.getItem('twitch_scope');
