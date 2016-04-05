@@ -366,7 +366,7 @@ var MainTwitchComponent = React.createClass({
                             <option value={this.CATEGORIES.TOPGAMES}>{this.CATEGORIES.TOPGAMES}</option>
                             <option value={this.CATEGORIES.SEARCH}>{this.CATEGORIES.SEARCH}</option>
                             <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
-                            <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option>
+                            {this.twitch.getAuthToken() ? <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option> : null}
                     </select>
 
                     <div style={flex_button_area}>
