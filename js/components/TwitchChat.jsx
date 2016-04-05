@@ -52,8 +52,21 @@ var TwitchChat = React.createClass({
         document.getElementById('chat').onload = function() {
             console.log('Finished loading: ' + this.state.channel);
 
-            $(document.getElementById('chat').contentWindow.document).keydown(function() {
-                alert('Key down!');
+            $(document.getElementById('chat').contentWindow.document).keydown(function(event) {
+                switch(event.keyCode) {
+                    case 37: // Left Arrow.
+                        console.log('left');
+                        break
+                    case 38: // Up Arrow.
+                        console.log('left');
+                        break
+                    case 39: // Right Arrow.
+                        console.log('left');
+                        break
+                    case 40: // Down Arrow.
+                        console.log('left');
+                        break
+                }
             });
         }.bind(this);
 

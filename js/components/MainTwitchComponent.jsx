@@ -30,7 +30,8 @@ var MainTwitchComponent = React.createClass({
         TOPGAMES: 'Top Games',
         SEARCH: 'Search',
         SPEEDRUNS: 'Speedruns',
-        FOLLOWED: 'Followed'
+        FOLLOWED: 'Followed',
+        FOLLOWEDGAMES: 'Your Games'
     },
 
     getInitialState: function() {
@@ -271,6 +272,11 @@ var MainTwitchComponent = React.createClass({
             this.props.TwitchPlayer.setChannel(streamer);
             this.props.TwitchChat.setChatChannel(streamer);
         }
+
+        this.twitch.getFollowedGames(this.twitch.getUserName(), function(data) {
+            //data.follows[0].name data.follows[0].box.small
+            console.log(data);
+        })
 
     },
 

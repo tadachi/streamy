@@ -161,6 +161,27 @@ class TwitchAPI {
         });
     }
 
+    getFollowedGames(user_name, callback) {
+        $.ajax({
+            url: 'http://api.twitch.tv/api/users/{user_name}/follows/games'.format({ user_name: user_name}),
+            // The name of the callback parameter, as specified by the YQL service.
+            jsonp: 'callback',
+            // Tell jQuery we're expecting JSONP.
+            dataType: 'jsonp',
+
+            success: function(response) {
+
+                if (response.error) {
+                    // console.log(response);
+                    callback(null);
+                } else {
+                    callback(response);
+                }
+
+            }
+        });
+    }
+
     authenticate() {
         // Dev
         let redirect_uri = 'http://beastmachine:4000/?closewindow=true';

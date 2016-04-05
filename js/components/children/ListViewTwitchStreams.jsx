@@ -143,9 +143,6 @@ var ListViewTwitchStreams = React.createClass({
                             </tr>
                             <tr>
                                 <td style={status}>{stream.channel.status}</td>
-                                {/*<td style={status} colSpan="2">{console.log(linkifyStr(stream.channel.status))}</td>*/}
-                                {/*<td style={status} colSpan="2">{linkifyHtml(stream.channel.status)}</td>*/}
-                                {/*<td style={status} colSpan="2">Test<a class="linkified" href={test}>www.google.ca</a></td>*/}
                             </tr>
                         </tbody>
                     );
@@ -153,7 +150,7 @@ var ListViewTwitchStreams = React.createClass({
             }
             // From SpeedRunsLive
             else if (this.props.data._source) {
-                // Sorted top viewers to bottom descending
+                // Sorted top viewers bottom descending
                 var compare = function(a, b) {
                     //a.current_viewers b.current_viewers
                     if (a.current_viewers < b.current_viewers) {
@@ -194,7 +191,6 @@ var ListViewTwitchStreams = React.createClass({
                 }.bind(this));
             }
         }
-
 
         return (
             <table style={table}>
