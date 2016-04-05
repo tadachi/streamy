@@ -4,6 +4,7 @@ var $ = require('jquery');
 
 var GLOBALS = require('./GLOBALS.js');
 var Util = require('./lib/util.js');
+var TwitchAPI = require('./api_wrappers/twitch-api.js');
 
 // Components
 var MainTwitchComponent = require('./components/MainTwitchComponent.jsx');
@@ -14,23 +15,26 @@ var TwitchChat = require('./components/TwitchChat.jsx')
 var TwitchChatComponent;
 var MainTwitchComponent;
 var TwitchVideoPlayerComponent;
-
+var twitch = new TwitchAPI();
 /*
  * Main
  */
 
 // Handles implicit authentication to Twitch and its oAuth tokens.
-if (Util.getQueryStringParams('closewindow')) { // Check querystring for closewindow=true
+if (Util.getQueryStringParams('closewindow')) { // Check querystring for closewindow=true, if so then we know that the user tried to auth.
     window.opener.sessionStorage.setItem('twitch_access_token', Util.getQueryStringParams('access_token'));
     window.opener.sessionStorage.setItem('twitch_scope', Util.getQueryStringParams('scope'));
-    window.close();
+    
+    twitch.getUserObject(Util.getQueryStringParams('access_token'), function(data) {
+        if (data) {
+            window.opener.sessionStorage.setItem('display_name', data.display_name);
+            window.opener.sessionStorage.setItem('name', data.name);           
+        }
+        window.close();
+    });
 }
 // detected that it's not a new window getting twitch oauth token so remove the preview parlor trick and show the actual app.
 else {
-    // Hide the player until user selects a stream to watch.
-    // $('#flex_search').hide();
-    // $('#flex_chat').hide();
-
     // Remove the preview class and show the rest of the app.
     $('#flex_container').addClass('flex-container')
     $('#flex_search').addClass('flex-search');
@@ -38,7 +42,6 @@ else {
     $('#flex_chat').addClass('flex-chat');
 
     /* React */
-
     TwitchVideoPlayerComponent = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
     // TwitchVideoPlayerComponent = ReactDOM.render(
     //     <TwitchVideoPlayer div_id='player' />,

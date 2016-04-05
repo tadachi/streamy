@@ -180,7 +180,7 @@ class TwitchAPI {
         popUp(url);
 
         function popUp(url) {
-        	var new_window = window.open(url,'name','height=600,width=390'); // Nice height and width.
+        	var new_window = window.open(url,'name','height=600,width=390'); // Nice height and width for twitch auth window.
         	if (window.focus) {
                 new_window.focus();
             }
@@ -189,9 +189,9 @@ class TwitchAPI {
 
     }
 
-    getUser() {
+    getUserObject(access_oauth_token, callback) {
         $.ajax({
-            url: 'https://api.twitch.tv/kraken/user?oauth_token={oauth_token}'.format({ oauth_token: this.getAuthToken()}),
+            url: 'https://api.twitch.tv/kraken/user?oauth_token={oauth_token}'.format({ oauth_token: access_oauth_token}),
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -208,6 +208,14 @@ class TwitchAPI {
 
             }
         });
+    }
+
+    getUserName() {
+        var user_name = sessionStorage.getItem('name');
+        if (user_name)
+            return user_name;
+        
+        return null;
     }
 
     getAuthToken() {
