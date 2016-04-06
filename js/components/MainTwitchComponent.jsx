@@ -34,6 +34,8 @@ var MainTwitchComponent = React.createClass({
         FOLLOWEDGAMES: 'Your Games'
     },
 
+    OFFSET: 8,
+
     getInitialState: function() {
         return {
             status: this.STATUS.PENDING,
@@ -61,14 +63,14 @@ var MainTwitchComponent = React.createClass({
         // Show games even if it is hidden.
         this.state.games_display= 'initial';
 
-        this.setState({state: this.state.games_offset -= 15});
+        this.setState({state: this.state.games_offset -= this.OFFSET});
         if (this.state.games_offset <= 0) {
             // Hide prev button.
             this.setState({prev_visibility_button: 'hidden'});
             this.setState({state: this.state.games_offset = 0});
         }
 
-        this.twitch.searchTopStreamedGames(15, this.state.games_offset, function(data) {
+        this.twitch.searchTopStreamedGames(this.OFFSET, this.state.games_offset, function(data) {
             this.setState({games: data});
         }.bind(this));
     },
@@ -80,9 +82,9 @@ var MainTwitchComponent = React.createClass({
         // Show prev button.
         this.setState({prev_visibility_button: ''});
 
-        this.setState({state: this.state.games_offset += 15});
+        this.setState({state: this.state.games_offset += this.OFFSET});
 
-        this.twitch.searchTopStreamedGames(15, this.state.games_offset, function(data) {
+        this.twitch.searchTopStreamedGames(this.OFFSET, this.state.games_offset, function(data) {
             this.setState({games: data});
         }.bind(this));
     },
@@ -168,7 +170,7 @@ var MainTwitchComponent = React.createClass({
         let value = this.refs.selectInput.value;
         switch(value) {
             case this.CATEGORIES.TOPGAMES:
-                this.twitch.searchTopStreamedGames(15, 0, function(data) {
+                this.twitch.searchTopStreamedGames(this.OFFSET, 0, function(data) {
                     this.showGames();
                     this.setState({games: data});
                 }.bind(this));
@@ -230,7 +232,7 @@ var MainTwitchComponent = React.createClass({
         this.setState({prev_visibility_button: 'hidden'});
 
         // Set the top games on mount
-        this.twitch.searchTopStreamedGames(15, 0, function(data) {
+        this.twitch.searchTopStreamedGames(this.OFFSET, 0, function(data) {
             this.setState({games: data});
         }.bind(this));
 
@@ -246,7 +248,7 @@ var MainTwitchComponent = React.createClass({
 
         setInterval(function() {
             switch(this.refs.selectInput.value) {
-                case this.CATEGORIEES.FOLLOWED:
+                case this.CATEGORIES.FOLLOWED:
                     this.twitch.getFollowedStreams(function(data) { // Set data to followed games
                         this.setState({ streams: data });
                         console.log(this.CATEGORIES.FOLLOWED + ' updated.');

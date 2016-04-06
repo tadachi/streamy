@@ -74,7 +74,6 @@ class TwitchAPI {
     }
 
     searchForGame(game, callback) {
-
         $.ajax({
             url: 'https://api.twitch.tv/kraken/search/games?limit=100&q={game}&type=suggest&live=true&limit=100'.format({ game: game}),
             // The name of the callback parameter, as specified by the YQL service.

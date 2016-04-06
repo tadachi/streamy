@@ -9,6 +9,34 @@ var ListViewTwitchStreams = React.createClass({
         };
     },
 
+    getInitialState: function() {
+        return {
+            data: null,
+        };
+    },
+
+    componentWillReceiveProps: function(nextProps) {
+        var array; 
+
+        var compare = function(a, b) {
+            //a.current_viewers b.current_viewers
+            if (a.current_viewers < b.current_viewers) {
+                return 1;
+            } else if (a.current_viewers > b.current_viewers) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
+        if (nextProps.data)
+            array = nextProps.data._source.channels.sort(compare);
+        
+        // Set data state to sorted speedruns.
+        this.setState({
+            data: array,
+        });
+    },
+
     render: function() {
         var listView;
 
@@ -150,21 +178,9 @@ var ListViewTwitchStreams = React.createClass({
             }
             // From SpeedRunsLive
             else if (this.props.data._source) {
-                // Sorted top viewers bottom descending
-                var compare = function(a, b) {
-                    //a.current_viewers b.current_viewers
-                    if (a.current_viewers < b.current_viewers) {
-                        return 1;
-                    } else if (a.current_viewers > b.current_viewers) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                }
-                var array = this.props.data._source.channels.sort(compare)
-
+                
                 // {stream.image.size70} {stream.display_name} {stream.api} {stream.current_viewers}  {stream.meta_game} {stream.title}
-                listView = array.map(function(stream, i) {
+                listView = this.state.data.map(function(stream, i) {
                     return (
                         <tbody style={tbody} key={i}>
                             <tr>
