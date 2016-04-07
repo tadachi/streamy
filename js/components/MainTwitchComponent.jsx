@@ -187,6 +187,13 @@ var MainTwitchComponent = React.createClass({
                     this.setState({ streams: data });
                 }.bind(this));
                 break;
+            case this.CATEGORIES.FOLLOWEDGAMES:
+                this.twitch.getFollowedGames(this.twitch.getUserName(), function(data) {
+                    console.log(data);
+                    this.showGames();
+                    this.setState({games: data});
+                }.bind(this))
+                break;
         }
     },
 
@@ -267,7 +274,7 @@ var MainTwitchComponent = React.createClass({
             if (this.twitch.getAuthToken()) {
                 this.setState({connect_twitch_button_display: 'none'}); // Hide Twitch Auth button.
                 console.log('hide button');
-                clearInterval(authInterval); // Clear itself if set.
+                clearInterval(authInterval); // Clear itself if Authed.
             }
         }.bind(this), 1000);
 
@@ -377,6 +384,7 @@ var MainTwitchComponent = React.createClass({
                             <option value={this.CATEGORIES.SEARCH}>{this.CATEGORIES.SEARCH}</option>
                             <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
                             {this.twitch.getAuthToken() ? <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option> : null}
+                            {this.twitch.getAuthToken() ? <option value={this.CATEGORIES.FOLLOWEDGAMES}>{this.CATEGORIES.FOLLOWEDGAMES}</option> : null}
                     </select>
 
                     <div style={flex_button_area}>

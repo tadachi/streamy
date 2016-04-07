@@ -92,24 +92,3 @@ document.addEventListener('keydown', function(event) {
         }
     }
 });
-
-// document.getElementById('flex_chat').addEventListener('keydown', function(event) {
-//     console.log(event.keyCode);
-//     switch(event.keyCode) {
-//         case 66: // KeyA
-//             console.log('KeyA');
-//             break;
-//         case 37: // Left Arrow.
-//             console.log('Left');
-//             break
-//         case 38: // Up Arrow.
-//             console.log('Up');
-//             break
-//         case 39: // Right Arrow.
-//             console.log('Right');
-//             break
-//         case 40: // Down Arrow.
-//             console.log('Down');
-//             break
-//     }
-// });

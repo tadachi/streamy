@@ -82,7 +82,7 @@ var SelectorForTwitchGames = React.createClass({
             // border: '1px solid black',
         };
 
-        // console.log(this.props.data);
+        console.log(this.props.data);
         if (this.props.data) {
                 // {top.game.name} {top.viewers} {top.channels} {top.game.box.large} {top.game.box.medium} {top.game.box.small}
                 if (this.props.data.top) {
@@ -112,6 +112,21 @@ var SelectorForTwitchGames = React.createClass({
                     }.bind(this));
                 } else if (this.props.data.games) {
                     listView = this.props.data.games.map(function(game, i) {
+                        return (
+                            <tbody style={tbody} key={i} >
+                                <tr>
+                                    <td>
+                                        <img style={image} onClick={this.props.selectGame.bind(null, game.name)} src={game.box.small}/>
+                                    </td>
+                                    <td style={game_name}>
+                                        {game.name}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        );
+                    }.bind(this));
+                } else if (this.props.data.follows) {
+                     listView = this.props.data.follows.map(function(game, i) {
                         return (
                             <tbody style={tbody} key={i} >
                                 <tr>
