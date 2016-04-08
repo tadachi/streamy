@@ -5,6 +5,7 @@ var $ = require('jquery');
 var GLOBALS = require('./GLOBALS.js');
 var Util = require('./lib/util.js');
 var TwitchAPI = require('./api_wrappers/twitch-api.js');
+var HitboxAPI = require('./api_wrappers/hitbox-api.js');
 
 // Components
 var MainTwitchComponent = require('./components/MainTwitchComponent.jsx');
@@ -16,9 +17,15 @@ var TwitchChatComponent;
 var MainTwitchComponent;
 var TwitchVideoPlayerComponent;
 var twitch = new TwitchAPI();
+var hitbox = new HitboxAPI();
 /*
  * Main
  */
+
+hitbox.getTopStreams(function(data) {
+    console.log(data); 
+});
+
 
 // Handles implicit authentication to Twitch and its oAuth tokens.
 if (Util.getQueryStringParams('closewindow')) { // Check querystring for closewindow=true, if so then we know that the user tried to auth.

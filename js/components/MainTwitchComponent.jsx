@@ -270,8 +270,13 @@ var MainTwitchComponent = React.createClass({
             }
         }.bind(this), 30000)
 
-        var authInterval = setInterval(function() {
+        var authInterval = setInterval(function() { // Fast interval to check if logged in. Kills itself after logging in.
             if (this.twitch.getAuthToken()) {
+                this.hideGames();
+                this.twitch.getFollowedStreams(function(data) {
+                    this.setState({ streams: data });
+                    this.refs.selectInput.value = this.CATEGORIES.FOLLOWED; // Set select to FOLLOWED streams.
+                }.bind(this));
                 this.setState({connect_twitch_button_display: 'none'}); // Hide Twitch Auth button.
                 console.log('hide button');
                 clearInterval(authInterval); // Clear itself if Authed.
@@ -283,11 +288,6 @@ var MainTwitchComponent = React.createClass({
             this.props.TwitchPlayer.setChannel(streamer);
             this.props.TwitchChat.setChatChannel(streamer);
         }
-
-        this.twitch.getFollowedGames(this.twitch.getUserName(), function(data) {
-            //data.follows[0].name data.follows[0].box.small
-            console.log(data);
-        })
 
     },
 
@@ -383,8 +383,10 @@ var MainTwitchComponent = React.createClass({
                             <option value={this.CATEGORIES.TOPGAMES}>{this.CATEGORIES.TOPGAMES}</option>
                             <option value={this.CATEGORIES.SEARCH}>{this.CATEGORIES.SEARCH}</option>
                             <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
-                            {this.twitch.getAuthToken() ? <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option> : null}
-                            {this.twitch.getAuthToken() ? <option value={this.CATEGORIES.FOLLOWEDGAMES}>{this.CATEGORIES.FOLLOWEDGAMES}</option> : null}
+                            {this.twitch.getAuthToken() ? 
+                                <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option> : <option disabled value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option>}
+                            {this.twitch.getAuthToken() ? 
+                                <option value={this.CATEGORIES.FOLLOWEDGAMES}>{this.CATEGORIES.FOLLOWEDGAMES}</option> : <option disabled value={this.CATEGORIES.FOLLOWEDGAMES}>{this.CATEGORIES.FOLLOWEDGAMES}</option>}
                     </select>
 
                     <div style={flex_button_area}>

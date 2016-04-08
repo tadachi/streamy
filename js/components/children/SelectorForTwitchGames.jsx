@@ -82,7 +82,6 @@ var SelectorForTwitchGames = React.createClass({
             // border: '1px solid black',
         };
 
-        console.log(this.props.data);
         if (this.props.data) {
                 // {top.game.name} {top.viewers} {top.channels} {top.game.box.large} {top.game.box.medium} {top.game.box.small}
                 if (this.props.data.top) {
