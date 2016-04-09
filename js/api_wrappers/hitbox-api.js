@@ -30,27 +30,6 @@ class HitboxAPI {
         });
 
     }
-    
-    getSpeedrunStreams(callback) {
-        $.ajax({
-            url: 'http://api.speedrunslive.com/frontend/streams',
-            // The name of the callback parameter, as specified by the YQL service.
-            jsonp: 'callback',
-            // Tell jQuery we're expecting JSONP.
-            dataType: 'jsonp',
-
-            success: function(response) {
-
-                if (response.error) {
-                    // console.log(response);
-                    callback(null);
-                } else {
-                    callback(response);
-                }
-
-            }
-        });
-    }
 }
 
 module.exports = HitboxAPI;

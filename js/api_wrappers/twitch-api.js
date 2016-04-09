@@ -181,14 +181,7 @@ class TwitchAPI {
         });
     }
 
-    authenticate() {
-        // Dev
-        let redirect_uri = 'http://beastmachine:4000/?closewindow=true';
-        let client_id = 'f55txr3qf7w1bxsjqszl1u2fqmlbk4l';
-
-        // Production
-        // let redirect_uri = 'http://www.takbytes.com/streamy/?closewindow=true';
-        // let client_id = '6hmvfxikonfu17x6ax3wmc206qtalc8';
+    authenticate(redirect_uri, client_id) {
 
         var url = 'https://api.twitch.tv/kraken/oauth2/authorize' +
             '?response_type=token' +

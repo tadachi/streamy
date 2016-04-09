@@ -1,12 +1,13 @@
 var React = require('react');
 var TwitchAPI = require('../../api_wrappers/twitch-api.js');
+var GLOBALS = require('../../GLOBALS.js');
 
 var TwitchLoginButton = React.createClass({
 
     twitch: new TwitchAPI(),
 
     login: function() {
-        this.twitch.authenticate();
+        this.twitch.authenticate(GLOBALS.REDIRECT_URI, GLOBALS.CLIENT_ID);
     },
 
     render: function() {

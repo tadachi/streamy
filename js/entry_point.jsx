@@ -22,11 +22,6 @@ var hitbox = new HitboxAPI();
  * Main
  */
 
-hitbox.getTopStreams(function(data) {
-    console.log(data); 
-});
-
-
 // Handles implicit authentication to Twitch and its oAuth tokens.
 if (Util.getQueryStringParams('closewindow')) { // Check querystring for closewindow=true, if so then we know that the user tried to auth.
     window.opener.sessionStorage.setItem('twitch_access_token', Util.getQueryStringParams('access_token'));

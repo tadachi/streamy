@@ -3,6 +3,7 @@ var $ = require('jquery');
 var GLOBALS = require('../GLOBALS.js');
 
 var TwitchAPI = require('../api_wrappers/twitch-api.js');
+var HitboxAPI = require('../hitbox-api.js');
 var TypingDelay = require('../lib/TypingDelay.js');
 
 // Lib
@@ -19,6 +20,7 @@ var ListViewTwitchStreams = require('./children/ListViewTwitchStreams.jsx');
 var MainTwitchComponent = React.createClass({
 
     twitch: new TwitchAPI(),
+    hitbox: new HitboxAPI(),
     typingDelay: new TypingDelay(),
 
     STATUS: {
@@ -30,8 +32,10 @@ var MainTwitchComponent = React.createClass({
         TOPGAMES: 'Top Games',
         SEARCH: 'Search',
         SPEEDRUNS: 'Speedruns',
+        HITBOX: 'Hitbox',
         FOLLOWED: 'Followed',
-        FOLLOWEDGAMES: 'Your Games'
+        FOLLOWEDGAMES: 'Your Games',
+
     },
 
     OFFSET: 8,
@@ -181,6 +185,12 @@ var MainTwitchComponent = React.createClass({
                     this.setState({ streams: data });
                 }.bind(this));
                 break;
+            // case this.CATEGORIES.HITBOX:
+            //     this.hideGames();
+            //     this.hitbox.getTopStreams(function(data) {
+            //         this.setState({ streams: data });
+            //     }.bind(this));
+            //     break;
             case this.CATEGORIES.FOLLOWED:
                 this.hideGames();
                 this.twitch.getFollowedStreams(function(data) {
@@ -189,7 +199,6 @@ var MainTwitchComponent = React.createClass({
                 break;
             case this.CATEGORIES.FOLLOWEDGAMES:
                 this.twitch.getFollowedGames(this.twitch.getUserName(), function(data) {
-                    console.log(data);
                     this.showGames();
                     this.setState({games: data});
                 }.bind(this))
@@ -383,6 +392,7 @@ var MainTwitchComponent = React.createClass({
                             <option value={this.CATEGORIES.TOPGAMES}>{this.CATEGORIES.TOPGAMES}</option>
                             <option value={this.CATEGORIES.SEARCH}>{this.CATEGORIES.SEARCH}</option>
                             <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
+                            <option disabled value={this.CATEGORIES.HITBOX}>{this.CATEGORIES.HITBOX}</option>
                             {this.twitch.getAuthToken() ? 
                                 <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option> : <option disabled value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option>}
                             {this.twitch.getAuthToken() ? 
