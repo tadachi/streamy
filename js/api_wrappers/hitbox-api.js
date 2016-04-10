@@ -23,7 +23,8 @@ class HitboxAPI {
                 if (response.error) {
                     callback(null);
                 } else {
-                    callback(response);
+                    let hitbox = {hitbox: response};
+                    callback(hitbox);
                 }
 
             }

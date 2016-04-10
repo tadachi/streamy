@@ -8,13 +8,13 @@ var TwitchAPI = require('./api_wrappers/twitch-api.js');
 var HitboxAPI = require('./api_wrappers/hitbox-api.js');
 
 // Components
-var MainTwitchComponent = require('./components/MainTwitchComponent.jsx');
+var App = require('./App.jsx');
 var TwitchVideoPlayer = require('./components/TwitchVideoPlayer.jsx');
 var CustomTwitchPlayer = require('./components/CustomTwitchPlayer.js');
 var TwitchChat = require('./components/TwitchChat.jsx')
 
 var TwitchChatComponent;
-var MainTwitchComponent;
+var App;
 var TwitchVideoPlayerComponent;
 var twitch = new TwitchAPI();
 var hitbox = new HitboxAPI();
@@ -55,8 +55,8 @@ else {
         document.getElementById('twitch_chat')
     );
 
-    MainTwitchComponent = ReactDOM.render(
-        <MainTwitchComponent
+    App = ReactDOM.render(
+        <App
             search_div='flex_search'
             chat_div='flex_chat'
             player_div='flex_player'
@@ -70,26 +70,26 @@ else {
 
 // $(document).keydown(function(event) {
 document.addEventListener('keydown', function(event) {
-    if (MainTwitchComponent) {
+    if (App) {
         // console.log(event.keyCode);
         switch(event.keyCode) {
             case 37: // Left Arrow.
                 $('#flex_search').toggle();
-                MainTwitchComponent.handleResize();
+                App.handleResize();
                 break
             case 38: // Up Arrow.
                 $('#flex_search').show();
                 $('#flex_chat').show();
-                MainTwitchComponent.handleResize();
+                App.handleResize();
                 break
             case 39: // Right Arrow.
                 $('#flex_chat').toggle();
-                MainTwitchComponent.handleResize();
+                App.handleResize();
                 break
             case 40: // Down Arrow.
                 $('#flex_search').hide();
                 $('#flex_chat').hide();
-                MainTwitchComponent.handleResize();
+                App.handleResize();
                 break
         }
     }

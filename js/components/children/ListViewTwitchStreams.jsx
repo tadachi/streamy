@@ -123,6 +123,7 @@ var ListViewTwitchStreams = React.createClass({
         };
 
         //{stream.channel.name} {stream.channel.status} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}
+        // console.log(typeof(this.props.data));
         // console.log(this.props.data);
         if (this.props.data) {
             // From Twitch
@@ -135,7 +136,7 @@ var ListViewTwitchStreams = React.createClass({
                                 <td style={logo} rowSpan="3" >
                                     <a href={window.location.pathname + "#/!/?streamer="+stream.channel.name}
                                         onClick={this.props.setChannel.bind(null, stream.channel.name)}>
-                                        <SmallTwitchComponents.TwitchUserLogo
+                                        <SmallTwitchComponents.UserLogo
                                             style={image}
                                             src={stream.channel.logo}
                                             />
@@ -177,7 +178,7 @@ var ListViewTwitchStreams = React.createClass({
                                 <td style={logo} rowSpan="3" >
                                     <a href={window.location.pathname + '#/!/?streamer='+stream.display_name}
                                         onClick={this.props.setChannel.bind(null, stream.display_name)}>
-                                        <SmallTwitchComponents.TwitchUserLogo
+                                        <SmallTwitchComponents.UserLogo
                                              style={image}
                                              src={stream.image.size70}
                                              />
@@ -196,7 +197,36 @@ var ListViewTwitchStreams = React.createClass({
                     );
                 }.bind(this));
             }
-        }
+            // From Hitbox
+            else if (this.props.data.hitbox) {
+                // stream.category_name stream.status stream.user_log stream.user_logo_small stream.user_name stream.viewers 
+                listView = this.props.data.hitbox.map(function(stream, i) {
+                    return (
+                        <tbody style={tbody} key={i}>
+                            <tr>
+                                <td style={logo} rowSpan="3" >
+                                    <a href={window.location.pathname + '#/!/?streamer='+stream.user_name}>
+                                        <SmallTwitchComponents.UserLogo
+                                                style={image}
+                                                src={stream.user_logo_small}
+                                                />
+                                    </a>
+                                </td>
+                                <td style={name}>{stream.user_name}</td>
+                                <td style={viewers}>{stream.viewers}</td>
+                            </tr>
+                            <tr>
+                                <td style={game}>{stream.category_name}</td>
+                            </tr>
+                            <tr>
+                                <td style={status}>{stream.status}</td>
+                            </tr>
+                        </tbody>
+                    );
+                }.bind(this));
+            }
+        } 
+   
 
         return (
             <table style={table}>

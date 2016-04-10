@@ -1,6 +1,6 @@
 var React = require('react');
 
-var TwitchUserLogo = React.createClass({
+var UserLogo = React.createClass({
 
     default_src: 'https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png',
 
@@ -15,7 +15,7 @@ var TwitchUserLogo = React.createClass({
 
 });
 
-var TwitchGameLogo = React.createClass({
+var GameLogo = React.createClass({
 
     default_src: 'http://static-cdn.jtvnw.net/ttv-static/404_boxart-136x190.jpg',
 
@@ -64,14 +64,14 @@ var HoverGamePreview = React.createClass({
         if (this.props.game_logo) {
             return (
                 <div style={hover}>
-                    <TwitchGameLogo src={this.props.game_logo} />
+                    <GameLogo src={this.props.game_logo} />
                 </div>
 
             );
         }
 
         return (
-            <TwitchGameLogo />
+            <GameLogo />
         );
     }
 });
@@ -145,8 +145,8 @@ var TwitchStreamPreviewImg = React.createClass({
 });
 
 module.exports = {
-    TwitchUserLogo,
-    TwitchGameLogo,
+    UserLogo,
+    GameLogo,
     HoverGamePreview,
     HoverStreamPreview,
     TwitchStreamPreviewImg,

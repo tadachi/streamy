@@ -1,23 +1,23 @@
 var React = require('react');
 var $ = require('jquery');
-var GLOBALS = require('../GLOBALS.js');
+var GLOBALS = require('./GLOBALS.js');
 
-var TwitchAPI = require('../api_wrappers/twitch-api.js');
-var HitboxAPI = require('../hitbox-api.js');
-var TypingDelay = require('../lib/TypingDelay.js');
+var TwitchAPI = require('./api_wrappers/twitch-api.js');
+var HitboxAPI = require('./api_wrappers/hitbox-api.js');
+var TypingDelay = require('./lib/TypingDelay.js');
 
 // Lib
-var Util = require('../lib/util.js');
+var Util = require('./lib/util.js');
 
 // components
-var TwitchLoginButton = require('./children/TwitchLoginButton.jsx');
-var SelectorForTwitchGames = require('./children/SelectorForTwitchGames.jsx');
-var ListViewTwitchStreams = require('./children/ListViewTwitchStreams.jsx');
+var TwitchLoginButton = require('./components/children/TwitchLoginButton.jsx');
+var SelectorForTwitchGames = require('./components/children/SelectorForTwitchGames.jsx');
+var ListViewTwitchStreams = require('./components/children/ListViewTwitchStreams.jsx');
 
 /*
  * Component for twitch channel search.
  */
-var MainTwitchComponent = React.createClass({
+var App = React.createClass({
 
     twitch: new TwitchAPI(),
     hitbox: new HitboxAPI(),
@@ -185,12 +185,12 @@ var MainTwitchComponent = React.createClass({
                     this.setState({ streams: data });
                 }.bind(this));
                 break;
-            // case this.CATEGORIES.HITBOX:
-            //     this.hideGames();
-            //     this.hitbox.getTopStreams(function(data) {
-            //         this.setState({ streams: data });
-            //     }.bind(this));
-            //     break;
+            case this.CATEGORIES.HITBOX:
+                this.hideGames();
+                this.hitbox.getTopStreams(function(data) {
+                    this.setState({ streams: data });
+                }.bind(this));
+                break;
             case this.CATEGORIES.FOLLOWED:
                 this.hideGames();
                 this.twitch.getFollowedStreams(function(data) {
@@ -392,7 +392,7 @@ var MainTwitchComponent = React.createClass({
                             <option value={this.CATEGORIES.TOPGAMES}>{this.CATEGORIES.TOPGAMES}</option>
                             <option value={this.CATEGORIES.SEARCH}>{this.CATEGORIES.SEARCH}</option>
                             <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
-                            <option disabled value={this.CATEGORIES.HITBOX}>{this.CATEGORIES.HITBOX}</option>
+                            <option value={this.CATEGORIES.HITBOX}>{this.CATEGORIES.HITBOX}</option>
                             {this.twitch.getAuthToken() ? 
                                 <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option> : <option disabled value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option>}
                             {this.twitch.getAuthToken() ? 
@@ -416,4 +416,4 @@ var MainTwitchComponent = React.createClass({
 });
 
 // Export on bottom to avoid invariant errors from React.
-module.exports = MainTwitchComponent;
+module.exports = App;
