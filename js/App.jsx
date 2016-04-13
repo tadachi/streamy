@@ -262,6 +262,7 @@ var App = React.createClass({
             }.bind(this));
         }
 
+        // Refresh Streams on certain categories.
         setInterval(function() {
             switch(this.refs.selectInput.value) {
                 case this.CATEGORIES.FOLLOWED:
@@ -277,7 +278,7 @@ var App = React.createClass({
                     }.bind(this));
                     break;
             }
-        }.bind(this), 30000)
+        }.bind(this), 60000)
 
         var authInterval = setInterval(function() { // Fast interval to check if logged in. Kills itself after logging in.
             if (this.twitch.getAuthToken()) {
