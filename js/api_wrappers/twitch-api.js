@@ -141,7 +141,26 @@ class TwitchAPI {
 
     getSpeedrunStreams(callback) {
         $.ajax({
-            url: 'http://api.speedrunslive.com/frontend/streams',
+            url: 'https://api.takbytes.com/speedruns',
+            // Tell jQuery we're expecting JSON.
+            dataType: 'json',
+
+            success: function(response) {
+
+                if (response.error) {
+                    // console.log(response);
+                    callback(null);
+                } else {
+                    callback(response);
+                }
+
+            }
+        });
+    }
+
+    getSpeedrunStreamsJSONP(callback) {
+        $.ajax({
+            url: 'https://api.takbytes.com/speedruns',
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -162,7 +181,7 @@ class TwitchAPI {
 
     getFollowedGames(user_name, callback) {
         $.ajax({
-            url: 'http://api.twitch.tv/api/users/{user_name}/follows/games'.format({ user_name: user_name}),
+            url: 'https://api.twitch.tv/api/users/{user_name}/follows/games'.format({ user_name: user_name}),
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
