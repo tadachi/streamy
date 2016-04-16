@@ -20,10 +20,12 @@ class CustomTwitchPlayer {
     };
 
     setWidth(width) {
+        this.options.width = width;
         $('#' + this.div_id).find('iframe').css('width', width);
     };
 
     setHeight(height) {
+        this.options.height = height;
         $('#' + this.div_id).find('iframe').css('height', height);
     };
 
@@ -42,6 +44,15 @@ class CustomTwitchPlayer {
         console.log(this.div_id);
         console.log(this.player);
     };
+
+    clear() {
+        $('#' + this.div_id).empty();
+        this.player = null;
+    }
+
+    reInitialize() {
+        this.player = new Twitch.Player(this.div_id, this.options); 
+    }
 
 }
 

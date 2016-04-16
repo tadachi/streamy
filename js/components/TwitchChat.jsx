@@ -8,7 +8,7 @@ var TwitchChat = React.createClass({
         return {
             channel: '{CHANNEL}',
             width: '300',
-            height: window.innerHeight - GLOBALS.MAGIC_MARGIN,
+            height: window.innerHeight,
             error_display: '',
             load_chat_button_display: 'none',
             flex_div_display: 'flex',

@@ -45,10 +45,6 @@ else {
 
     /* React */
     TwitchVideoPlayerComponent = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
-    // TwitchVideoPlayerComponent = ReactDOM.render(
-    //     <TwitchVideoPlayer div_id='player' />,
-    //     document.getElementById('twitch_player')
-    // );
 
     TwitchChatComponent = ReactDOM.render(
         <TwitchChat parent_div_id='twitch_chat' div_id='chat'/>,

@@ -49,11 +49,11 @@ var App = React.createClass({
             window_inner_width: window.innerWidth,
             window_inner_height: window.innerHeight,
             search_width:  $('#' + this.props.search_div).width(),
-            search_height:  $('#' + this.props.search_div).height() - GLOBALS.MAGIC_MARGIN,
+            search_height:  $('#' + this.props.search_div).height(),
             player_width:  $('#' + this.props.player_div).width(),
-            player_height: $('#' + this.props.player_div).height() - GLOBALS.MAGIC_MARGIN,
+            player_height: $('#' + this.props.player_div).height(),
             chat_width:  $('#' + this.props.chat_div).width(),
-            chat_height: $('#' + this.props.chat_div).height() - GLOBALS.MAGIC_MARGIN,
+            chat_height: $('#' + this.props.chat_div).height(),
 
             connect_twitch_button_display: '',
 
@@ -206,15 +206,23 @@ var App = React.createClass({
         }
     },
 
+    debugButton1() {
+        this.props.TwitchPlayer.clear();
+    },
+
+    debugButton2() {
+        this.props.TwitchPlayer.reInitialize();
+    },
+
     handleResize: function(e) {
         this.setState({ window_inner_width: window.innerWidth});
         this.setState({ window_inner_height: window.innerHeight});
         this.setState({ search_width: $('#' + this.props.search_div).width() });
-        this.setState({ search_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
+        this.setState({ search_height: window.innerHeight});
         this.setState({ player_width: $('#' + this.props.player_div).width() });
-        this.setState({ player_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
+        this.setState({ player_height: window.innerHeight});
         this.setState({ chat_width: $('#' + this.props.chat_div).width() });
-        this.setState({ chat_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
+        this.setState({ chat_height: window.innerHeight});
 
         // New
         $('#' + this.props.search_div).css('height', this.state.search_height);
@@ -237,8 +245,11 @@ var App = React.createClass({
 
     componentDidMount: function() {
         // Set flex'ed sizes
-        this.setState({ player_width: $('#' + this.props.player_div).width() });
-        this.setState({ player_height: window.innerHeight });
+        $('#' + this.props.search_div).css('height', this.state.search_height);
+        $('#' + this.props.chat_div).css('height', this.state.chat_height);
+        $('#' + this.props.player_div).css('height', this.state.player_height);
+        // this.setState({ player_width: $('#' + this.props.player_div).width() });
+        // this.setState({ player_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
         this.props.TwitchPlayer.setWidth(this.state.player_width);
         this.props.TwitchPlayer.setHeight(this.state.player_height);
 
@@ -314,8 +325,8 @@ var App = React.createClass({
         var search = {
             display: 'block',
             maxWidth: '300px',
-            height: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN-87) + 'px', //87 is the height of the flex_button_area
-            maxHeight: (this.state.window_inner_height-GLOBALS.MAGIC_MARGIN-87) + 'px',
+            height: (this.state.window_inner_height) + 'px',
+            maxHeight: (this.state.window_inner_height + 50) + 'px',
             overflowX: 'hidden',
             overflowY: 'scroll',
         };
@@ -372,35 +383,36 @@ var App = React.createClass({
         var status= {
             fontSize: '15px',
         }
-
+                //    <button onClick={this.debugButton1}>Debug1</button>
+                //     <button onClick={this.debugButton2}>Debug2</button>
         return (
             <div>
                 <div style={flex_div}>
-                    <TwitchLoginButton style={login} />
-
-                    <input
-                    style={input}
-                    type="text"
-                    ref='searchInput'
-                    placeholder='Search..'
-                    value={this.props.query}
-                    onChange={this.doSearchDelayed}
-                    />
-
-                    <b style={status}>{this.state.status}</b>
-
-                    <select style={select} ref='selectInput' defaultValue="TOPGAMES" onChange={this.selectCategoryHandle}>
-                            <option value={this.CATEGORIES.TOPGAMES}>{this.CATEGORIES.TOPGAMES}</option>
-                            <option value={this.CATEGORIES.SEARCH}>{this.CATEGORIES.SEARCH}</option>
-                            <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
-                            <option value={this.CATEGORIES.HITBOX}>{this.CATEGORIES.HITBOX}</option>
-                            {this.twitch.getAuthToken() ? 
-                                <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option> : <option disabled value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option>}
-                            {this.twitch.getAuthToken() ? 
-                                <option value={this.CATEGORIES.FOLLOWEDGAMES}>{this.CATEGORIES.FOLLOWEDGAMES}</option> : <option disabled value={this.CATEGORIES.FOLLOWEDGAMES}>{this.CATEGORIES.FOLLOWEDGAMES}</option>}
-                    </select>
-
+                
                     <div style={flex_button_area}>
+                        <TwitchLoginButton style={login} />
+                        
+                        <input
+                        style={input}
+                        type="text"
+                        ref='searchInput'
+                        placeholder='Search..'
+                        value={this.props.query}
+                        onChange={this.doSearchDelayed}
+                        />
+
+                        <b style={status}>{this.state.status}</b>
+
+                        <select style={select} ref='selectInput' defaultValue="TOPGAMES" onChange={this.selectCategoryHandle}>
+                                <option value={this.CATEGORIES.TOPGAMES}>{this.CATEGORIES.TOPGAMES}</option>
+                                <option value={this.CATEGORIES.SEARCH}>{this.CATEGORIES.SEARCH}</option>
+                                <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
+                                <option value={this.CATEGORIES.HITBOX}>{this.CATEGORIES.HITBOX}</option>
+                                {this.twitch.getAuthToken() ? 
+                                    <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option> : <option disabled value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option>}
+                                {this.twitch.getAuthToken() ? 
+                                    <option value={this.CATEGORIES.FOLLOWEDGAMES}>{this.CATEGORIES.FOLLOWEDGAMES}</option> : <option disabled value={this.CATEGORIES.FOLLOWEDGAMES}>{this.CATEGORIES.FOLLOWEDGAMES}</option>}
+                        </select>
                         <button style={prev_button} onClick={this.showPrevGamesHandle}>Prev</button>
                         <button style={button} onClick={this.showHideHandle}>Show/Hide Games</button>
                         <button style={button} onClick={this.showNextGamesHandle}>Next</button>
