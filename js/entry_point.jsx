@@ -9,9 +9,12 @@ var HitboxAPI = require('./api_wrappers/hitbox-api.js');
 
 // Components
 var App = require('./App.jsx');
-var TwitchVideoPlayer = require('./components/TwitchVideoPlayer.jsx');
+// var TwitchVideoPlayer = require('./components/TwitchVideoPlayer.jsx');
 var CustomTwitchPlayer = require('./components/CustomTwitchPlayer.js');
 var TwitchChat = require('./components/TwitchChat.jsx')
+var HitboxPlayer = require('./components/HitboxPlayer.jsx');
+var HitboxChat = require('./components/HitboxChat.jsx')
+
 
 var TwitchChatComponent;
 var App;

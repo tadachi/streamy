@@ -1,3 +1,4 @@
+var React = require('react');
 var $ = require('jquery');
 var GLOBALS = require('../GLOBALS.js');
 
@@ -49,6 +50,14 @@ var HitboxPlayer = React.createClass({
         if (iframe) {
             iframe.parentNode.removeChild(iframe);
         }
+    },
+
+    render: function() {
+         return (
+            <div>
+
+            </div>
+        );       
     },
 
 });

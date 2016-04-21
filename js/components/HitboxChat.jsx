@@ -1,9 +1,14 @@
+var React = require('react');
+var $ = require('jquery');
+var GLOBALS = require('../GLOBALS.js');
+
 var HitboxChat = React.createClass({
     getInitialState: function() {
         return {
             width: null,
             height: null,
             channel: null,
+            error_display: '',
         };
     },
     
@@ -16,11 +21,11 @@ var HitboxChat = React.createClass({
     },
 
     setChatChannel: function(channel) {
+        this.setState({error_display: 'none'});
         this.removeIframeChat();
     },    
     
     loadChat: function() {
-        this.setState({flex_div: 'none'});
 
         // Change the chat to the corresponding video channel.
         var src = 'https://www.twitch.tv/{CHANNEL}/chat'.format({
@@ -45,6 +50,41 @@ var HitboxChat = React.createClass({
             iframe.parentNode.removeChild(iframe);
         }
     },
+ 
+    render: function() {
+        var div = {
+            display: 'flex',
+            width: '300px',
+            height: this.state.height,
+        };
+
+        var flex_div = {
+            display: 'flex',
+
+            width: '300px',
+            height: this.state.height,
+            alignItems: 'center',
+            justifyContent: 'center',
+        };
+
+        var error = {
+            display: this.state.error_display,
+
+            fontFamily: 'Droid Sans, serif',
+            fontWeight: 'bold',
+            fontSize: '18px',
+            color: '#6666FF', // ~ Diablo 3 Magic Item Blue
+        };
+
+        return (
+            <div style={div}>
+                <div style={flex_div}>
+                    <p style={error}>No stream has been loaded.</p>
+                </div>
+            </div>
+        );
+
+    }
     
 });
 
