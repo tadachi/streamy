@@ -2,6 +2,9 @@ var React = require('react');
 var TwitchAPI = require('../../api_wrappers/twitch-api.js');
 var GLOBALS = require('../../GLOBALS.js');
 
+/**
+ * Component for a login button that uses the twitch-api.js wrapper for Twitch API.
+ */
 var TwitchLoginButton = React.createClass({
 
     twitch: new TwitchAPI(),

@@ -6,16 +6,16 @@ var TwitchAPI = require('./api_wrappers/twitch-api.js');
 var HitboxAPI = require('./api_wrappers/hitbox-api.js');
 var TypingDelay = require('./lib/TypingDelay.js');
 
-// Lib
+// Lib.
 var Util = require('./lib/util.js');
 
-// components
+// Components.
 var TwitchLoginButton = require('./components/children/TwitchLoginButton.jsx');
 var SelectorForTwitchGames = require('./components/children/SelectorForTwitchGames.jsx');
 var ListViewTwitchStreams = require('./components/children/ListViewTwitchStreams.jsx');
 
 /*
- * Component for twitch channel search.
+ * Parent component.
  */
 var App = React.createClass({
 
@@ -214,6 +214,9 @@ var App = React.createClass({
         this.props.TwitchPlayer.reInitialize();
     },
 
+    /**
+     * Handles the resizing of streams, videoplayer, chat.
+     */
     handleResize: function(e) {
         this.setState({ window_inner_width: window.innerWidth});
         this.setState({ window_inner_height: window.innerHeight});
@@ -243,6 +246,9 @@ var App = React.createClass({
         // console.log('player h ' + $('#' + this.props.player_div).height());
     },
 
+    /**
+     * Invoked after initial rendering occurs. Time to do anything that requires the initial render.
+     */
     componentDidMount: function() {
         // Set flex'ed sizes
         $('#' + this.props.search_div).css('height', this.state.search_height);

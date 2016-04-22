@@ -2,6 +2,10 @@ var React = require('react');
 var $ = require('jquery');
 var GLOBALS = require('../GLOBALS.js');
 
+/**
+ * Non-interative twitch video player embed.
+ * This video player is not recommended as the Interative embed video player is quicker at changing streams.
+ */
 var TwitchVideoPlayer = React.createClass({
 
     getInitialState: function() {

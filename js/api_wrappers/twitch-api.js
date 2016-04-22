@@ -1,6 +1,9 @@
 var $ = require('jquery');
 var GLOBALS = require('../GLOBALS.js');
 
+/**
+ * Twitch API wrapper class comprised of callbacks to get data in JSON representation and authentication to login as a twitch user.
+ */
 class TwitchAPI {
 
     constructor() {}

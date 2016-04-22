@@ -2,6 +2,9 @@ var React = require('react');
 var $ = require('jquery');
 var GLOBALS = require('../GLOBALS.js');
 
+/**
+ * Twitch chat component.
+ */
 var TwitchChat = React.createClass({
 
     getInitialState: function() {

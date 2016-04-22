@@ -1,3 +1,7 @@
+/**
+ * Allows you to continue to type using onChange without calling a function every keypress.
+ * This is useful for searching and giving partial results.
+ */
 class TypingDelay {
 
     constructor(delay = 1150) {

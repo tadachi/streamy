@@ -1,6 +1,10 @@
 var React = require('react');
 var SmallTwitchComponents = require('./SmallTwitchComponents.jsx')
 
+
+/**
+ * Component for listing twitch streams in a table format.
+ */
 var ListViewTwitchStreams = React.createClass({
 
     getDefaultProps: function() {

@@ -1,5 +1,9 @@
 var React = require('react');
 
+/**
+ * Small components that are easily understood and can be used in iteration.
+ */
+
 var UserLogo = React.createClass({
 
     default_src: 'https://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png',

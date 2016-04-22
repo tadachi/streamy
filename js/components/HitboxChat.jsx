@@ -2,6 +2,9 @@ var React = require('react');
 var $ = require('jquery');
 var GLOBALS = require('../GLOBALS.js');
 
+/**
+ * Hitbox chat component.
+ */
 var HitboxChat = React.createClass({
     getInitialState: function() {
         return {

@@ -1,6 +1,10 @@
 var React = require('react');
 var TwitchAPI = require('../../api_wrappers/twitch-api.js');
 
+
+/**
+ * Component for listing games on twitch in a table format.
+ */
 var SelectorForTwitchGames = React.createClass({
 
     twitch: new TwitchAPI(),

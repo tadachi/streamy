@@ -2,6 +2,9 @@ var React = require('react');
 var $ = require('jquery');
 var GLOBALS = require('../GLOBALS.js');
 
+/**
+ * Hitbox player component.
+ */
 var HitboxPlayer = React.createClass({
 
     getInitialState: function() {

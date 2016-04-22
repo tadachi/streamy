@@ -1,5 +1,8 @@
 var $ = require('jquery');
 
+/**
+ * The Twitch videoplayer component. It is using the interactive embed code.
+ */
 class CustomTwitchPlayer {
 
     constructor(div_id, width=480, height=320) {

@@ -2,6 +2,9 @@ var GLOBALS = require('../GLOBALS.js');
 var $ = require('jquery');
 
 //https://hboxapi.herokuapp.com/
+/**
+ * Hitbox API wrapper class comprised of callbacks to get data in a JSON representation.
+ */
 class HitboxAPI {
     constructor() {}
     
