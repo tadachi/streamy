@@ -5,7 +5,7 @@ var SmallTwitchComponents = require('./SmallTwitchComponents.jsx')
 /**
  * Component for listing twitch streams in a table format.
  */
-var ListViewTwitchStreams = React.createClass({
+var ListViewStreams = React.createClass({
 
     getDefaultProps: function() {
         return {
@@ -139,7 +139,7 @@ var ListViewTwitchStreams = React.createClass({
                             <tr>
                                 <td style={logo} rowSpan="3" >
                                     <a href={window.location.pathname + "#/!/?streamer="+stream.channel.name}
-                                        onClick={this.props.setChannel.bind(null, stream.channel.name)}>
+                                        onClick={this.props.setTwitchChannel.bind(null, stream.channel.name)}>
                                         <SmallTwitchComponents.UserLogo
                                             style={image}
                                             src={stream.channel.logo}
@@ -181,7 +181,7 @@ var ListViewTwitchStreams = React.createClass({
                             <tr>
                                 <td style={logo} rowSpan="3" >
                                     <a href={window.location.pathname + '#/!/?streamer='+stream.display_name}
-                                        onClick={this.props.setChannel.bind(null, stream.display_name)}>
+                                        onClick={this.props.setTwitchChannel.bind(null, stream.display_name)}>
                                         <SmallTwitchComponents.UserLogo
                                              style={image}
                                              src={stream.image.size70}
@@ -209,7 +209,8 @@ var ListViewTwitchStreams = React.createClass({
                         <tbody style={tbody} key={i}>
                             <tr>
                                 <td style={logo} rowSpan="3" >
-                                    <a href={window.location.pathname + '#/!/?streamer='+stream.user_name}>
+                                    <a href={window.location.pathname + '#/!/?streamer='+stream.user_name}
+                                        onClick={this.props.setHitboxChannel.bind(null, stream.display_name)}>
                                         <SmallTwitchComponents.UserLogo
                                                 style={image}
                                                 src={stream.user_logo_small}
@@ -242,4 +243,4 @@ var ListViewTwitchStreams = React.createClass({
 
 });
 
-module.exports = ListViewTwitchStreams;
+module.exports = ListViewStreams;

@@ -16,9 +16,14 @@ var HitboxPlayer = require('./components/HitboxPlayer.jsx');
 var HitboxChat = require('./components/HitboxChat.jsx')
 
 
-var TwitchChatComponent;
 var App;
+var ParentChatComponent;
+var TwitchChatComponent;
+var HitboxChatComponent;
+
 var TwitchVideoPlayerComponent;
+var HitboxVideoPlayerComponent;
+
 var twitch = new TwitchAPI();
 var hitbox = new HitboxAPI();
 /*
@@ -47,12 +52,18 @@ else {
     $('#flex_chat').addClass('flex-chat');
 
     /* React */
-    TwitchVideoPlayerComponent = new CustomTwitchPlayer('twitch_player'); // Set the div to 'twitch_player'
+    TwitchVideoPlayerComponent = new CustomTwitchPlayer('video_player'); // Set the div to 'twitch_player'
 
     TwitchChatComponent = ReactDOM.render(
-        <TwitchChat parent_div_id='twitch_chat' div_id='chat'/>,
-        document.getElementById('twitch_chat')
+        <TwitchChat parent_div_id='chat' div_id='twitch_chat'/>,
+        document.getElementById('chat')
     );
+
+    // //ERROR
+    // HitboxChatComponent = ReactDOM.render(
+    //     <HitboxChat parent_div_id='chat' div_id='hitbox_chat'/>,
+    //     document.getElementById('chat')
+    // );
 
     App = ReactDOM.render(
         <App
@@ -61,8 +72,9 @@ else {
             player_div='flex_player'
             TwitchChat={TwitchChatComponent}
             TwitchPlayer={TwitchVideoPlayerComponent}
+            HitboxChat={HitboxChatComponent}
             />,
-        document.getElementById('twitch_search_stream')
+        document.getElementById('search_stream')
     );
 
 };

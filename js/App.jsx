@@ -11,8 +11,8 @@ var Util = require('./lib/util.js');
 
 // Components.
 var TwitchLoginButton = require('./components/children/TwitchLoginButton.jsx');
-var SelectorForTwitchGames = require('./components/children/SelectorForTwitchGames.jsx');
-var ListViewTwitchStreams = require('./components/children/ListViewTwitchStreams.jsx');
+var SelectorForGames = require('./components/children/SelectorForGames.jsx');
+var ListViewStreams = require('./components/children/ListViewStreams.jsx');
 
 /*
  * Parent component.
@@ -155,13 +155,22 @@ var App = React.createClass({
         this.typingDelay.delayedRun(this.search);
     },
 
-    setChannel: function(channel) {
+    setTwitchChannel: function(channel) {
         this.hideGames();
         // Setup video player.
         this.props.TwitchPlayer.setChannel(channel);
         // Setup to load chat.
         this.props.TwitchChat.setChatChannel(channel);
     },
+
+    setHitboxChannel: function(channel) {
+        this.hideGames();
+        // Setup video player.
+        // this.props.TwitchPlayer.setChannel(channel);
+        // Setup to load chat.
+        this.props.HitboxChat.setChatChannel(channel);
+    },
+
 
     selectGame: function(game) {
         // Pass game to parent to use it as a query.
@@ -426,8 +435,8 @@ var App = React.createClass({
                 </div>
 
                 <div id='search' style={search}>
-                    <SelectorForTwitchGames selectGame={this.selectGame} data={this.state.games} display={this.state.games_display} />
-                    <ListViewTwitchStreams setChannel={this.setChannel} data={this.state.streams} />
+                    <SelectorForGames selectGame={this.selectGame} data={this.state.games} display={this.state.games_display} />
+                    <ListViewStreams setTwitchChannel={this.setTwitchChannel} setHitboxChannel={this.setHitboxChannel} data={this.state.streams} />
                 </div>
             </div>
         );
