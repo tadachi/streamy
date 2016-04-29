@@ -11,6 +11,18 @@ var ParentChat = React.createClass({
             channel: null,
         };
     },
+    
+    render: function() {
+        var div = {
+            display: 'flex',
+        };
+
+        return (
+            <div style={div}>
+            </div>
+        );
+
+    }
         
 })
 
