@@ -11,18 +11,14 @@ var HitboxAPI = require('./api_wrappers/hitbox-api.js');
 var App = require('./App.jsx');
 // var TwitchVideoPlayer = require('./components/TwitchVideoPlayer.jsx');
 var CustomTwitchPlayer = require('./components/CustomTwitchPlayer.js');
-var TwitchChat = require('./components/TwitchChat.jsx')
+var Chat = require('./components/Chat.jsx');
 var HitboxPlayer = require('./components/HitboxPlayer.jsx');
-var HitboxChat = require('./components/HitboxChat.jsx')
-
 
 var App;
 var ParentChatComponent;
-var TwitchChatComponent;
-var HitboxChatComponent;
+var ChatComponent;
 
 var TwitchVideoPlayerComponent;
-var HitboxVideoPlayerComponent;
 
 var twitch = new TwitchAPI();
 var hitbox = new HitboxAPI();
@@ -52,27 +48,20 @@ else {
     $('#flex_chat').addClass('flex-chat');
 
     /* React */
-    TwitchVideoPlayerComponent = new CustomTwitchPlayer('video_player'); // Set the div to 'twitch_player'
+    TwitchVideoPlayerComponent = new CustomTwitchPlayer('video_player');
 
-    TwitchChatComponent = ReactDOM.render(
-        <TwitchChat parent_div_id='chat' div_id='twitch_chat'/>,
+    ChatComponent = ReactDOM.render(
+        <Chat parent_div_id='chat' iframe_div_id='iframe_chat'/>,
         document.getElementById('chat')
     );
-
-    // //ERROR
-    // HitboxChatComponent = ReactDOM.render(
-    //     <HitboxChat parent_div_id='chat' div_id='hitbox_chat'/>,
-    //     document.getElementById('chat')
-    // );
 
     App = ReactDOM.render(
         <App
             search_div='flex_search'
             chat_div='flex_chat'
             player_div='flex_player'
-            TwitchChat={TwitchChatComponent}
+            Chat={ChatComponent}
             TwitchPlayer={TwitchVideoPlayerComponent}
-            HitboxChat={HitboxChatComponent}
             />,
         document.getElementById('search_stream')
     );

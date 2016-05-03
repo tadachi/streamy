@@ -1,5 +1,5 @@
 const APP_NAME = 'streamy';
-const MAGIC_MARGIN = 15;
+const MAGIC_MARGIN = 25;
 // Dev
 const REDIRECT_URI = 'http://beastmachine:4000/?closewindow=true';
 // const REDIRECT_URI = 'https://beastmachine:4000/?closewindow=true'; // https

@@ -47,7 +47,7 @@ var App = React.createClass({
             games: '',
 
             window_inner_width: window.innerWidth,
-            window_inner_height: window.innerHeight,
+            window_inner_height: window.innerHeight - GLOBALS.MAGIC_MARGIN,
             search_width:  $('#' + this.props.search_div).width(),
             search_height:  $('#' + this.props.search_div).height(),
             player_width:  $('#' + this.props.player_div).width(),
@@ -60,6 +60,9 @@ var App = React.createClass({
             games_offset: 0, // offset for getting the next set of games.
             prev_visibility_button: '',
             games_display: 'initial',
+            
+            button_area_width: 0,
+            button_area_height: 0,
         };
     },
 
@@ -160,7 +163,7 @@ var App = React.createClass({
         // Setup video player.
         this.props.TwitchPlayer.setChannel(channel);
         // Setup to load chat.
-        this.props.TwitchChat.setChatChannel(channel);
+        this.props.Chat.setChatChannel(channel);
     },
 
     setHitboxChannel: function(channel) {
@@ -168,9 +171,9 @@ var App = React.createClass({
         // Setup video player.
         // this.props.TwitchPlayer.setChannel(channel);
         // Setup to load chat.
-        this.props.HitboxChat.setChatChannel(channel);
+        this.props.Chat.setChatChannel(channel);
+        this.props.Chat.loadHitboxChat();
     },
-
 
     selectGame: function(game) {
         // Pass game to parent to use it as a query.
@@ -229,12 +232,15 @@ var App = React.createClass({
     handleResize: function(e) {
         this.setState({ window_inner_width: window.innerWidth});
         this.setState({ window_inner_height: window.innerHeight});
+        let window_inner_height = this.state.window_inner_height;
         this.setState({ search_width: $('#' + this.props.search_div).width() });
-        this.setState({ search_height: window.innerHeight});
+        this.setState({ search_height: window_inner_height});
         this.setState({ player_width: $('#' + this.props.player_div).width() });
-        this.setState({ player_height: window.innerHeight});
+        this.setState({ player_height: window_inner_height});
         this.setState({ chat_width: $('#' + this.props.chat_div).width() });
-        this.setState({ chat_height: window.innerHeight});
+        this.setState({ chat_height: window_inner_height});
+        this.setState({button_area_width: $('#button_area').width()});
+        this.setState({button_area_height: $('#button_area').height()});
 
         // New
         $('#' + this.props.search_div).css('height', this.state.search_height);
@@ -242,8 +248,8 @@ var App = React.createClass({
         $('#' + this.props.player_div).css('height', this.state.player_height);
         this.props.TwitchPlayer.setWidth(this.state.player_width);
         this.props.TwitchPlayer.setHeight(this.state.player_height);
-        this.props.TwitchChat.setWidth(this.state.chat_width);
-        this.props.TwitchChat.setHeight(this.state.chat_height);
+        this.props.Chat.setWidth(this.state.chat_width);
+        this.props.Chat.setHeight(this.state.chat_height);
 
         // Debug
         // console.log('handleResize:');
@@ -253,23 +259,19 @@ var App = React.createClass({
         // console.log('search h ' + $('#' + this.props.search_div).height());
         // console.log('player w ' + $('#' + this.props.player_div).width());
         // console.log('player h ' + $('#' + this.props.player_div).height());
+        // console.log($('#button_area').width() + 'x' +  $('#button_area').height());
     },
 
     /**
      * Invoked after initial rendering occurs. Time to do anything that requires the initial render.
      */
     componentDidMount: function() {
-        // Set flex'ed sizes
-        $('#' + this.props.search_div).css('height', this.state.search_height);
-        $('#' + this.props.chat_div).css('height', this.state.chat_height);
-        $('#' + this.props.player_div).css('height', this.state.player_height);
-        // this.setState({ player_width: $('#' + this.props.player_div).width() });
-        // this.setState({ player_height: window.innerHeight - GLOBALS.MAGIC_MARGIN });
-        this.props.TwitchPlayer.setWidth(this.state.player_width);
-        this.props.TwitchPlayer.setHeight(this.state.player_height);
-
         window.addEventListener('resize', this.handleResize);
 
+        this.setState({button_area_width: $('#button_area').width()});
+        this.setState({button_area_height: $('#button_area').height()});
+        console.log($('#button_area').width() + 'x' +  $('#button_area').height());
+        
         // Hide prev button because Top Games start at the top.
         this.setState({prev_visibility_button: 'hidden'});
 
@@ -322,7 +324,7 @@ var App = React.createClass({
         var streamer = Util.getQueryStringParams("streamer");
         if (streamer) {
             this.props.TwitchPlayer.setChannel(streamer);
-            this.props.TwitchChat.setChatChannel(streamer);
+            this.props.Chat.setChatChannel(streamer);
         }
 
     },
@@ -340,8 +342,8 @@ var App = React.createClass({
         var search = {
             display: 'block',
             maxWidth: '300px',
-            height: (this.state.window_inner_height) + 'px',
-            maxHeight: (this.state.window_inner_height + 50) + 'px',
+            height: (this.state.window_inner_height - this.state.button_area_height - GLOBALS.MAGIC_MARGIN) + 'px',
+            maxHeight: (this.state.window_inner_height + this.state.button_area_height + GLOBALS.MAGIC_MARGIN) + 'px',
             overflowX: 'hidden',
             overflowY: 'scroll',
         };
@@ -398,13 +400,12 @@ var App = React.createClass({
         var status= {
             fontSize: '15px',
         }
-                //    <button onClick={this.debugButton1}>Debug1</button>
-                //     <button onClick={this.debugButton2}>Debug2</button>
+
         return (
             <div>
                 <div style={flex_div}>
                 
-                    <div style={flex_button_area}>
+                    <div id='button_area' style={flex_button_area}>
                         <TwitchLoginButton style={login} />
                         
                         <input
@@ -420,9 +421,9 @@ var App = React.createClass({
 
                         <select style={select} ref='selectInput' defaultValue="TOPGAMES" onChange={this.selectCategoryHandle}>
                                 <option value={this.CATEGORIES.TOPGAMES}>{this.CATEGORIES.TOPGAMES}</option>
+                                <option value={this.CATEGORIES.HITBOX}>{this.CATEGORIES.HITBOX}</option>
                                 <option value={this.CATEGORIES.SEARCH}>{this.CATEGORIES.SEARCH}</option>
                                 <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
-                                <option value={this.CATEGORIES.HITBOX}>{this.CATEGORIES.HITBOX}</option>
                                 {this.twitch.getAuthToken() ? 
                                     <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option> : <option disabled value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option>}
                                 {this.twitch.getAuthToken() ? 
