@@ -19,6 +19,7 @@ var ParentChatComponent;
 var ChatComponent;
 
 var TwitchVideoPlayerComponent;
+var HitboxVideoPlayerComponent;
 
 var twitch = new TwitchAPI();
 var hitbox = new HitboxAPI();
@@ -50,6 +51,11 @@ else {
     /* React */
     TwitchVideoPlayerComponent = new CustomTwitchPlayer('video_player');
 
+    // HitboxVideoPlayerComponent = ReactDOM.render(
+    //     <HitboxPlayer parent_div_id='video_player' iframe_div_id='iframe_hitbox_video'/>,
+    //     document.getElementById('video_player')
+    // );
+
     ChatComponent = ReactDOM.render(
         <Chat parent_div_id='chat' iframe_div_id='iframe_chat'/>,
         document.getElementById('chat')
@@ -62,6 +68,7 @@ else {
             player_div='flex_player'
             Chat={ChatComponent}
             TwitchPlayer={TwitchVideoPlayerComponent}
+            HitboxPlayer={HitboxVideoPlayerComponent}
             />,
         document.getElementById('search_stream')
     );

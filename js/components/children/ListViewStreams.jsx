@@ -138,7 +138,7 @@ var ListViewStreams = React.createClass({
                         <tbody style={tbody} key={i}>
                             <tr>
                                 <td style={logo} rowSpan="3" >
-                                    <a href={window.location.pathname + "#/!/?streamer="+stream.channel.name}
+                                    <a href={window.location.pathname + "#/!/?streamer=" + stream.channel.name + '&api=twitch'}
                                         onClick={this.props.setTwitchChannel.bind(null, stream.channel.name)}>
                                         <SmallTwitchComponents.UserLogo
                                             style={image}
@@ -180,7 +180,7 @@ var ListViewStreams = React.createClass({
                         <tbody style={tbody} key={i}>
                             <tr>
                                 <td style={logo} rowSpan="3" >
-                                    <a href={window.location.pathname + '#/!/?streamer='+stream.display_name}
+                                    <a href={window.location.pathname + '#/!/?streamer=' + stream.display_name + '&api=twitch'}
                                         onClick={this.props.setTwitchChannel.bind(null, stream.display_name)}>
                                         <SmallTwitchComponents.UserLogo
                                              style={image}
@@ -209,7 +209,7 @@ var ListViewStreams = React.createClass({
                         <tbody style={tbody} key={i}>
                             <tr>
                                 <td style={logo} rowSpan="3" >
-                                    <a href={window.location.pathname + '#/!/?streamer='+stream.user_name}
+                                    <a href={window.location.pathname + '#/!/?streamer=' + stream.user_name + '&api=hitbox'}
                                         onClick={this.props.setHitboxChannel.bind(null, stream.user_name)}>
                                         <SmallTwitchComponents.UserLogo
                                                 style={image}

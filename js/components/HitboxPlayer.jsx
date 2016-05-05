@@ -9,34 +9,35 @@ var HitboxPlayer = React.createClass({
 
     getInitialState: function() {
         return {
-            width: null,
-            height: null,
+            width: 480,
+            height: 320,
             channel: null,
         };
     },
 
     setWidth: function(width) {
-        $('#' + this.props.div_id).css('width', width);
+        $('#' + this.props.iframe_div_id).css('width', width);
     },
 
     setHeight: function(height) {
-        $('#' + this.props.div_id).css('height', height);
+        $('#' + this.props.iframe_div_id).css('height', height);
     },
 
     setChannel: function(channel) {
         this.setState({channel: channel});
-        this.removeIframeChat();
+        this.removeIframeVideo();
+        this.loadVideoPlayer();
     },
 
     loadVideoPlayer: function() {
-        this.setState({flex_div: 'none'});
+        console.log('loadplayer');
 
         var src = 'https://www.hitbox.tv/#!/embed/{CHANNEL}?autoplay=true'.format({
 			CHANNEL: this.state.channel});
 
-		html =    ['<iframe width="{w}" '.format({ w: center.w }),
-						'height="{h}" '.format({ h: center.h }),
-						'id={div_id}',
+		var html =    ['<iframe width="{w}" '.format({ w: this.state.width}),
+						'height="{h}" '.format({ h: this.state.height }),
+						'id={iframe_div_id}'.format({ iframe_div_id: this.props.iframe_div_id}),
 						'src="{src}" '.format({ src: src }),
 						'frameborder="0 ',
 						'allowfullscreen',

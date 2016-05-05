@@ -19,6 +19,15 @@ var ListViewStreams = require('./components/children/ListViewStreams.jsx');
  */
 var App = React.createClass({
 
+    propTypes: {
+        search_div: React.PropTypes.string.isRequired,
+        chat_div: React.PropTypes.string.isRequired,
+        player_div: React.PropTypes.string.isRequired,
+        Chat: React.PropTypes.any.isRequired,
+        TwitchPlayer: React.PropTypes.any.isRequired,
+        HitboxPlayer: React.PropTypes.any.isRequired,
+    },
+
     twitch: new TwitchAPI(),
     hitbox: new HitboxAPI(),
     typingDelay: new TypingDelay(),
@@ -162,6 +171,10 @@ var App = React.createClass({
         this.hideGames();
         // Setup video player.
         this.props.TwitchPlayer.setChannel(channel);
+        // Remove TwitchPlayer
+        this.props.HitboxPlayer.removeIframeVideo();
+
+
         // Setup to load chat.
         this.props.Chat.setChatChannel(channel);
     },
@@ -169,10 +182,12 @@ var App = React.createClass({
     setHitboxChannel: function(channel) {
         this.hideGames();
         // Setup video player.
-        // this.props.TwitchPlayer.setChannel(channel);
+        // this.props.HitboxPlayer.setChannel(channel);
+        // Remove TwitchPlayer
+        // this.props.TwitchPlayer.clear();
         // Setup to load chat.
-        this.props.Chat.setChatChannel(channel);
-        this.props.Chat.loadHitboxChat();
+        // this.props.Chat.setChatChannel(channel);
+        // this.props.Chat.loadHitboxChat();
     },
 
     selectGame: function(game) {

@@ -73,7 +73,7 @@ var Chat = React.createClass({
             'allowfullscreen>',
             "</iframe>"
         ].join("");
-        
+
         $('#' + this.props.parent_div_id).prepend(html);
     },
 
