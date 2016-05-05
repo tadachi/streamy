@@ -54,7 +54,8 @@ class CustomTwitchPlayer {
     }
 
     reInitialize() {
-        this.player = new Twitch.Player(this.div_id, this.options); 
+        if (!this.player) 
+            this.player = new Twitch.Player(this.div_id, this.options); 
     }
 
 }
