@@ -12,7 +12,7 @@ var App = require('./App.jsx');
 // var TwitchVideoPlayer = require('./components/TwitchVideoPlayer.jsx');
 var CustomTwitchPlayer = require('./components/CustomTwitchPlayer.js');
 var Chat = require('./components/Chat.jsx');
-var HitboxPlayer = require('./components/HitboxPlayer.jsx');
+var HitboxPlayer = require('./components/HitboxPlayer.js');
 
 var App;
 var ParentChatComponent;
@@ -51,10 +51,7 @@ else {
     /* React */
     TwitchVideoPlayerComponent = new CustomTwitchPlayer('video_player');
 
-    // HitboxVideoPlayerComponent = ReactDOM.render(
-    //     <HitboxPlayer parent_div_id='video_player' iframe_div_id='iframe_hitbox_video'/>,
-    //     document.getElementById('video_player')
-    // );
+    HitboxVideoPlayerComponent = new HitboxPlayer('video_player');
 
     ChatComponent = ReactDOM.render(
         <Chat parent_div_id='chat' iframe_div_id='iframe_chat'/>,

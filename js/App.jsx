@@ -169,25 +169,30 @@ var App = React.createClass({
 
     setTwitchChannel: function(channel) {
         this.hideGames();
-        // Setup video player.
-        this.props.TwitchPlayer.setChannel(channel);
-        // Remove TwitchPlayer
+        // Remove HitboxPlayer
         this.props.HitboxPlayer.removeIframeVideo();
-
+        // Setup video player.
+        this.props.TwitchPlayer.reInitialize();
+        this.props.TwitchPlayer.setChannel(channel);
 
         // Setup to load chat.
         this.props.Chat.setChatChannel(channel);
+        // Loaded by a button.
+        // this.props.Chat.loadTwitchChat();
     },
 
     setHitboxChannel: function(channel) {
+        console.log('setHitboxChannel');
         this.hideGames();
-        // Setup video player.
-        // this.props.HitboxPlayer.setChannel(channel);
         // Remove TwitchPlayer
-        // this.props.TwitchPlayer.clear();
+        this.props.TwitchPlayer.clear();
+        
+        // Setup video player.
+        this.props.HitboxPlayer.setChannel(channel);
+        this.props.HitboxPlayer.loadVideoPlayer()
         // Setup to load chat.
-        // this.props.Chat.setChatChannel(channel);
-        // this.props.Chat.loadHitboxChat();
+        this.props.Chat.setChatChannel(channel);
+        this.props.Chat.loadHitboxChat();
     },
 
     selectGame: function(game) {
@@ -257,12 +262,14 @@ var App = React.createClass({
         this.setState({button_area_width: $('#button_area').width()});
         this.setState({button_area_height: $('#button_area').height()});
 
-        // New
+        // Apply sizes to components.
         $('#' + this.props.search_div).css('height', this.state.search_height);
         $('#' + this.props.chat_div).css('height', this.state.chat_height);
         $('#' + this.props.player_div).css('height', this.state.player_height);
         this.props.TwitchPlayer.setWidth(this.state.player_width);
         this.props.TwitchPlayer.setHeight(this.state.player_height);
+        this.props.HitboxPlayer.setWidth(this.state.player_width);
+        this.props.HitboxPlayer.setHeight(this.state.player_height);
         this.props.Chat.setWidth(this.state.chat_width);
         this.props.Chat.setHeight(this.state.chat_height);
 
@@ -281,6 +288,30 @@ var App = React.createClass({
      * Invoked after initial rendering occurs. Time to do anything that requires the initial render.
      */
     componentDidMount: function() {
+        this.setState({ window_inner_width: window.innerWidth});
+        this.setState({ window_inner_height: window.innerHeight});
+        let window_inner_height = this.state.window_inner_height;
+        this.setState({ search_width: $('#' + this.props.search_div).width() });
+        this.setState({ search_height: window_inner_height});
+        this.setState({ player_width: $('#' + this.props.player_div).width() });
+        this.setState({ player_height: window_inner_height});
+        this.setState({ chat_width: $('#' + this.props.chat_div).width() });
+        this.setState({ chat_height: window_inner_height});
+        this.setState({button_area_width: $('#button_area').width()});
+        this.setState({button_area_height: $('#button_area').height()});
+
+        // Apply sizes to components.
+        $('#' + this.props.search_div).css('height', this.state.search_height);
+        $('#' + this.props.chat_div).css('height', this.state.chat_height);
+        $('#' + this.props.player_div).css('height', this.state.player_height);
+        this.props.TwitchPlayer.setWidth(this.state.player_width);
+        this.props.TwitchPlayer.setHeight(this.state.player_height);
+        this.props.HitboxPlayer.setWidth(this.state.player_width);
+        this.props.HitboxPlayer.setHeight(this.state.player_height);
+        this.props.Chat.setWidth(this.state.chat_width);
+        this.props.Chat.setHeight(this.state.chat_height);
+
+        // Event listeners
         window.addEventListener('resize', this.handleResize);
 
         this.setState({button_area_width: $('#button_area').width()});
@@ -336,10 +367,27 @@ var App = React.createClass({
             }
         }.bind(this), 1000);
 
-        var streamer = Util.getQueryStringParams("streamer");
+        var streamer = Util.getQueryStringParams('streamer');
+        var api = Util.getQueryStringParams('api');
         if (streamer) {
-            this.props.TwitchPlayer.setChannel(streamer);
-            this.props.Chat.setChatChannel(streamer);
+            switch(api) {
+                case 'hitbox':
+                    // Remove TwitchPlayer
+                    this.props.TwitchPlayer.clear();
+                    this.props.HitboxPlayer.setChannel(streamer);
+                    this.props.HitboxPlayer.loadVideoPlayer();
+                    console.log('test');
+                    break;
+                    // this.props.Chat.setChatChannel(streamer);              
+                case 'twitch':
+                    this.props.TwitchPlayer.setChannel(streamer);
+                    this.props.Chat.setChatChannel(streamer);
+                    break;
+                default:
+                    this.props.TwitchPlayer.setChannel(streamer);
+                    this.props.Chat.setChatChannel(streamer);
+                    break;
+            }
         }
 
     },

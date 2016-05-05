@@ -12,7 +12,7 @@ class CustomTwitchPlayer {
             channel: "{CHANNEL}",
             //video: "{VIDEO_ID}"
         };
-        this.current_channel = '' // This can be used by TwitchChat
+        this.current_channel = '';
         this.div_id = div_id;
         this.player = new Twitch.Player(this.div_id, this.options);
     };
@@ -35,7 +35,7 @@ class CustomTwitchPlayer {
     setChannel(channel) {
         this.current_channel = channel;
         this.player.setChannel(channel);
-        console.log('watching ' + channel);
+        console.log('watching ' + channel + 'on Twitch!');
     };
 
     getDivId() {
@@ -49,7 +49,7 @@ class CustomTwitchPlayer {
     };
 
     clear() {
-        // $('#' + this.div_id).empty();
+        $('#' + this.div_id).empty();
         this.player = null;
     }
 
