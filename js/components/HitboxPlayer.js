@@ -9,7 +9,7 @@ class HitboxPlayer {
             channel: "{CHANNEL}",
             //video: "{VIDEO_ID}"
         };
-        this.current_channel = '' // This can be used by HitboxChat
+        this.current_channel = '';
         this.div_id = div_id;
         this.player_div_id = 'hitbox_player';
     };
@@ -26,7 +26,7 @@ class HitboxPlayer {
     
     setChannel(channel) {
         this.current_channel = channel;
-        console.log('watching ' + channel + 'on Hitbox!');
+        console.log('watching ' + channel + ' on Hitbox!');
     };
 
     getDivId() {

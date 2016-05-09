@@ -35,7 +35,7 @@ class CustomTwitchPlayer {
     setChannel(channel) {
         this.current_channel = channel;
         this.player.setChannel(channel);
-        console.log('watching ' + channel + 'on Twitch!');
+        console.log('watching ' + channel + ' on Twitch!');
     };
 
     getDivId() {
