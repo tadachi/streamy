@@ -1,8 +1,8 @@
 node_modules/
 .idea/
-app/bower_components/
-app/js/es5-streamy2.js
-app/js/es5-twitch-api.js
-app/js/bundle.js
-app/js/bundle.js.map
+bower_components/
+js/es5-streamy2.js
+js/es5-twitch-api.js
+js/bundle.js
+js/bundle.js.map
 build/
