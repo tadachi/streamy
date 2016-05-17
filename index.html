@@ -5,7 +5,11 @@
     <title>Streamy</title>
     <!-- External -->
     <script src= "https://player.twitch.tv/js/embed/v1.js"></script> <!-- MUST be external or else the twitch stream player will not load -->
+    <script src="/socket.io/socket.io.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <!-- remove jquery after you are finished with it -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
 
     <style>
         body {
@@ -84,12 +88,42 @@
          	 background-color: #000000;
          }
 
+         .debug {
+             font-size: 20px;
+             color: white;
+         }
+
     </style>
 </head>
 
 <!-- add/remove class to their respective flex css programmatically -->
 <body class="preview-background">
     <div class="" id="flex_container">
+
+        <script>
+            var client = io.connect('/remote-controller');
+            var room = 'nev';
+            client.on('connect', function(){
+                client.emit('join', room)
+            });
+
+            client.on('event', function(data){});
+            client.on('disconnect', function(){
+            });
+            client.on('message', function (msg) {
+                console.log(msg);
+                $('#debug_text').text(msg);
+            });
+
+            var myFunction = (client) => {
+                client.emit('send', { room: room, msg: $('#input').val() });
+            }
+        </script>
+        <div id="debug">
+            <input type="text" id="input" value="bleh">
+            <button onclick="myFunction(client)" >Click me</button>
+            <div id="debug_text" class="debug">boo</div>
+        </div>
         <div class="" id="flex_search">
             <div id="search_stream"></div>
         </div>
@@ -100,11 +134,13 @@
             <div id="chat"></div>
         </div>
         <div id="debug"></div>
+        
+                <!-- put webpack bundle in near bottom to avoid
+        Invariant Violation: _registerComponent(…): Target container is not a DOM element -->
+        <script src="js/bundle.js"></script>
     </div>
 
-    <!-- put webpack bundle in bottom to avoid
-        Invariant Violation: _registerComponent(…): Target container is not a DOM element -->
-    <script src="js/bundle.js"></script>
+
 
 </body>
 </html>

@@ -14,7 +14,7 @@ class CustomTwitchPlayer {
         };
         this.current_channel = '';
         this.div_id = div_id;
-        this.player = new Twitch.Player(this.div_id, this.options);
+        // this.player = new Twitch.Player(this.div_id, this.options);
     };
 
     pause() {
@@ -34,7 +34,7 @@ class CustomTwitchPlayer {
 
     setChannel(channel) {
         this.current_channel = channel;
-        this.player.setChannel(channel);
+        // this.player.setChannel(channel);
         console.log('watching ' + channel + ' on Twitch!');
     };
 

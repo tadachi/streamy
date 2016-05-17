@@ -44,7 +44,7 @@ Util.getQueryStringParams = function(sParam) {
     // ["http:", "", "beastmachine:4000", "?closewindow=true#access_token=v38uujys1qdhcbtnv77myy8dpnd7f3&scope=channel_read"]
     // console.log(sURLVariables);
 
-	for (i = 0; i < sURLVariables.length; i++) {
+	for (let i = 0; i < sURLVariables.length; i++) {
 		if (sURLVariables[i].substring(0, 1) == "?") { // Found query string.
             //?closewindow=true#access_token=v38uujys1qdhcbtnv77myy8dpnd7f3&scope=channel_read
             // console.log(sURLVariables[i]);

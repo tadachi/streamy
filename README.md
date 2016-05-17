@@ -20,6 +20,12 @@ npm install
 webpack-dev-server --host localhost --port 4000
 ```
 
+#### Production
+
+```
+webpack --config webpack.config.min.js
+```
+
 #### License
 
 License: MIT

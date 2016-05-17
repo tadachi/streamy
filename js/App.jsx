@@ -124,7 +124,7 @@ var App = React.createClass({
     search: function(query = null) {
         if (!query) {
             query = this.refs.searchInput.value; // this is the search data
-        }
+        };
 
         this.setState({ streams: ''}); // Empty list.
 
