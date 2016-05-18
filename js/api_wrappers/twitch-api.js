@@ -11,7 +11,7 @@ class TwitchAPI {
     // Returns people playing a game based on query.
     searchForStream(stream, callback) {
         $.ajax({
-            url: 'https://api.twitch.tv/kraken/search/streams?limit=100&q={stream}'.format({ stream: stream}),
+            url: 'https://api.twitch.tv/kraken/search/streams?limit=100&q={stream}'.format({ stream: encodeURI(stream)}),
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -34,7 +34,7 @@ class TwitchAPI {
     // Returns a live channel matching the query.
     searchForChannel(channel, callback) {
         $.ajax({
-            url: 'https://api.twitch.tv/kraken/search/channels?limit=100&q={channel}'.format({ channel: channel}),
+            url: 'https://api.twitch.tv/kraken/search/channels?limit=100&q={channel}'.format({ channel: encodeURI(channel)}),
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -56,7 +56,7 @@ class TwitchAPI {
 
     searchForStreamsOfGame(game, callback) {
         $.ajax({
-            url: 'https://api.twitch.tv/kraken/streams?game={game}&limit=100'.format({ game: game}),
+            url: 'https://api.twitch.tv/kraken/streams?game={game}&limit=100'.format({ game: encodeURI(game)}),
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -78,7 +78,7 @@ class TwitchAPI {
 
     searchForGame(game, callback) {
         $.ajax({
-            url: 'https://api.twitch.tv/kraken/search/games?limit=100&q={game}&type=suggest&live=true&limit=100'.format({ game: game}),
+            url: 'https://api.twitch.tv/kraken/search/games?limit=100&q={game}&type=suggest&live=true&limit=100'.format({ game: encodeURI(game)}),
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.

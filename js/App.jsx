@@ -40,7 +40,7 @@ var App = React.createClass({
     CATEGORIES: {
         TOPGAMES: 'Find Games (Top)',
         SEARCH: 'Search (Online)',
-        SEARCHVODS: 'Search (VODS)',
+        SEARCHVODS: 'Search (Vods)',
         SPEEDRUNS: 'Speedruns',
         HITBOX: 'Hitbox',
         FOLLOWED: 'Followed',
@@ -486,8 +486,10 @@ var App = React.createClass({
                         <select style={select} ref='selectInput' defaultValue="TOPGAMES" onChange={this.selectCategoryHandle}>
                                 <option value={this.CATEGORIES.TOPGAMES}>{this.CATEGORIES.TOPGAMES}</option>
                                 <option value={this.CATEGORIES.SEARCH}>{this.CATEGORIES.SEARCH}</option>
+                                <option value={this.CATEGORIES.SEARCHVODS}>{this.CATEGORIES.SEARCHVODS}</option>
                                 <option value={this.CATEGORIES.HITBOX}>{this.CATEGORIES.HITBOX}</option>
                                 <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
+
                                 {this.twitch.getAuthToken() ? 
                                     <option value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option> : <option disabled value={this.CATEGORIES.FOLLOWED}>{this.CATEGORIES.FOLLOWED}</option>}
                                 {this.twitch.getAuthToken() ? 
