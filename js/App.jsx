@@ -38,8 +38,9 @@ var App = React.createClass({
     },
 
     CATEGORIES: {
-        TOPGAMES: 'Top Games',
-        SEARCH: 'Search',
+        TOPGAMES: 'Find Games (Top)',
+        SEARCH: 'Search (Online)',
+        SEARCHVODS: 'Search (VODS)',
         SPEEDRUNS: 'Speedruns',
         HITBOX: 'Hitbox',
         FOLLOWED: 'Followed',
@@ -437,13 +438,13 @@ var App = React.createClass({
         };
 
         var input = {
-            width: '142px',
+            width: '120px',
             height: '20px',
             margin: '5px',
         };
 
         var select = {
-            width: '100px',
+            width: '145px',
             margin: '5px',
         };
 

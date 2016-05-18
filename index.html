@@ -9,7 +9,7 @@
     <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
 
     <!-- remove jquery after you are finished with it -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>-->
 
     <style>
         body {
@@ -88,10 +88,10 @@
          	 background-color: #000000;
          }
 
-         .debug {
+         /*.debug {
              font-size: 20px;
              color: white;
-         }
+         }*/
 
     </style>
 </head>
@@ -100,30 +100,12 @@
 <body class="preview-background">
     <div class="" id="flex_container">
 
-        <script>
-            var client = io.connect('/remote-controller');
-            var room = 'nev';
-            client.on('connect', function(){
-                client.emit('join', room)
-            });
-
-            client.on('event', function(data){});
-            client.on('disconnect', function(){
-            });
-            client.on('message', function (msg) {
-                console.log(msg);
-                $('#debug_text').text(msg);
-            });
-
-            var myFunction = (client) => {
-                client.emit('send', { room: room, msg: $('#input').val() });
-            }
-        </script>
-        <div id="debug">
+        <!--<div id="debug">
             <input type="text" id="input" value="bleh">
             <button onclick="myFunction(client)" >Click me</button>
             <div id="debug_text" class="debug">boo</div>
-        </div>
+        </div>-->
+        
         <div class="" id="flex_search">
             <div id="search_stream"></div>
         </div>
@@ -133,11 +115,30 @@
         <div class="" id="flex_chat">
             <div id="chat"></div>
         </div>
-        <div id="debug"></div>
         
-                <!-- put webpack bundle in near bottom to avoid
+        <!-- put webpack bundle in near bottom to avoid
         Invariant Violation: _registerComponent(…): Target container is not a DOM element -->
         <script src="js/bundle.js"></script>
+        <script>
+            /* remote controller code */
+            // var client = io.connect('/remote-controller');
+            // var room = 'nev';
+            // client.on('connect', function(){
+            //     client.emit('join', room)
+            // });
+
+            // client.on('event', function(data){});
+            // client.on('disconnect', function(){
+            // });
+            // client.on('message', function (msg) {
+            //     console.log(msg);
+            //     $('#debug_text').text(msg);
+            // });
+
+            // var myFunction = (client) => {
+            //     client.emit('send', { room: room, msg: $('#input').val() });
+            // }
+        </script>
     </div>
 
 

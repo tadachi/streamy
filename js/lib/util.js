@@ -38,6 +38,7 @@ Util.getQueryStringParams = function(sParam) {
 	var sPageURL      = window.location.href;
 	var sURLVariables = sPageURL.split("/");
 	var querystring = '';
+    var arr;
 	var key;
 	var value;
 
@@ -61,7 +62,7 @@ Util.getQueryStringParams = function(sParam) {
     // console.log(querystring);
 
 	if (querystring) {
-		for (i = 0; i < querystring.length; i++) {
+		for (var i = 0; i < querystring.length; i++) {
 			arr = querystring[i].split("=");
 			key = arr[0];
 			value = arr[1];
