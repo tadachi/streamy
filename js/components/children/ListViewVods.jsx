@@ -4,6 +4,7 @@ var ListViewVods = React.createClass({
     getDefaultProps: function() {
         return {
             data: '',
+            display: '',
         };
     },
 
@@ -14,7 +15,13 @@ var ListViewVods = React.createClass({
     },
     
     render: function() {
-            
+        let listView;
+        let data = this.props.data;
+        
+        if (data) {
+            //data.display_name data.logo data.updated_at
+            console.log(this.props.data);
+        }
     }
     
 });

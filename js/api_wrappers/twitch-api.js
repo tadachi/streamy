@@ -54,6 +54,28 @@ class TwitchAPI {
 
     }
 
+    searchForVods(channel, callback) {
+         $.ajax({
+            url: 'https://api.twitch.tv/kraken/channels/{channel}/videos?broadcasts=true'.format({ channel: encodeURI(channel)}),
+            // The name of the callback parameter, as specified by the YQL service.
+            jsonp: 'callback',
+            // Tell jQuery we're expecting JSONP.
+            dataType: 'jsonp',
+
+            success: function(response) {
+
+                if (response.error) {
+                    // console.log(response);
+                    callback(null);
+                } else {
+                    callback(response);
+                }
+
+            }
+        });
+       
+    }
+
     searchForStreamsOfGame(game, callback) {
         $.ajax({
             url: 'https://api.twitch.tv/kraken/streams?game={game}&limit=100'.format({ game: encodeURI(game)}),

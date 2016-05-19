@@ -13,6 +13,7 @@ var Util = require('./lib/util.js');
 var TwitchLoginButton = require('./components/children/TwitchLoginButton.jsx');
 var SelectorForGames = require('./components/children/SelectorForGames.jsx');
 var ListViewStreams = require('./components/children/ListViewStreams.jsx');
+var ListViewVods = require('./components/children/ListViewVods.jsx');
 
 /*
  * Parent component.
@@ -55,6 +56,7 @@ var App = React.createClass({
             status: this.STATUS.PENDING,
             streams: '',
             games: '',
+            vods: '',
 
             window_inner_width: window.innerWidth,
             window_inner_height: window.innerHeight - GLOBALS.MAGIC_MARGIN,
@@ -70,6 +72,8 @@ var App = React.createClass({
             games_offset: 0, // offset for getting the next set of games.
             prev_visibility_button: '',
             games_display: 'initial',
+            streamers_display: 'initial',
+            vods_display: 'initial',
             
             button_area_width: 0,
             button_area_height: 0,
@@ -122,13 +126,30 @@ var App = React.createClass({
         this.setState({games_display: 'initial'});
     },
 
+    hideStreamers: function() {
+        this.setState({streamers_display: 'none'});
+    },
+
+    showStreamers: function() {
+        this.setState({streamers_display: 'initial'});
+    },
+
+    hideVods: function() {
+        this.setState({vods_display: 'none'});
+    },
+
+    showVods: function() {
+        this.setState({vods_display: 'initial'});
+    },
+
+
     search: function(query = null) {
         if (!query) {
             query = this.refs.searchInput.value; // this is the search data
         };
 
         this.setState({ streams: ''}); // Empty list.
-
+        console.log(this.refs.selectInput.value);
         switch(this.refs.selectInput.value) {
             case this.CATEGORIES.TOPGAMES:
                 this.twitch.searchForGame(query, function(data) {
@@ -137,11 +158,22 @@ var App = React.createClass({
                     this.setState({ games: data });
                 }.bind(this));
                 break;
+            case this.CATEGORIES.SEARCHVODS:
+                this.twitch.searchForChannel(query, function(data) {
+                    console.log(query);
+                    console.log(data);
+                    this.hideGames();
+                    this.hideStreamers();
+                    this.setState({ status: this.STATUS.PENDING});
+                    this.setState({ vods: '' });
+                }.bind(this));
+                break;              
             default:
                 this.twitch.searchForStream(query, function(data) {
                     console.log(query);
                     console.log(data);
                     this.hideGames();
+                    this.showStreamers();
                     this.setState({ status: this.STATUS.PENDING});
                     this.setState({ streams: data });
                 }.bind(this));
@@ -160,8 +192,13 @@ var App = React.createClass({
 
 
     doSearchDelayed: function() {
-        if (this.refs.selectInput.value != this.CATEGORIES.TOPGAMES) {
-            this.refs.selectInput.value = this.CATEGORIES.SEARCH;
+        switch(this.refs.selectInput.value) {
+            case this.CATEGORIES.TOPGAMES: 
+                break;
+            case this.CATEGORIES.SEARCHVODS: 
+                break;
+            default:
+                this.refs.selectInput.value = this.CATEGORIES.SEARCH;
         }
 
         this.setState({status: this.STATUS.SEARCHING});
@@ -317,7 +354,7 @@ var App = React.createClass({
 
         this.setState({button_area_width: $('#button_area').width()});
         this.setState({button_area_height: $('#button_area').height()});
-        console.log($('#button_area').width() + 'x' +  $('#button_area').height());
+        // console.log($('#button_area').width() + 'x' +  $('#button_area').height());
         
         // Hide prev button because Top Games start at the top.
         this.setState({prev_visibility_button: 'hidden'});
@@ -363,7 +400,7 @@ var App = React.createClass({
                     this.refs.selectInput.value = this.CATEGORIES.FOLLOWED; // Set select to FOLLOWED streams.
                 }.bind(this));
                 this.setState({connect_twitch_button_display: 'none'}); // Hide Twitch Auth button.
-                console.log('hide button');
+                console.log('hide auth button.');
                 clearInterval(authInterval); // Clear itself if Authed.
             }
         }.bind(this), 1000);
@@ -503,7 +540,8 @@ var App = React.createClass({
 
                 <div id='search' style={search}>
                     <SelectorForGames selectGame={this.selectGame} data={this.state.games} display={this.state.games_display} />
-                    <ListViewStreams setTwitchChannel={this.setTwitchChannel} setHitboxChannel={this.setHitboxChannel} data={this.state.streams} />
+                    <ListViewStreams setTwitchChannel={this.setTwitchChannel} setHitboxChannel={this.setHitboxChannel} data={this.state.streams} display={this.state.streamers_display}/>
+                    <listViewVods data={this.state.vods} display={this.state.vods_display}/>
                 </div>
             </div>
         );

@@ -10,6 +10,7 @@ var ListViewStreams = React.createClass({
     getDefaultProps: function() {
         return {
             data: '',
+            display: '',
         };
     },
 
@@ -24,6 +25,7 @@ var ListViewStreams = React.createClass({
 
         // CSS Inline Styles
         var table = {
+            display: this.props.display,
             width: 'inherit',
             margin: '0px',
             border: '0px',
