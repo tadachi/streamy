@@ -88,12 +88,6 @@ var Chat = React.createClass({
     },
 
     render: function() {
-        var div = {
-            display: this.state.flex_div_display,
-            width: '300px',
-            height: this.state.height,
-        }
-
         var flex_div = {
             display: this.state.flex_div_display,
 

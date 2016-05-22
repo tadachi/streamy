@@ -18,10 +18,20 @@ var ListViewVods = React.createClass({
         let listView;
         let data = this.props.data;
         
+        
+        
         if (data) {
+            if (this.props.data._total <= 0) {
+                return (
+                    <table style={table}>
+                        {listView}
+                    </table>
+                );
+            } 
+            
             //data.display_name data.logo data.updated_at
             console.log(this.props.data);
-        }
+        } 
     }
     
 });

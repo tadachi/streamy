@@ -149,7 +149,7 @@ var App = React.createClass({
         };
 
         this.setState({ streams: ''}); // Empty list.
-        console.log(this.refs.selectInput.value);
+
         switch(this.refs.selectInput.value) {
             case this.CATEGORIES.TOPGAMES:
                 this.twitch.searchForGame(query, function(data) {
@@ -160,8 +160,6 @@ var App = React.createClass({
                 break;
             case this.CATEGORIES.SEARCHVODS:
                 this.twitch.searchForChannel(query, function(data) {
-                    console.log(query);
-                    console.log(data);
                     this.hideGames();
                     this.hideStreamers();
                     this.setState({ status: this.STATUS.PENDING});
@@ -170,8 +168,6 @@ var App = React.createClass({
                 break;              
             default:
                 this.twitch.searchForStream(query, function(data) {
-                    console.log(query);
-                    console.log(data);
                     this.hideGames();
                     this.showStreamers();
                     this.setState({ status: this.STATUS.PENDING});

@@ -128,10 +128,33 @@ var ListViewStreams = React.createClass({
             // border: '1px solid black',
         };
 
+        var flex_div = {
+            display: 'flex',
+            width: 'inherit',
+            height: 'inherit',
+            alignItems: 'center',
+            justifyContent: 'center',
+        };
+
+        var error = {
+            fontFamily: 'Droid Sans, serif',
+            fontWeight: 'bold',
+            fontSize: '18px',
+            color: '#6666FF', // ~ Diablo 3 Magic Item Blue
+        };
+
         //{stream.channel.name} {stream.channel.status} {stream.channel.logo} {stream.game} {stream.viewers} {stream.preview.small}
         // console.log(typeof(this.props.data));
         // console.log(this.props.data);
         if (this.props.data) {
+            if (this.props.data._total <= 0) {
+                return (
+                    <div style={flex_div}>
+                        <p style={error}>Stream not found.</p>                      
+                    </div>
+                );
+            } 
+            
             // From Twitch
             if (this.props.data.streams) {
                 // Sort streams by viewers before processing

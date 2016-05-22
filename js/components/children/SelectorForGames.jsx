@@ -86,7 +86,39 @@ var SelectorForGames = React.createClass({
             // border: '1px solid black',
         };
 
+        var flex_div = {
+            display: 'flex',
+            width: 'inherit',
+            height: 'inherit',
+            alignItems: 'center',
+            justifyContent: 'center',
+        };
+
+        var error = {
+            fontFamily: 'Droid Sans, serif',
+            fontWeight: 'bold',
+            fontSize: '18px',
+            color: '#6666FF', // ~ Diablo 3 Magic Item Blue
+        };
+
         if (this.props.data) {
+                if (this.props.data._total <=0) {
+                    return (
+                        <div style={flex_div}>
+                            <p style={error}>Game not found.</p>                      
+                        </div>
+                    );
+                }     
+                if (this.props.data.games) {
+                    if(this.props.data.games.length <= 0) {
+                        return (
+                            <div style={flex_div}>
+                                <p style={error}>Game not found.</p>                      
+                            </div>
+                        );                        
+                    }   
+                }
+                
                 // {top.game.name} {top.viewers} {top.channels} {top.game.box.large} {top.game.box.medium} {top.game.box.small}
                 if (this.props.data.top) { // Top Games
                     listView = this.props.data.top.map(function(top, i) {
