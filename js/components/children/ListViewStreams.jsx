@@ -14,12 +14,6 @@ var ListViewStreams = React.createClass({
         };
     },
 
-    getInitialState: function() {
-        return {
-            data: null,
-        };
-    },
-
     render: function() {
         var listView;
 
@@ -257,7 +251,6 @@ var ListViewStreams = React.createClass({
             }
         } 
    
-
         return (
             <table style={table}>
                 {listView}

@@ -163,7 +163,8 @@ var App = React.createClass({
                     this.hideGames();
                     this.hideStreamers();
                     this.setState({ status: this.STATUS.PENDING});
-                    this.setState({ vods: '' });
+                    this.setState({ vods: data });
+                    console.log(data);
                 }.bind(this));
                 break;              
             default:
@@ -537,7 +538,7 @@ var App = React.createClass({
                 <div id='search' style={search}>
                     <SelectorForGames selectGame={this.selectGame} data={this.state.games} display={this.state.games_display} />
                     <ListViewStreams setTwitchChannel={this.setTwitchChannel} setHitboxChannel={this.setHitboxChannel} data={this.state.streams} display={this.state.streamers_display}/>
-                    <listViewVods data={this.state.vods} display={this.state.vods_display}/>
+                    <ListViewVods data={this.state.vods} display={this.state.vods_display}/>
                 </div>
             </div>
         );
