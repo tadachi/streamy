@@ -65,7 +65,7 @@ var ListViewStreams = React.createClass({
             fontFamily: 'Droid Sans, serif',
         	fontSize: '18px',
             fontWeight: 'bold',
-            color: '#8A2BE2', /*~ purplish*/
+            color: '#a358e8', /*~ purplish*/
 
             paddingLeft: '5px',
 
@@ -151,7 +151,6 @@ var ListViewStreams = React.createClass({
             
             // From Twitch
             if (this.props.data.streams) {
-                // Sort streams by viewers before processing
                 listView = this.props.data.streams.map(function(stream, i) {
                     return (
                         <tbody style={tbody} key={i}>
@@ -191,10 +190,10 @@ var ListViewStreams = React.createClass({
                     }
                 }
 
-                var array = this.props.data._source.channels.sort(compare);
+                var sorted_streamers = this.props.data._source.channels.sort(compare);
 
                 // {stream.image.size70} {stream.display_name} {stream.api} {stream.current_viewers}  {stream.meta_game} {stream.title}
-                listView = array.map(function(stream, i) {
+                listView = sorted_streamers.map(function(stream, i) {
                     return (
                         <tbody style={tbody} key={i}>
                             <tr>

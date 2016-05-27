@@ -11,8 +11,30 @@ var ListViewVods = React.createClass({
 
     getInitialState: function() {
         return {
-            data: null,
+            data: '',
         };
+    },
+    
+    // Pass this into array.sort().
+    sortByViews: function(a, b) {
+        if (a.views < b.views) {
+            return 1;
+        } else if (a.views > b.views) {
+            return -1;
+        } else {
+            return 0;
+        }
+    },
+    
+    // Pass this into array.sort().
+    sortByFollowers: function(a, b) {
+        if (a.Followers < b.Followers) {
+            return 1;
+        } else if (a.Followers > b.Followers) {
+            return -1;
+        } else {
+            return 0;
+        }
     },
     
     render: function() {
@@ -41,7 +63,6 @@ var ListViewVods = React.createClass({
         var logo = {
             margin: '0px',
             padding: '0px',
-
             // opacity: '0.7',
 
             verticalAlign: 'center',
@@ -53,6 +74,7 @@ var ListViewVods = React.createClass({
         var image = {
             width: '53px',
             height: '53px',
+            maxheight: '200px',
             // opacity: '0.55',
         }
         
@@ -61,9 +83,9 @@ var ListViewVods = React.createClass({
 
             overflow: 'hidden',
             fontFamily: 'Droid Sans, serif',
-        	fontSize: '10px',
+        	fontSize: '15px',
             fontWeight: 'bold',
-            color: '#8A2BE2', /*~ purplish*/
+            color: '#83e22b', /*~ green*/
 
             paddingLeft: '5px',
 
@@ -74,6 +96,13 @@ var ListViewVods = React.createClass({
 
             // border: '1px solid black',
         };
+        
+        var test = {
+            maxWidth: '170px',
+            paddingLeft: '5px',
+            fontSize: '12px',
+            color: 'white',
+        }
         
         if (data) {
             //data.display_name data.logo data.updated_at
@@ -87,20 +116,40 @@ var ListViewVods = React.createClass({
                 );
             } 
             
+            let sorted_streamers = data.channels.sort(this.sortByViews);
+            
             // Twitch
             if (data.channels) { 
-                listView = data.channels.map(function(stream, i) {
+                listView = sorted_streamers.map(function(stream, i) {
                     return (
                         <tbody style={tbody} key={i}>
                             <tr>
-                                <td style={logo} rowSpan="3" >
+                                <td style={logo} rowSpan="8">
                                     <SmallTwitchComponents.UserLogo
                                         style={image}
                                         src={stream.logo}
                                         />
                                 </td>
+                            </tr>
+                            <tr>
                                 <td style={name}>{stream.name}</td>
                             </tr>
+                            {stream.game ? 
+                                <tr><td style={test}>{stream.game}</td></tr> : null}
+                            
+                            {stream.status ? 
+                                <tr><td style={test}>{stream.status}</td></tr> : null}
+                            <tr>
+                                <td style={test}>Last: {stream.updated_at}</td>
+                            </tr>
+                            <tr>
+                                <td style={test}>Followers: {stream.followers}</td>
+                            </tr>
+                            <tr>
+                                <td style={test}>Views: {stream.views}</td>
+                            </tr>
+
+
                         </tbody>
                     );
                 }.bind(this));            

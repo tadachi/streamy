@@ -143,14 +143,18 @@ var App = React.createClass({
     },
 
 
-    search: function(query = null) {
+    search: function(query = null, category = null) {
+        if (!category) {
+            category = this.refs.selectInput.value;
+        }
+        
         if (!query) {
             query = this.refs.searchInput.value; // this is the search data
         };
 
         this.setState({ streams: ''}); // Empty list.
 
-        switch(this.refs.selectInput.value) {
+        switch(category) {
             case this.CATEGORIES.TOPGAMES:
                 this.twitch.searchForGame(query, function(data) {
                     this.showGames();
@@ -424,6 +428,13 @@ var App = React.createClass({
                     break;
             }
         }
+
+        // DEBUG
+        this.search('person', this.CATEGORIES.SEARCHVODS);
+        this.twitch.searchForVods('persona', function(data) {
+            console.log(data);            
+        });
+
 
     },
 

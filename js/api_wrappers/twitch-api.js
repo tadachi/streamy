@@ -278,7 +278,8 @@ class TwitchAPI {
     getAuthToken() {
         var access_token = sessionStorage.getItem('twitch_access_token');
         var scope = sessionStorage.getItem('twitch_scope');
-
+        if (access_token == 'null')
+            return null;
         if (access_token)
             return '{access_token}&scope={scope}'.format({access_token: access_token, scope: scope});
 
