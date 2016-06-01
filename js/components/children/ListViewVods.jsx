@@ -28,9 +28,9 @@ var ListViewVods = React.createClass({
     
     // Pass this into array.sort().
     sortByFollowers: function(a, b) {
-        if (a.Followers < b.Followers) {
+        if (a.followers < b.followers) {
             return 1;
-        } else if (a.Followers > b.Followers) {
+        } else if (a.followers > b.followers) {
             return -1;
         } else {
             return 0;
@@ -79,14 +79,11 @@ var ListViewVods = React.createClass({
         }
         
         var name = {
-            padding: '0px',
-
-            overflow: 'hidden',
             fontFamily: 'Droid Sans, serif',
-        	fontSize: '15px',
+        	fontSize: '17px',
             fontWeight: 'bold',
             color: '#83e22b', /*~ green*/
-
+            
             paddingLeft: '5px',
 
             width: '170px',
@@ -97,10 +94,40 @@ var ListViewVods = React.createClass({
             // border: '1px solid black',
         };
         
+        var game = {
+            fontFamily: 'Droid Sans, serif',
+            maxWidth: '170px',
+            fontSize: '13px',
+            fontWeight: 'bold',
+            color: 'white',
+
+            paddingLeft: '5px',
+            textOverflow: 'ellipsis',
+
+            // border: '1px solid black',
+        }
+        
+        
+        var status = {
+            fontFamily: 'Droid Sans, serif',
+        	fontSize: '14px',
+        	color: 'white',
+
+            fontStyle: 'italic',
+            maxWidth: '170px',
+
+            paddingLeft: '5px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'wrap',
+
+            // border: '1px solid black',
+        };
+        
         var test = {
             maxWidth: '170px',
             paddingLeft: '5px',
-            fontSize: '12px',
+            fontSize: '14px',
             color: 'white',
         }
         
@@ -116,7 +143,7 @@ var ListViewVods = React.createClass({
                 );
             } 
             
-            let sorted_streamers = data.channels.sort(this.sortByViews);
+            let sorted_streamers = data.channels.sort(this.sortByFollowers);
             
             // Twitch
             if (data.channels) { 
@@ -135,10 +162,10 @@ var ListViewVods = React.createClass({
                                 <td style={name}>{stream.name}</td>
                             </tr>
                             {stream.game ? 
-                                <tr><td style={test}>{stream.game}</td></tr> : null}
+                                <tr><td style={game}>{stream.game}</td></tr> : null}
                             
                             {stream.status ? 
-                                <tr><td style={test}>{stream.status}</td></tr> : null}
+                                <tr><td style={status}>{stream.status}</td></tr> : null}
                             <tr>
                                 <td style={test}>Last: {stream.updated_at}</td>
                             </tr>

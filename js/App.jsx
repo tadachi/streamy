@@ -29,7 +29,7 @@ var App = React.createClass({
         HitboxPlayer: React.PropTypes.any.isRequired,
     },
 
-    twitch: new TwitchAPI(),
+    twitch: new TwitchAPI(GLOBALS.CLIENT_ID),
     hitbox: new HitboxAPI(),
     typingDelay: new TypingDelay(),
 
@@ -166,6 +166,7 @@ var App = React.createClass({
                 this.twitch.searchForChannel(query, function(data) {
                     this.hideGames();
                     this.hideStreamers();
+                    this.showVods();
                     this.setState({ status: this.STATUS.PENDING});
                     this.setState({ vods: data });
                     console.log(data);
@@ -174,6 +175,7 @@ var App = React.createClass({
             default:
                 this.twitch.searchForStream(query, function(data) {
                     this.hideGames();
+                    this.hideVods();
                     this.showStreamers();
                     this.setState({ status: this.STATUS.PENDING});
                     this.setState({ streams: data });
@@ -185,6 +187,7 @@ var App = React.createClass({
 
     searchStreamsOfGame: function(query = null) {
         this.setState({ streams: ''}); // Empty list.
+        this.setState({ vods: ''}); // Empty list.
         this.twitch.searchForStreamsOfGame(query, function(data) {
             this.setState({ status: this.STATUS.PENDING});
             this.setState({ streams: data });
@@ -401,8 +404,8 @@ var App = React.createClass({
                     this.refs.selectInput.value = this.CATEGORIES.FOLLOWED; // Set select to FOLLOWED streams.
                 }.bind(this));
                 this.setState({connect_twitch_button_display: 'none'}); // Hide Twitch Auth button.
-                console.log('hide auth button.');
-                clearInterval(authInterval); // Clear itself if Authed.
+                console.log('authenticated.');
+                clearInterval(authInterval); // Clear itself if auth'ed.
             }
         }.bind(this), 1000);
 
@@ -430,10 +433,10 @@ var App = React.createClass({
         }
 
         // DEBUG
-        this.search('person', this.CATEGORIES.SEARCHVODS);
-        this.twitch.searchForVods('persona', function(data) {
-            console.log(data);            
-        });
+        // this.search('persona 4', this.CATEGORIES.SEARCHVODS);
+        // this.twitch.searchForVods('persona 4', function(data) {
+        //     console.log(data);            
+        // });
 
 
     },
@@ -451,8 +454,8 @@ var App = React.createClass({
         var search = {
             display: 'block',
             maxWidth: '300px',
-            height: (this.state.window_inner_height - this.state.button_area_height - GLOBALS.MAGIC_MARGIN) + 'px',
-            maxHeight: (this.state.window_inner_height + this.state.button_area_height + GLOBALS.MAGIC_MARGIN) + 'px',
+            height: (this.state.window_inner_height - this.state.button_area_height) + 'px',
+            maxHeight: (this.state.window_inner_height - this.state.button_area_height) + 'px',
             overflowX: 'hidden',
             overflowY: 'scroll',
         };
@@ -531,7 +534,7 @@ var App = React.createClass({
                         <select style={select} ref='selectInput' defaultValue="TOPGAMES" onChange={this.selectCategoryHandle}>
                                 <option value={this.CATEGORIES.TOPGAMES}>{this.CATEGORIES.TOPGAMES}</option>
                                 <option value={this.CATEGORIES.SEARCH}>{this.CATEGORIES.SEARCH}</option>
-                                <option value={this.CATEGORIES.SEARCHVODS}>{this.CATEGORIES.SEARCHVODS}</option>
+                                <option disabled value={this.CATEGORIES.SEARCHVODS}>{this.CATEGORIES.SEARCHVODS}</option>
                                 <option value={this.CATEGORIES.HITBOX}>{this.CATEGORIES.HITBOX}</option>
                                 <option value={this.CATEGORIES.SPEEDRUNS}>{this.CATEGORIES.SPEEDRUNS}</option>
 

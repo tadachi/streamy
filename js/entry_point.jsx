@@ -21,7 +21,7 @@ var ChatComponent;
 var TwitchVideoPlayerComponent;
 var HitboxVideoPlayerComponent;
 
-var twitch = new TwitchAPI();
+var twitch = new TwitchAPI(GLOBALS.CLIENT_ID);
 var hitbox = new HitboxAPI();
 /*
  * Main

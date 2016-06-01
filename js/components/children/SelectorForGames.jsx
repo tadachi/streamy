@@ -1,13 +1,13 @@
 var React = require('react');
 var TwitchAPI = require('../../api_wrappers/twitch-api.js');
-
+var GLOBALS = require('../../GLOBALS.js');
 
 /**
  * Component for listing games on twitch in a table format.
  */
 var SelectorForGames = React.createClass({
 
-    twitch: new TwitchAPI(),
+    twitch: new TwitchAPI(GLOBALS.CLIENT_ID),
 
     getDefaultProps: function() {
         return {

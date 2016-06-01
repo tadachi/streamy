@@ -6,12 +6,19 @@ var GLOBALS = require('../GLOBALS.js');
  */
 class TwitchAPI {
 
-    constructor() {}
+    constructor(client_id) {
+        this.client_id = client_id;
+    }
 
     // Returns people playing a game based on query.
     searchForStream(stream, callback) {
         $.ajax({
             url: 'https://api.twitch.tv/kraken/search/streams?limit=100&q={stream}'.format({ stream: encodeURI(stream)}),
+            
+             headers: {
+                'Client-ID': this.client_id
+            },
+            
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -35,6 +42,11 @@ class TwitchAPI {
     searchForChannel(channel, callback) {
         $.ajax({
             url: 'https://api.twitch.tv/kraken/search/channels?limit=100&q={channel}'.format({ channel: encodeURI(channel)}),
+            
+            headers: {
+                'Client-ID': this.client_id
+            },
+            
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -57,6 +69,11 @@ class TwitchAPI {
     searchForVods(channel, callback) {
          $.ajax({
             url: 'https://api.twitch.tv/kraken/channels/{channel}/videos?broadcasts=true'.format({ channel: encodeURI(channel)}),
+            
+            headers: {
+                'Client-ID': this.client_id
+            },
+                        
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -79,6 +96,11 @@ class TwitchAPI {
     searchForStreamsOfGame(game, callback) {
         $.ajax({
             url: 'https://api.twitch.tv/kraken/streams?game={game}&limit=100'.format({ game: encodeURI(game)}),
+            
+            headers: {
+                'Client-ID': this.client_id
+            },
+            
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -101,6 +123,11 @@ class TwitchAPI {
     searchForGame(game, callback) {
         $.ajax({
             url: 'https://api.twitch.tv/kraken/search/games?limit=100&q={game}&type=suggest&live=true&limit=100'.format({ game: encodeURI(game)}),
+            
+            headers: {
+                'Client-ID': this.client_id
+            },
+            
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -122,6 +149,11 @@ class TwitchAPI {
     searchTopStreamedGames(limit = 100, offset = 0, callback) {
         $.ajax({
             url: 'https://api.twitch.tv/kraken/games/top?limit={limit}&offset={offset}'.format({limit: limit, offset: offset}),
+            
+            headers: {
+                'Client-ID': this.client_id
+            },
+            
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -145,6 +177,11 @@ class TwitchAPI {
 
         $.ajax({
             url: 'https://api.twitch.tv/kraken/streams/followed?oauth_token={oauth_token}'.format({ oauth_token: this.getAuthToken()}),
+            
+            headers: {
+                'Client-ID': this.client_id
+            },
+            
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -167,6 +204,7 @@ class TwitchAPI {
     getSpeedrunStreams(callback) {
         $.ajax({
             url: 'https://api.takbytes.com/speedruns',
+
             // Tell jQuery we're expecting JSON.
             dataType: 'json',
 
@@ -186,6 +224,7 @@ class TwitchAPI {
     getSpeedrunStreamsJSONP(callback) {
         $.ajax({
             url: 'https://api.takbytes.com/speedruns',
+            
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -207,6 +246,11 @@ class TwitchAPI {
     getFollowedGames(user_name, callback) {
         $.ajax({
             url: 'https://api.twitch.tv/api/users/{user_name}/follows/games'.format({ user_name: user_name}),
+            
+            headers: {
+                'Client-ID': this.client_id
+            },
+            
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
@@ -249,6 +293,11 @@ class TwitchAPI {
     getUserObject(access_oauth_token, callback) {
         $.ajax({
             url: 'https://api.twitch.tv/kraken/user?oauth_token={oauth_token}'.format({ oauth_token: access_oauth_token}),
+            
+            headers: {
+                'Client-ID': this.client_id
+            },
+            
             // The name of the callback parameter, as specified by the YQL service.
             jsonp: 'callback',
             // Tell jQuery we're expecting JSONP.
